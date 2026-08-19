@@ -1,0 +1,19 @@
+# Archivos que Windows crea solo dentro de las carpetas y que no son parte del sitio.
+#
+# POR QUE ESTAN ACA, y la consecuencia de no ponerlos: desktop.ini lo genera Windows cuando
+# una carpeta tiene un icono o una vista personalizada. No lo escribio nadie a proposito y no
+# lo usa la pagina. Si se suben, quedan publicados en internet, ensucian cada listado de
+# cambios con modificaciones que nadie hizo, y en algunas configuraciones exponen rutas de la
+# maquina. Ademas Thumbs.db guarda miniaturas de las fotos, que es informacion de la maquina
+# de Pablo publicada sin que nadie lo haya decidido.
+desktop.ini
+Desktop.ini
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# Respaldos locales. Se guardan en la maquina a proposito, pero no son parte del sitio y no
+# tienen que quedar publicados: son versiones viejas de la misma pagina, y publicarlas deja a
+# la vista borradores que ya se descartaron.
+*respaldo*.html
+*RESPALDO*.html

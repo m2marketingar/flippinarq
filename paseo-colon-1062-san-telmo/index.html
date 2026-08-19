@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monoambiente a Estrenar Amueblado Full Amenities a 150 de Puerto Madero | Flippin ARQ</title>
+    <meta name="description" content="Monoambiente a estrenar amueblado con balcon y full amenities en San Telmo, a 150 metros de Puerto Madero. 28,42 m2 totales. USD 69.000.">
+    <meta property="og:title" content="Monoambiente a Estrenar Amueblado Full Amenities a 150 de Puerto Madero">
+    <meta property="og:description" content="Amueblado, balcon propio, full amenities. 28,42 m2 totales. USD 69.000.">
+    <meta property="og:image" content="fotos/grande/foto_01.jpg">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        // COLORES DE FLIPPIN ARQ, medidos de su flyer real y de su logo. Reemplazan al azul y
+        // al naranja de Coldwell Banker, que es de donde viene la estructura de esta pagina.
+        //   noche    #262544  azul de marca, para barras y textos sobre amarillo
+        //   amarillo #F2C230  acento del logo, y ahora el color de los botones de contacto
+        // POR QUE EL TEXTO SOBRE EL BOTON AMARILLO ES AZUL Y NO BLANCO: el amarillo es un color
+        // claro, y texto blanco sobre amarillo queda ilegible al sol y en pantallas de celular
+        // con poco brillo. Texto oscuro sobre amarillo es lo unico que se lee siempre.
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fl: {
+                            noche: '#262544',
+                            amarillo: '#F2C230',
+                            amarilloOscuro: '#dfae1f',
+                            verde: '#0d7c3f',
+                            green: '#25D366'
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <!-- Medicion de visitas: Clarity graba la sesion y el movimiento del mouse, para ver donde
+         se traba la gente antes de completar el formulario. Mismo proyecto que el sitio principal. -->
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "xv4bixoif5");
+    </script>
+
+    <!-- HUECO DEL PIXEL DE META, comentado a proposito: al 19/08/2026 no existe ningun pixel
+         creado en ninguna cuenta. Cuando exista, se reemplaza PIXEL_ID_ACA y se descomenta.
+         Sin esto, cada persona que entra desde la publicidad se va y no se la puede volver a
+         alcanzar, y no se puede saber que aviso trajo cada consulta.
+    <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init','PIXEL_ID_ACA'); fbq('track','PageView');
+    </script>
+    -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5; /* Gris neutro exacto ZonaProp (sin tinte azulado) */
+            color: #2d3748;
+        }
+
+        /* Ocultar barra de desplazamiento manteniendo funcionalidad */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Grid de la galeria de fotos imitando ZonaProp de forma identica.
+           ESTO ES LO QUE HACE QUE LAS FOTOS NO SE VEAN CHICAS EN LA COMPUTADORA: una sola foto
+           grande con una tira de miniaturas abajo desperdicia el ancho de la pantalla y hace
+           que la propiedad se vea mas chica de lo que es. El mosaico de cinco usa todo el
+           ancho y muestra cinco ambientes de una sola mirada. */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: repeat(2, 195px);
+            gap: 4px; /* Espaciado compacto ZonaProp */
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid { grid-template-columns: 1fr; grid-template-rows: 240px; gap: 0; }
+            .hide-on-mobile { display: none; }
+        }
+    </style>
+</head>
+<body class="antialiased pb-20 md:pb-8">
+
+    <!-- BANNER DE ANUNCIO OFICIAL INSTAGRAM -->
+    <div class="bg-gradient-to-r from-purple-700 via-pink-600 to-orange-500 text-white px-4 py-2 text-xs sm:text-sm font-medium shadow-xs">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <span class="flex items-center gap-2">
+                <i class="fa-brands fa-instagram text-base"></i>
+                <!-- NO DICE VERIFICADO NI LLEVA TILDE DE VERIFICACION, y esto no se vuelve a
+                     agregar aunque quede mas lindo. La cuenta es la oficial de la empresa, que es
+                     cierto y se puede sostener, pero NO tiene la verificacion de Instagram. Decir
+                     verificado, o dibujar el tilde azul al lado, es afirmar algo que cualquiera
+                     puede desmentir en diez segundos entrando al perfil, y en una pagina cuyo
+                     unico trabajo es generar confianza, una sola afirmacion desmentible arrastra
+                     a todas las demas. -->
+                <span><strong>Anuncio Oficial</strong> • Campaña directa del Instagram de la oficina</span>
+            </span>
+            <span class="hidden md:inline-block text-[11px] opacity-90">@flippinarq</span>
+        </div>
+    </div>
+
+    <!-- AVISO A COLEGAS.
+         VA ARRIBA Y EN VERDE, Y NO SE MUEVE DE ACA. Decision de Pablo escrita en la
+         personalizacion de Flippin ARQ: un colega que comparte comision es otro vendedor
+         trabajando la propiedad gratis, no una consulta menor. Abajo del todo no lo ve nadie.
+         El verde es para que no compita ni con la marca ni con el boton de accion. -->
+    <div class="bg-emerald-50 border-b border-emerald-200 text-fl-verde px-4 py-2 text-xs sm:text-sm">
+        <div class="max-w-6xl mx-auto flex items-center justify-center gap-2 text-center">
+            <i class="fa-solid fa-handshake"></i>
+            <span><strong>Atención colega:</strong> compartimos comisión. Sos más que bienvenido a mostrar la unidad.</span>
+        </div>
+    </div>
+
+    <!-- HEADER ESTILO PORTAL -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-6xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="fotos/logo-flippin.jpg" alt="Flippin ARQ" class="h-9 sm:h-11 w-auto object-contain rounded">
+                <div class="hidden sm:block leading-tight">
+                    <div class="font-extrabold text-fl-noche text-sm tracking-wide">FLIPPIN ARQ</div>
+                    <div class="text-[11px] text-gray-500">Comercializa María Llona · CPI 6681</div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 text-xs sm:text-sm font-medium text-gray-600">
+                <span class="hover:text-fl-noche cursor-pointer transition flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-semibold">
+                    <i class="fa-solid fa-share-nodes text-fl-noche"></i> <span class="hidden sm:inline">Compartir</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
+
+        <!-- BREADCRUMB ESTILO ZONAPROP -->
+        <div class="text-xs text-gray-500 mb-2.5 hidden md:flex items-center gap-1">
+            <a href="#" class="hover:underline">Comprar</a> <span>></span>
+            <a href="#" class="hover:underline">Departamentos</a> <span>></span>
+            <a href="#" class="hover:underline">Capital Federal</a> <span>></span>
+            <span class="text-gray-800 font-medium">San Telmo</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 relative">
+
+            <!-- COLUMNA IZQUIERDA: CONTENIDO PRINCIPAL (Ocupa 8 columnas) -->
+            <div class="lg:col-span-8 space-y-3.5">
+
+                <!-- GALERIA ESTILO MOSAICO TIGHT FIT -->
+                <div class="rounded-xl overflow-hidden relative gallery-grid cursor-pointer bg-gray-200 shadow-2xs border border-gray-200" onclick="openGallery(0)">
+                    <!-- Imagen Principal -->
+                    <div class="relative h-full row-span-2 col-span-2 md:col-span-1 md:row-span-2 group overflow-hidden">
+                        <img id="main-photo" src="fotos/media/foto_01.jpg" alt="Vista principal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-2.5 left-2.5 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1.5 md:hidden backdrop-blur-xs">
+                            <i class="fa-regular fa-image"></i> 50 fotos
+                        </div>
+                    </div>
+                    <!-- Imagenes secundarias -->
+                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-1" src="fotos/media/foto_02.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-2" src="fotos/media/foto_03.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <div class="h-full hide-on-mobile group overflow-hidden relative">
+                        <img id="photo-3" src="fotos/media/foto_04.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="h-full hide-on-mobile group overflow-hidden relative">
+                        <img id="photo-4" src="fotos/media/foto_05.jpg" class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="bg-white/95 text-gray-900 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-lg shadow-md flex items-center gap-1.5 hover:bg-white transition backdrop-blur-xs">
+                                <i class="fa-regular fa-images text-fl-noche"></i> Ver todas las fotos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR BLANCO DE INFORMACION CON ESPACIADO ZONAPROP -->
+                <div class="bg-white p-5 sm:p-6 rounded-xl shadow-2xs border border-gray-200">
+
+                    <!-- INFO RAPIDA (Metros, ambientes, etc.) -->
+                    <div class="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-gray-700 mb-4 overflow-x-auto no-scrollbar whitespace-nowrap pb-2 font-medium border-b border-gray-100">
+                        <span class="flex items-center gap-2 pr-3 sm:pr-4 border-r border-gray-200">
+                            <i class="fa-solid fa-ruler-combined text-base text-gray-400"></i>
+                            <span>28,42 m² tot.</span>
+                        </span>
+                        <span class="flex items-center gap-2 pr-3 sm:pr-4 border-r border-gray-200">
+                            <i class="fa-solid fa-expand text-base text-gray-400"></i>
+                            <span>24,55 m² cub.</span>
+                        </span>
+                        <span class="flex items-center gap-2 pr-3 sm:pr-4 border-r border-gray-200">
+                            <i class="fa-solid fa-tree-city text-base text-gray-400"></i>
+                            <span>3,87 m² balcón</span>
+                        </span>
+                        <span class="flex items-center gap-2 pr-3 sm:pr-4 border-r border-gray-200">
+                            <i class="fa-solid fa-door-open text-base text-gray-400"></i>
+                            <span>1 amb.</span>
+                        </span>
+                        <span class="flex items-center gap-2 pr-3 sm:pr-4 border-r border-gray-200">
+                            <i class="fa-solid fa-bath text-base text-gray-400"></i>
+                            <span>1 baño</span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="fa-solid fa-building text-base text-gray-400"></i>
+                            <span>Pisos 10 y 11</span>
+                        </span>
+                    </div>
+
+                    <!-- TITULO Y PRECIO EN BLOQUE COMPACTO ZONAPROP -->
+                    <div class="mb-3">
+                        <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 mb-1.5 leading-snug">
+                            Monoambiente a Estrenar Amueblado Full Amenities a 150 de Puerto Madero
+                        </h1>
+                        <p class="text-gray-600 flex items-center gap-1.5 text-xs sm:text-sm">
+                            <i class="fa-solid fa-location-dot text-fl-noche"></i>
+                            Av. Paseo Colón 1062, San Telmo, Capital Federal
+                        </p>
+                    </div>
+
+                    <!-- BLOQUE PRECIO LIMPIO -->
+                    <div class="flex flex-wrap items-center gap-3 py-3 border-y border-gray-100 mb-5">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">USD 69.000</div>
+                        <span class="text-xs font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-200">
+                            A estrenar · Posesión inmediata
+                        </span>
+                        <!-- El aviso original no publica el monto de expensas. No se inventa: se ofrece
+                             consultarlo. Un numero inventado en una expensa es de las cosas que mas
+                             rapido rompen la confianza en una visita. -->
+                        <span class="text-xs font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-200">
+                            Expensas: consultar
+                        </span>
+                    </div>
+
+                    <!-- DESCRIPCION CON TOGGLE ESTILO ZONAPROP -->
+                    <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-2 border-b border-gray-100 pb-1.5">Descripción de la propiedad</h2>
+                    <div class="relative mb-5">
+                        <div id="description-content" class="text-gray-600 space-y-2.5 text-xs sm:text-sm leading-relaxed max-h-[130px] overflow-hidden transition-all duration-500 relative">
+                            <p>Departamento de 1 ambiente a estrenar, amueblado, con balcón propio y full amenities, en San Telmo, a 150 metros de Puerto Madero.</p>
+                            <p>Un ambiente luminoso y funcional, listo para disfrutar desde el primer día, con pisos de porcelanato y techos de hormigón visto. La unidad se entrega amueblada, con posesión inmediata.</p>
+                            <p>El frente vidriado con DVH hermético aporta una aislación térmica y acústica muy superior a la habitual, y el balcón propio suma una vista panorámica de la zona. La cocina viene con mesada de Silestone y el edificio cuenta con agua caliente central a gas.</p>
+                            <p>El edificio Urban Nature ofrece SUM con vista panorámica y terraza, solárium, gimnasio, laundry, bike parking y control de acceso. Es apto profesional y pet friendly.</p>
+                            <p>La ubicación es estratégica: a 150 metros de Puerto Madero, con acceso directo al Paseo del Bajo y el polo cultural y gastronómico de San Telmo a pasos. Hay unidades disponibles en los pisos 10 y 11.</p>
+                            <p class="text-[11px] text-gray-400 mt-4 leading-tight">Las medidas y superficies son aproximadas y no resultan vinculantes; los datos definitivos son los que surgen del título de propiedad, y los precios enunciados son orientativos y no contractuales. Imágenes con fines ilustrativos (pueden incluir edición digital o amoblamiento virtual). Se deja constancia de que algunas de las imágenes y/o fotografías publicadas pueden haber sido editadas digitalmente, mejoradas mediante inteligencia artificial o contar con amoblamiento virtual con fines netamente ilustrativos, descriptivos y de referencia visual, no constituyendo una representación contractual exacta del estado actual de la propiedad. Comercializa Mat. María Llona CPI 6681. Flippin ARQ.</p>
+
+                            <!-- Degradado para ocultar texto progresivamente -->
+                            <div id="description-overlay" class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"></div>
+                        </div>
+
+                        <button id="toggle-desc-btn" onclick="toggleDescription()" class="mt-2 text-fl-noche font-bold text-xs sm:text-sm hover:underline flex items-center gap-1 cursor-pointer">
+                            <span>Ver descripción completa</span>
+                            <i id="toggle-desc-icon" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
+                        </button>
+                    </div>
+
+                    <!-- CARACTERISTICAS -->
+                    <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-3 border-b border-gray-100 pb-1.5">Características principales</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-y-3 text-xs sm:text-sm text-gray-700">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Amueblado</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> A estrenar</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Posesión inmediata</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Balcón propio</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Al frente, muy luminoso</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Frente vidriado DVH</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Mesada de Silestone</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Agua caliente central</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> SUM y terraza</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Solárium y gimnasio</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Laundry y bike parking</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Control de acceso</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Apto profesional</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> Pet friendly</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-check text-fl-noche font-bold"></i> A 150 m de Puerto Madero</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA / SIDEBAR: BRANDING + BOTON QUE ABRE EL FORMULARIO -->
+            <div class="lg:col-span-4 relative">
+
+                <div id="contact-form-container" class="sticky top-20 bg-white border border-gray-200 rounded-xl shadow-2xs p-4 sm:p-5 space-y-4">
+
+                    <!-- BRANDING AGENCIA -->
+                    <div class="pb-3 border-b border-gray-100 text-center">
+                        <img src="fotos/logo-flippin.jpg" alt="Flippin ARQ" class="w-full max-w-[220px] aspect-square mx-auto rounded-lg object-cover shadow-2xs mb-2 border border-gray-100">
+
+                        <!-- CREDENCIALES REALES.
+                             Aca la pagina de la que sale esta estructura mostraba estrellas de Google.
+                             Flippin ARQ no tiene una calificacion verificada que se pueda citar, y una
+                             cantidad de estrellas inventada es exactamente el tipo de dato que despues
+                             no se puede sostener. En su lugar van las tres credenciales que si son
+                             ciertas y verificables. -->
+                        <div class="grid grid-cols-3 gap-1.5 mt-2">
+                            <div class="bg-gray-50 rounded-lg border border-gray-200/80 py-2">
+                                <div class="text-sm font-extrabold text-fl-noche leading-none">+120</div>
+                                <div class="text-[9px] text-gray-500 mt-1 leading-tight px-1">operaciones en Capital</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg border border-gray-200/80 py-2">
+                                <div class="text-sm font-extrabold text-fl-noche leading-none">+24 mil</div>
+                                <div class="text-[9px] text-gray-500 mt-1 leading-tight px-1">seguidores en Instagram</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg border border-gray-200/80 py-2">
+                                <div class="text-sm font-extrabold text-fl-noche leading-none">CPI 6681</div>
+                                <div class="text-[9px] text-gray-500 mt-1 leading-tight px-1">matrícula habilitante</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-2 bg-gray-50 p-2 rounded-lg border border-gray-200/80">
+                            <p class="text-[11px] font-bold text-gray-800 uppercase tracking-wider flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-shield-halved text-fl-noche text-xs"></i> Respaldo de Confianza
+                            </p>
+                            <p class="text-[10px] text-gray-500 mt-0.5">Comercializa María Llona · CPI 6681</p>
+                        </div>
+                    </div>
+
+                    <!-- LLAMADO A LA ACCION.
+                         ACA ESTA EL UNICO CAMBIO DE FONDO RESPECTO DE LA PAGINA DE LA QUE SALE ESTA
+                         ESTRUCTURA, y conviene dejarlo escrito porque parece un detalle y no lo es.
+                         Antes el formulario estaba desplegado en la columna. Ahora hay un boton, y el
+                         formulario se abre encima cuando la persona lo pide.
+                           1. Abrirlo es un acto voluntario, y ese acto es el que se le informa a Meta
+                              como microconversion. Con pocas consultas por dia Meta no junta senal
+                              suficiente para aprender, y abrir el formulario pasa muchas mas veces que
+                              completarlo, asi que sirve de senal temprana.
+                           2. Se abre encima y no en otra pagina. Cambiar de pagina pierde gente.
+                           3. El fondo se oscurece para que adentro no haya nada mas que decidir. -->
+                    <div>
+                        <h3 class="text-sm sm:text-base font-bold text-gray-900 mb-0.5">Contactá al anunciante</h3>
+                        <p class="text-xs text-gray-500 mb-3">Te respondemos hoy mismo por WhatsApp.</p>
+                        <!-- POR QUE ESTE BOTON NO PROMETE UNA LLAMADA, decidido el 19/08/2026:
+                             "Un agente se contactara con vos" dice lo que hace la oficina, no lo que
+                             gana el que mira. Para alguien que todavia no decidio nada, que lo llamen
+                             es un costo, no un premio: es la razon principal por la que no deja el
+                             telefono. Ponerlo en el boton que ABRE es anunciar la factura antes de
+                             mostrar el producto. La promesa no se saca, se corre adentro, al lado del
+                             boton de enviar, donde la persona ya decidio y lo unico que quiere saber
+                             es que pasa despues. Verificado el 19/08/2026 sobre una ficha real de
+                             Zonaprop: sus botones dicen Contactar y Enviar. -->
+                        <button type="button" onclick="abrirCapa()" class="abrir w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-xs sm:text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-comment-dots"></i> Consultar por esta propiedad
+                        </button>
+                        <p class="text-[10px] text-gray-400 mt-2 text-center">Son dos datos y elegís tu situación. No te llamamos sin avisar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- BARRA FLOTANTE MOVIL ESTILO ZONAPROP -->
+    <div id="mobile-floating-bar" class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2.5 z-50 shadow-[0_-8px_12px_-3px_rgba(0,0,0,0.05)] flex gap-2 transition-all duration-300 opacity-100">
+        <button onclick="abrirCapa()" class="abrir w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-2.5 rounded-lg transition text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs px-2">
+            <i class="fa-solid fa-comment-dots text-base"></i>
+            Consultar por esta propiedad
+        </button>
+    </div>
+
+    <!-- REFERENCIA DISCRETA DE CAMPANA -->
+    <footer class="pb-4">
+        <p style="font-size:10px; color:#999; text-align:center; margin-top:16px;">
+            ref: <span id="refCampana"></span>
+        </p>
+    </footer>
+
+    <!-- MODAL GALERIA COMPLETA -->
+    <div id="gallery-modal" class="fixed inset-0 z-[60] bg-black hidden items-center justify-center">
+        <button onclick="closeGallery()" class="absolute top-4 right-4 text-white hover:text-gray-300 text-3xl z-[70] p-4">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="w-full h-full flex flex-col justify-center items-center relative">
+            <img id="gallery-current-img" src="" class="max-h-[85vh] max-w-full object-contain">
+
+            <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 w-12 h-12 rounded-full flex items-center justify-center text-xl transition">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 w-12 h-12 rounded-full flex items-center justify-center text-xl transition">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <div class="text-white text-sm mt-4 font-medium tracking-widest">
+                <span id="current-slide-num">1</span> / 50
+            </div>
+        </div>
+    </div>
+
+    <!-- CAPA SOMBREADA CON EL FORMULARIO.
+         El texto de adentro es deliberadamente corto: tres opciones, dos campos y un boton.
+         Cada linea de mas es una excusa para cerrar. -->
+    <div id="capa" class="fixed inset-0 z-[65] bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-md w-full shadow-2xl border border-slate-200 relative my-auto">
+            <button onclick="cerrarCapa()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl leading-none p-1" aria-label="Cerrar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="formularioLeadWrap">
+                <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-0.5">Contactá al anunciante</h3>
+                <p class="text-xs text-gray-500 mb-4">Te respondemos hoy mismo por WhatsApp.</p>
+
+                <!-- Banner de Errores -->
+                <div id="form-error-banner" class="hidden bg-red-50 border border-red-200 text-red-700 p-2.5 rounded-lg text-xs mb-3">
+                    <p class="font-bold mb-1"><i class="fa-solid fa-circle-exclamation"></i> Faltan datos obligatorios:</p>
+                    <ul id="error-list" class="list-disc pl-4 space-y-0.5"></ul>
+                </div>
+
+                <form id="formularioLead" onsubmit="handleFormSubmit(event)" class="space-y-3" novalidate>
+                    <!-- Opciones de Situacion.
+                         El motor lee este valor: si dice Compra Directa busca al captador de esta
+                         propiedad; cualquier otro valor va a la rueda meritocratica. -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-2">¿Cuál es tu situación actual? *</label>
+
+                        <div class="space-y-2">
+                            <label class="flex items-center p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
+                                <input type="radio" name="search_status" value="Compra Directa" class="w-3.5 h-3.5 border-gray-300">
+                                <span class="ml-2 text-xs text-gray-900 font-bold">Compra directa</span>
+                            </label>
+
+                            <label class="flex items-start p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
+                                <input type="radio" name="search_status" value="Vender para comprar" class="w-3.5 h-3.5 border-gray-300 mt-0.5">
+                                <div class="ml-2">
+                                    <span class="block text-xs text-gray-900 font-bold">Vendo la mía y compro</span>
+                                    <span class="block text-[11px] text-fl-verde font-bold mt-0.5">Sos más que bienvenido a visitar el inmueble</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
+                                <input type="radio" name="search_status" value="Tasación" class="w-3.5 h-3.5 border-gray-300 mt-0.5">
+                                <div class="ml-2">
+                                    <span class="block text-xs text-gray-900 font-bold mb-0.5">Quiero tasar mi propiedad</span>
+                                    <span class="block text-[10px] text-gray-500 leading-tight">No me interesa esta unidad, pero quiero saber cuánto vale la mía.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Campo Nombre -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Nombre y Apellido *</label>
+                        <input type="text" id="nombre" required placeholder="Ej. Juan Pérez" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-fl-amarillo focus:ring-1 focus:ring-fl-amarillo transition">
+                    </div>
+
+                    <!-- Campo WhatsApp precargado limpio 54 9 -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">WhatsApp *</label>
+                        <input type="tel" id="whatsapp" required value="54 9 " placeholder="54 9 11 2233 4455" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-fl-amarillo focus:ring-1 focus:ring-fl-amarillo transition">
+                    </div>
+
+                    <!-- BOTON DE ENVIO. Aca si va la promesa, pero abajo y no adentro del boton.
+                         En este punto la persona ya decidio consultar, asi que no hay que
+                         convencerla de nada: lo que necesita es saber que pasa despues de apretar.
+                         Boton corto para la accion, y el que pasa despues en letra chica. -->
+                    <div class="pt-1">
+                        <button type="submit" class="w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Enviar consulta
+                        </button>
+                        <p class="text-[11px] text-gray-500 mt-2 text-center">
+                            <i class="fa-solid fa-user-tie"></i> Un agente de Flippin ARQ se contactará con vos por WhatsApp.
+                        </p>
+                    </div>
+
+                    <p class="text-[10px] text-gray-400 leading-tight">Comercializa María Llona, CPI 6681. Al enviar aceptás que te contactemos por este medio.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EXITO -->
+    <div id="success-modal" class="fixed inset-0 z-[70] bg-slate-900/80 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full text-center space-y-4 shadow-2xl border border-slate-200">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto">
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-900">¡Solicitud recibida!</h3>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Los datos fueron enviados correctamente. En breve, un asesor de Flippin ARQ se comunica con vos para darte toda la información y coordinar la visita.
+            </p>
+
+            <button onclick="closeSuccessModal()" class="w-full mt-2 bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold px-6 py-3 rounded-xl text-sm transition">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------------------------------------
+        // CONEXION CON EL MOTOR DE GUARDPERF
+        //
+        // Esta es la direccion del motor central ya desplegado, el mismo que usa la landing de
+        // Coldwell Banker. No es un receptor nuevo: es el motor multi inmobiliaria que reparte
+        // los leads segun la rueda.
+        //
+        // LOS NOMBRES DE ESTOS CAMPOS NO SE PUEDEN CAMBIAR NI "MEJORAR". Son exactamente los que
+        // el motor lee en su funcion doPost, verificados leyendo su codigo el 18/08/2026:
+        //   agencia          obligatorio. Sin esto el motor responde agencia_no_reconocida y el
+        //                    lead se pierde. Tiene que coincidir con el Codigo Agencia del
+        //                    directorio central, no con el nombre de la inmobiliaria.
+        //   nombre           el motor tambien acepta Nombre.
+        //   whatsapp         tambien acepta WhatsApp o telefono.
+        //   tipo_operacion   tambien acepta operacion. Si dice "Compra Directa" el motor busca al
+        //                    captador de esa propiedad; cualquier otro valor va a la rueda.
+        //   propiedad_origen tambien acepta propiedad. Para compra directa se compara contra la
+        //                    columna Propiedades Asignadas de cada agente.
+        //   campana          opcional. Si un agente reclamo ese codigo, el lead va directo a el.
+        //
+        // POR QUE ESTA ADVERTENCIA ESTA ESCRITA ACA: una version anterior de esta landing mandaba
+        // "empresa" en lugar de "agencia" y "busca" en lugar de "tipo_operacion". El motor habria
+        // respondido que la agencia no existe, o habria guardado el lead como "Consulta General"
+        // sin saber de donde vino. El formulario se ve funcionando igual y el navegador no marca
+        // ningun error: es una falla silenciosa.
+        // ----------------------------------------------------------------------------------
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwKecPyhYUmkGM9KT7xMfQH3V-75YypizyO5hFW1Di7zRHPgOCwHKdXI3TdSS3WD_tX/exec";
+        const AGENCIA = "flippinarq";
+        const PROPIEDAD = "Paseo Colon 1062";
+
+        // ----------------------------------------------------------------------------------
+        // DE QUE AVISO VINO ESTA VISITA
+        //
+        // Cada aviso apunta a esta misma pagina con una letra distinta al final de la direccion,
+        // por ejemplo terminando en v igual a, o v igual be. Esa letra viaja adentro del campo
+        // campana hasta la planilla, asi que la comparacion entre las dos versiones se puede
+        // hacer contando filas, SIN depender de que el pixel exista. Cuando el pixel exista, la
+        // comparacion se puede hacer ademas del lado de Meta, pero la planilla sigue siendo la
+        // fuente que no se puede romper desde afuera.
+        // Si alguien entra sin letra, queda "directo", que tambien es un dato: dice cuanto
+        // trafico llega sin publicidad.
+        // ----------------------------------------------------------------------------------
+        function letraDeAviso() {
+            const m = /[?&]v=([a-z0-9]{1,6})/i.exec(window.location.search);
+            return m ? m[1].toLowerCase() : "directo";
+        }
+        const CODIGO_CAMPANA = "PaseoColon-" + letraDeAviso();
+
+        /* Funcion para expandir / colapsar la descripcion estilo Zonaprop */
+        function toggleDescription() {
+            const content = document.getElementById('description-content');
+            const overlay = document.getElementById('description-overlay');
+            const btnText = document.querySelector('#toggle-desc-btn span');
+            const btnIcon = document.getElementById('toggle-desc-icon');
+
+            if (content.classList.contains('max-h-[130px]')) {
+                content.classList.remove('max-h-[130px]');
+                overlay.classList.add('hidden');
+                btnText.innerText = 'Ver menos';
+                btnIcon.classList.add('rotate-180');
+            } else {
+                content.classList.add('max-h-[130px]');
+                overlay.classList.remove('hidden');
+                btnText.innerText = 'Ver descripción completa';
+                btnIcon.classList.remove('rotate-180');
+            }
+        }
+
+        // Las 50 fotos viven en la carpeta de al lado, en tres tamanos. La galeria grande usa el
+        // tamano grande; el mosaico usa el mediano, que pesa mucho menos y es lo primero que
+        // carga la persona que llega del aviso.
+        const TOTAL_FOTOS = 50;
+        const galleryImages = [];
+        for (let i = 1; i <= TOTAL_FOTOS; i++) {
+            galleryImages.push("fotos/grande/foto_" + String(i).padStart(2, "0") + ".jpg");
+        }
+
+        let currentSlide = 0;
+
+        function openGallery(index = 0) {
+            currentSlide = index;
+            document.getElementById('gallery-modal').classList.remove('hidden');
+            document.getElementById('gallery-modal').classList.add('flex');
+            updateSlideView();
+        }
+
+        function closeGallery() {
+            document.getElementById('gallery-modal').classList.add('hidden');
+            document.getElementById('gallery-modal').classList.remove('flex');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % galleryImages.length;
+            updateSlideView();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + galleryImages.length) % galleryImages.length;
+            updateSlideView();
+        }
+
+        function updateSlideView() {
+            const imgElem = document.getElementById('gallery-current-img');
+            imgElem.src = galleryImages[currentSlide];
+            document.getElementById('current-slide-num').innerText = currentSlide + 1;
+        }
+
+        // ----------------------------------------------------------------------------------
+        // ABRIR Y CERRAR LA CAPA
+        //
+        // Abrirla es la MICROCONVERSION. Es el unico momento en que se le puede decir a Meta algo
+        // util antes de que la consulta exista. Se avisa una sola vez por visita: si la persona
+        // abre y cierra cinco veces, Meta no tiene que creer que hubo cinco interesados.
+        // ----------------------------------------------------------------------------------
+        let yaAviso = false, yaEnvio = false;
+
+        function abrirCapa() {
+            const capa = document.getElementById('capa');
+            capa.classList.remove('hidden');
+            capa.classList.add('flex');
+            const n = document.getElementById('nombre');
+            if (n) setTimeout(() => n.focus(), 50);
+            if (!yaAviso) {
+                yaAviso = true;
+                if (window.fbq) fbq('trackCustom', 'AbrioFormulario', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
+                if (window.clarity) clarity('set', 'abrio_formulario', 'si');
+            }
+        }
+
+        function cerrarCapa() {
+            const capa = document.getElementById('capa');
+            capa.classList.add('hidden');
+            capa.classList.remove('flex');
+            // Solo se registra QUE abandono y QUE situacion habia marcado. Nunca lo que escribio
+            // en nombre ni en whatsapp: un telefono a medio tipear que la persona no envio no es
+            // un dato que nos corresponda guardar.
+            if (!yaEnvio && window.clarity) {
+                const sit = document.querySelector('input[name="search_status"]:checked');
+                clarity('set', 'abandono_formulario', sit ? sit.value : 'sin elegir');
+            }
+        }
+
+        document.getElementById('capa').addEventListener('click', function (e) {
+            if (e.target === this) cerrarCapa();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            const gal = document.getElementById('gallery-modal');
+            if (!gal.classList.contains('hidden')) { closeGallery(); return; }
+            const capa = document.getElementById('capa');
+            if (!capa.classList.contains('hidden')) cerrarCapa();
+        });
+
+        /* Envio de formulario y validacion */
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const statusChecked = form.querySelector('input[name="search_status"]:checked');
+            const nameInput = document.getElementById('nombre');
+            const phoneInput = document.getElementById('whatsapp');
+
+            const errorBanner = document.getElementById('form-error-banner');
+            const errorList = document.getElementById('error-list');
+            let missingFields = [];
+
+            errorBanner.classList.add('hidden');
+            nameInput.classList.remove('border-red-500');
+            phoneInput.classList.remove('border-red-500');
+
+            if (!nameInput.value.trim()) {
+                missingFields.push('Nombre y Apellido');
+                nameInput.classList.add('border-red-500');
+            }
+
+            const phoneVal = phoneInput.value.trim();
+            const phoneDigitsOnly = phoneVal.replace(/\D/g, '');
+            const hasLetters = /[a-zA-Z]/.test(phoneVal);
+            const isValidPhone = phoneVal.length > 5 && !hasLetters && phoneDigitsOnly.length >= 10;
+
+            if (!isValidPhone) {
+                missingFields.push('WhatsApp válido (código de área sin el 0 y número sin el 15)');
+                phoneInput.classList.add('border-red-500');
+            }
+
+            if (!statusChecked) {
+                missingFields.push('Situación actual (elegir una opción)');
+            }
+
+            if (missingFields.length > 0) {
+                errorList.innerHTML = missingFields.map(f => `<li>${f}</li>`).join('');
+                errorBanner.classList.remove('hidden');
+                return;
+            }
+
+            const fullFormattedPhone = phoneVal.startsWith('+') ? phoneVal : `+${phoneDigitsOnly}`;
+
+            const payload = {
+                nombre: nameInput.value.trim(),
+                whatsapp: fullFormattedPhone,
+                tipo_operacion: statusChecked.value,
+                propiedad_origen: PROPIEDAD,
+                agencia: AGENCIA,
+                campana: CODIGO_CAMPANA
+            };
+
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+
+            try {
+                btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Enviando...';
+                btn.disabled = true;
+
+                // El motor es un Apps Script y no devuelve cabeceras de permiso entre dominios, asi
+                // que el navegador bloquearia una peticion normal. Con no-cors la peticion sale
+                // igual y el motor la recibe; lo unico que se pierde es poder leer su respuesta.
+                if (WEB_APP_URL && WEB_APP_URL.startsWith('http')) {
+                    await fetch(WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                yaEnvio = true;
+                form.reset();
+                cerrarCapa();
+                document.getElementById('success-modal').classList.remove('hidden');
+                document.getElementById('success-modal').classList.add('flex');
+
+                if (window.fbq) fbq('track', 'Lead', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
+                if (window.clarity) clarity('set', 'lead', 'si');
+
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+
+            } catch (err) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                const msgBox = document.createElement('div');
+                msgBox.className = "fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded shadow-lg text-xs z-[100]";
+                msgBox.innerText = "Hubo un problema de conexión. Intentá nuevamente.";
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.remove(), 4000);
+            }
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('success-modal').classList.remove('flex');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const refElem = document.getElementById('refCampana');
+            if (refElem) refElem.innerText = CODIGO_CAMPANA;
+
+            // Observer para ocultar la barra flotante movil al llegar a la tarjeta de contacto
+            const floatingBar = document.getElementById('mobile-floating-bar');
+            const formContainer = document.getElementById('contact-form-container');
+            if (floatingBar && formContainer) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            floatingBar.classList.add('opacity-0', 'pointer-events-none');
+                            floatingBar.classList.remove('opacity-100');
+                        } else {
+                            floatingBar.classList.remove('opacity-0', 'pointer-events-none');
+                            floatingBar.classList.add('opacity-100');
+                        }
+                    });
+                }, { threshold: 0.1 });
+                observer.observe(formContainer);
+            }
+        });
+    </script>
+</body>
+</html>
