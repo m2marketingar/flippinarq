@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esa dirección no existe · Flippin ARQ</title>
+<meta name="robots" content="noindex">
+
+<!--
+    LA PAGINA QUE APARECE CUANDO LA DIRECCION NO EXISTE
+
+    GitHub Pages usa automaticamente el archivo 404.html de la raiz del repositorio para
+    cualquier direccion que no encuentre. No hay que configurar nada: alcanza con que este.
+
+    POR QUE EXISTE, y es el mismo motivo que la raiz: sin este archivo, una direccion mal
+    escrita de este dominio muestra la pantalla de error de GitHub, en ingles, diciendo que
+    ahi no hay ningun sitio publicado. Al que se equivoco en una letra eso le contesta que el
+    sitio entero no existe, cuando lo unico que paso es que le sobro o le falto un caracter.
+
+    Y ADEMAS RECUPERA ALGO QUE SE GANO EL 20/08/2026: hasta ese dia el dominio tenia un
+    comodin que hacia que CUALQUIER nombre mal escrito contestara algo, asi que un error de
+    tipeo en una pieza publicada no se notaba nunca. Al sacar el comodin, los errores volvie-
+    ron a notarse. Esta pagina es la que hace que, cuando se noten, se noten bien.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --noche: #262544;
+        --amarillo: #F2C230;
+        --papel: #f7f7f9;
+        --gris: #6b6b7b;
+        --linea: #e4e4ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        background: var(--papel);
+        color: var(--noche);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .barra { background: var(--noche); border-bottom: 4px solid var(--amarillo); }
+
+    .barra-dentro {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .barra img { height: 40px; width: auto; border-radius: 6px; display: block; }
+
+    .marca { color: #fff; font-weight: 800; letter-spacing: .06em; font-size: 15px; line-height: 1.2; }
+
+    .matricula { color: rgba(255,255,255,.72); font-size: 11.5px; font-weight: 500; margin-top: 2px; }
+
+    main { max-width: 560px; margin: 0 auto; padding: 38px 24px 46px; }
+
+    h1 {
+        font-size: 21px;
+        line-height: 1.35;
+        font-weight: 800;
+        margin: 0 0 16px;
+        letter-spacing: -.01em;
+    }
+
+    p { margin: 0 0 16px; font-size: 15.5px; }
+
+    .molde {
+        background: #fff;
+        border: 1px solid var(--linea);
+        border-left: 4px solid var(--amarillo);
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin: 0 0 22px;
+        font-weight: 600;
+        font-size: 14.5px;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .molde .parte { color: var(--gris); font-weight: 500; }
+
+    .enlaces { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+
+    .enlaces a {
+        flex: 1 1 200px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 10px;
+        padding: 13px 16px;
+        font-weight: 700;
+        font-size: 14.5px;
+        border: 1px solid var(--linea);
+        background: #fff;
+        color: var(--noche);
+    }
+
+    .enlaces a.principal { background: var(--amarillo); border-color: var(--amarillo); }
+
+    .enlaces a small {
+        display: block;
+        font-weight: 500;
+        font-size: 11.5px;
+        color: var(--gris);
+        margin-top: 2px;
+    }
+
+    .enlaces a.principal small { color: rgba(38,37,68,.72); }
+
+    @media (max-width: 480px) {
+        h1 { font-size: 19px; }
+        .barra img { height: 36px; }
+        main { padding: 30px 20px 40px; }
+        .barra-dentro { padding: 14px 20px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="barra">
+    <div class="barra-dentro">
+        <img src="/logo-flippin.jpg" alt="Flippin ARQ">
+        <div>
+            <div class="marca">FLIPPIN ARQ</div>
+            <div class="matricula">Comercializa María Llona · CPI 6681</div>
+        </div>
+    </div>
+</div>
+
+<main>
+
+    <h1>Esa dirección no existe.</h1>
+
+    <p>El sitio funciona. Lo que no encontramos es la dirección que escribiste, así que lo
+       más probable es que falte o sobre alguna letra.</p>
+
+    <div class="molde">
+        flippinarq.m2marketing.app<span class="parte">/calle-altura-barrio</span>
+    </div>
+
+    <p>Si tenés el enlace original, abrilo desde donde lo recibiste en lugar de escribirlo a
+       mano.</p>
+
+    <div class="enlaces">
+        <a href="https://www.instagram.com/flippinarq/">Instagram de Flippin ARQ
+            <small>@flippinarq</small></a>
+        <a class="principal" href="https://m2marketing.app">M2Marketing
+            <small>m2marketing.app</small></a>
+    </div>
+
+</main>
+
+</body>
+</html>
