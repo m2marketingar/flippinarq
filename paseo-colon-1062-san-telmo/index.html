@@ -7,7 +7,9 @@
     <meta name="description" content="Monoambiente a estrenar amueblado con balcon y full amenities en San Telmo, a 150 metros de Puerto Madero. 28,42 m2 totales. USD 69.000.">
     <meta property="og:title" content="Monoambiente a Estrenar Amueblado Full Amenities a 150 de Puerto Madero">
     <meta property="og:description" content="Amueblado, balcon propio, full amenities. 28,42 m2 totales. USD 69.000.">
-    <meta property="og:image" content="fotos/grande/foto_01.jpg">
+    <meta property="og:image" content="https://flippinarq.m2marketing.app/paseo-colon-1062-san-telmo/fotos/grande/foto_01.jpg">
+    <meta property="og:url" content="https://flippinarq.m2marketing.app/paseo-colon-1062-san-telmo/">
+    <meta property="og:type" content="website">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -351,6 +353,15 @@
                             <i class="fa-solid fa-comment-dots"></i> Consultar por esta propiedad
                         </button>
                         <p class="text-[10px] text-gray-400 mt-2 text-center">Son dos datos y elegís tu situación. No te llamamos sin avisar.</p>
+
+                        <!-- LA SEGUNDA PUERTA. Va abajo del boton principal y sin relleno de color,
+                             para que se lea como lo que es: una salida para el que no vino por esta
+                             unidad. Si tuviera el mismo peso visual competiria con la consulta de la
+                             propiedad, que es la que paga la publicidad de este aviso. -->
+                        <button type="button" onclick="abrirCapa('tasacion')" class="abrir mt-4 w-full border border-gray-300 hover:border-fl-noche text-gray-700 hover:text-fl-noche font-semibold py-2.5 rounded-lg transition duration-200 text-xs flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-scale-balanced"></i> Tasá tu propiedad, sin cargo
+                        </button>
+                        <p class="text-[10px] text-gray-400 mt-1.5 text-center">No hace falta que te interese esta unidad.</p>
                     </div>
                 </div>
             </div>
@@ -394,8 +405,11 @@
     </div>
 
     <!-- CAPA SOMBREADA CON EL FORMULARIO.
-         El texto de adentro es deliberadamente corto: tres opciones, dos campos y un boton.
-         Cada linea de mas es una excusa para cerrar. -->
+         El texto de adentro es deliberadamente corto: dos opciones, dos campos y un boton.
+         Cada linea de mas es una excusa para cerrar.
+         LA MISMA CAPA SIRVE PARA LAS DOS PUERTAS. Abierta desde el boton de la propiedad pide la
+         situacion; abierta desde el boton de tasar, la situacion ya se sabe y el bloque se
+         esconde, asi que la tasacion pide dos datos y nada mas. -->
     <div id="capa" class="fixed inset-0 z-[65] bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-md w-full shadow-2xl border border-slate-200 relative my-auto">
             <button onclick="cerrarCapa()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl leading-none p-1" aria-label="Cerrar">
@@ -403,8 +417,8 @@
             </button>
 
             <div id="formularioLeadWrap">
-                <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-0.5">Contactá al anunciante</h3>
-                <p class="text-xs text-gray-500 mb-4">Te respondemos hoy mismo por WhatsApp.</p>
+                <h3 id="capa-titulo" class="text-base sm:text-lg font-bold text-gray-900 mb-0.5">Contactá al anunciante</h3>
+                <p id="capa-bajada" class="text-xs text-gray-500 mb-4">Te respondemos hoy mismo por WhatsApp.</p>
 
                 <!-- Banner de Errores -->
                 <div id="form-error-banner" class="hidden bg-red-50 border border-red-200 text-red-700 p-2.5 rounded-lg text-xs mb-3">
@@ -416,7 +430,7 @@
                     <!-- Opciones de Situacion.
                          El motor lee este valor: si dice Compra Directa busca al captador de esta
                          propiedad; cualquier otro valor va a la rueda meritocratica. -->
-                    <div>
+                    <div id="bloque-situacion">
                         <label class="block text-xs font-semibold text-gray-700 mb-2">¿Cuál es tu situación actual? *</label>
 
                         <div class="space-y-2">
@@ -430,14 +444,6 @@
                                 <div class="ml-2">
                                     <span class="block text-xs text-gray-900 font-bold">Vendo la mía y compro</span>
                                     <span class="block text-[11px] text-fl-verde font-bold mt-0.5">Sos más que bienvenido a visitar el inmueble</span>
-                                </div>
-                            </label>
-
-                            <label class="flex items-start p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
-                                <input type="radio" name="search_status" value="Tasación" class="w-3.5 h-3.5 border-gray-300 mt-0.5">
-                                <div class="ml-2">
-                                    <span class="block text-xs text-gray-900 font-bold mb-0.5">Quiero tasar mi propiedad</span>
-                                    <span class="block text-[10px] text-gray-500 leading-tight">No me interesa esta unidad, pero quiero saber cuánto vale la mía.</span>
                                 </div>
                             </label>
                         </div>
@@ -461,7 +467,7 @@
                          Boton corto para la accion, y el que pasa despues en letra chica. -->
                     <div class="pt-1">
                         <button type="submit" class="w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane"></i> Enviar consulta
+                            <i class="fa-solid fa-paper-plane"></i> <span id="texto-enviar">Enviar consulta</span>
                         </button>
                         <p class="text-[11px] text-gray-500 mt-2 text-center">
                             <i class="fa-solid fa-user-tie"></i> Un agente de Flippin ARQ se contactará con vos por WhatsApp.
@@ -484,7 +490,7 @@
             <h3 class="text-xl font-bold text-slate-900">¡Solicitud recibida!</h3>
 
             <p class="text-sm text-slate-600 leading-relaxed">
-                Los datos fueron enviados correctamente. En breve, un asesor de Flippin ARQ se comunica con vos para darte toda la información y coordinar la visita.
+                <span id="texto-recibido">Los datos fueron enviados correctamente. En breve, un asesor de Flippin ARQ se comunica con vos para darte toda la información y coordinar la visita.</span>
             </p>
 
             <button onclick="closeSuccessModal()" class="w-full mt-2 bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold px-6 py-3 rounded-xl text-sm transition">
@@ -610,7 +616,24 @@
         // ----------------------------------------------------------------------------------
         let yaAviso = false, yaEnvio = false;
 
-        function abrirCapa() {
+        // MODO EN QUE SE ABRIO LA CAPA. 'propiedad' es consultar por esta unidad; 'tasacion' es
+        // pedir la tasacion de la propia. Se guarda para saber que mandar y para poder medirlas
+        // por separado, que es lo unico que despues va a decir si la segunda puerta sirve.
+        let modoCapa = 'propiedad';
+
+        function abrirCapa(modo) {
+            modoCapa = (modo === 'tasacion') ? 'tasacion' : 'propiedad';
+            const esTasacion = modoCapa === 'tasacion';
+
+            document.getElementById('capa-titulo').innerText =
+                esTasacion ? 'Tasá tu propiedad, sin cargo' : 'Contactá al anunciante';
+            document.getElementById('capa-bajada').innerText =
+                esTasacion ? 'Te decimos cuánto vale hoy. Sin compromiso y sin costo.'
+                           : 'Te respondemos hoy mismo por WhatsApp.';
+            document.getElementById('texto-enviar').innerText =
+                esTasacion ? 'Pedir la tasación' : 'Enviar consulta';
+            document.getElementById('bloque-situacion').classList.toggle('hidden', esTasacion);
+
             const capa = document.getElementById('capa');
             capa.classList.remove('hidden');
             capa.classList.add('flex');
@@ -618,8 +641,8 @@
             if (n) setTimeout(() => n.focus(), 50);
             if (!yaAviso) {
                 yaAviso = true;
-                if (window.fbq) fbq('trackCustom', 'AbrioFormulario', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
-                if (window.clarity) clarity('set', 'abrio_formulario', 'si');
+                if (window.fbq) fbq('trackCustom', 'AbrioFormulario', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, modo: modoCapa });
+                if (window.clarity) clarity('set', 'abrio_formulario', modoCapa);
             }
         }
 
@@ -632,7 +655,8 @@
             // un dato que nos corresponda guardar.
             if (!yaEnvio && window.clarity) {
                 const sit = document.querySelector('input[name="search_status"]:checked');
-                clarity('set', 'abandono_formulario', sit ? sit.value : 'sin elegir');
+                clarity('set', 'abandono_formulario',
+                        modoCapa === 'tasacion' ? 'Tasación' : (sit ? sit.value : 'sin elegir'));
             }
         }
 
@@ -679,7 +703,9 @@
                 phoneInput.classList.add('border-red-500');
             }
 
-            if (!statusChecked) {
+            // En modo tasacion no se pregunta la situacion porque ya se sabe cual es. Pedirle
+            // que la elija seria pedirle un dato que la propia puerta ya respondio.
+            if (!statusChecked && modoCapa !== 'tasacion') {
                 missingFields.push('Situación actual (elegir una opción)');
             }
 
@@ -694,7 +720,7 @@
             const payload = {
                 nombre: nameInput.value.trim(),
                 whatsapp: fullFormattedPhone,
-                tipo_operacion: statusChecked.value,
+                tipo_operacion: modoCapa === 'tasacion' ? 'Tasación' : statusChecked.value,
                 propiedad_origen: PROPIEDAD,
                 agencia: AGENCIA,
                 campana: CODIGO_CAMPANA
@@ -722,6 +748,9 @@
                 yaEnvio = true;
                 form.reset();
                 cerrarCapa();
+                document.getElementById('texto-recibido').innerText = (modoCapa === 'tasacion')
+                    ? 'Los datos fueron enviados correctamente. En breve, un asesor de Flippin ARQ se comunica con vos para coordinar la visita a tu propiedad y darte la tasación.'
+                    : 'Los datos fueron enviados correctamente. En breve, un asesor de Flippin ARQ se comunica con vos para darte toda la información y coordinar la visita.';
                 document.getElementById('success-modal').classList.remove('hidden');
                 document.getElementById('success-modal').classList.add('flex');
 
