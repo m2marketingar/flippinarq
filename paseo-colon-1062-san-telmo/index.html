@@ -92,6 +92,22 @@
             .gallery-grid { grid-template-columns: 1fr; grid-template-rows: 240px; gap: 0; }
             .hide-on-mobile { display: none; }
         }
+
+        /* VISOR DE LA GALERIA CON ZOOM.
+           ESTA ES LA RAZON POR LA QUE LAS FOTOS SE GUARDAN EN MIL SEISCIENTOS DE ANCHO, y por eso
+           las dos cosas no se pueden separar: guardar una foto grande sin poder ampliarla no le
+           sirve a nadie, y dejar ampliar una foto chica la muestra pixelada. Van juntas o no van.
+           touch-action none es obligatorio: sin eso el navegador se queda con el pellizco para
+           agrandar la pagina entera, y el visor no llega a enterarse de que hubo dos dedos. */
+        #gallery-viewport { touch-action: none; overscroll-behavior: contain; }
+        #gallery-current-img {
+            transform-origin: center center;
+            will-change: transform;
+            cursor: zoom-in;
+            -webkit-user-select: none; user-select: none; -webkit-user-drag: none;
+        }
+        #gallery-current-img.esta-ampliada { cursor: grab; }
+        #gallery-viewport.arrastrando #gallery-current-img { cursor: grabbing; }
     </style>
 </head>
 <body class="antialiased pb-20 md:pb-8">
@@ -392,7 +408,9 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="w-full h-full flex flex-col justify-center items-center relative">
-            <img id="gallery-current-img" src="" class="max-h-[85vh] max-w-full object-contain">
+            <div id="gallery-viewport" class="w-full flex-1 flex items-center justify-center overflow-hidden">
+                <img id="gallery-current-img" src="" draggable="false" class="max-h-[85vh] max-w-full object-contain">
+            </div>
 
             <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 w-12 h-12 rounded-full flex items-center justify-center text-xl transition">
                 <i class="fa-solid fa-chevron-left"></i>
@@ -403,6 +421,12 @@
 
             <div class="text-white text-sm mt-4 font-medium tracking-widest">
                 <span id="current-slide-num">1</span> / 50
+            </div>
+            <!-- AVISO DE QUE SE PUEDE AMPLIAR. Va escrito porque el zoom no se ve: una foto que
+                 se puede ampliar y una que no se ven exactamente iguales hasta que alguien lo
+                 intenta, y casi nadie lo intenta si nada se lo dice. -->
+            <div class="text-white/60 text-[11px] mt-1 mb-3 text-center px-4">
+                Ampliá con dos dedos o con la rueda del mouse. Doble toque para volver.
             </div>
         </div>
     </div>
@@ -780,6 +804,9 @@
         function closeGallery() {
             document.getElementById('gallery-modal').classList.add('hidden');
             document.getElementById('gallery-modal').classList.remove('flex');
+            // Se vuelve al tamaño original al cerrar. Motivo: si no, la proxima foto se abre ya
+            // ampliada y recortada, y la persona no entiende por que.
+            resetZoom();
         }
 
         function nextSlide() {
@@ -796,7 +823,139 @@
             const imgElem = document.getElementById('gallery-current-img');
             imgElem.src = galleryImages[currentSlide];
             document.getElementById('current-slide-num').innerText = currentSlide + 1;
+            resetZoom();
         }
+
+        // ----------------------------------------------------------------------------------
+        // ZOOM DE LA GALERIA
+        //
+        // POR QUE EXISTE. Las fotos se guardan en mil seiscientos de ancho justamente para que la
+        // persona pueda acercarse y mirar el detalle: como termina un zocalo, en que estado esta
+        // la mesada, que se ve por la ventana. Sin esta parte, ese ancho de mas solo ocuparia
+        // lugar. Guardar grande y dejar ampliar son la misma decision partida en dos.
+        //
+        // SE HACE A MANO Y NO SE DELEGA AL NAVEGADOR. El pellizco que trae el navegador agranda
+        // la pagina entera, no la foto: aparecen los bordes de la capa negra, los botones se van
+        // de la pantalla y salir de ahi es confuso. Ampliar adentro del visor deja los controles
+        // quietos y la foto es lo unico que se mueve.
+        //
+        // EL MODELO, escrito para que cualquiera pueda corregirlo despues sin adivinar. La foto
+        // esta centrada en el visor, asi que su centro coincide siempre con el centro del visor.
+        // Con eso, mantener quieto un punto A de la pantalla mientras la escala pasa de s a s'
+        // es una sola cuenta: el desplazamiento nuevo es A menos el centro, menos lo que habia
+        // antes, multiplicado por la razon entre las dos escalas.
+        // ----------------------------------------------------------------------------------
+        const ZOOM_MAXIMO = 6;
+        let zEscala = 1, zx = 0, zy = 0;
+        const zVisor = document.getElementById('gallery-viewport');
+        const zFoto = document.getElementById('gallery-current-img');
+
+        function aplicarZoom() {
+            zFoto.style.transform = 'translate(' + zx + 'px, ' + zy + 'px) scale(' + zEscala + ')';
+            zFoto.classList.toggle('esta-ampliada', zEscala > 1);
+        }
+
+        function resetZoom() {
+            zEscala = 1; zx = 0; zy = 0;
+            aplicarZoom();
+        }
+
+        // Impide que la foto se vaya de la pantalla al arrastrarla. Cuando la foto ampliada
+        // todavia entra en el visor, el margen es cero y queda centrada sola.
+        function limitarDesplazamiento() {
+            const r = zVisor.getBoundingClientRect();
+            const margenX = Math.max(0, (zFoto.clientWidth * zEscala - r.width) / 2);
+            const margenY = Math.max(0, (zFoto.clientHeight * zEscala - r.height) / 2);
+            zx = Math.min(margenX, Math.max(-margenX, zx));
+            zy = Math.min(margenY, Math.max(-margenY, zy));
+        }
+
+        function ampliarHacia(escalaNueva, puntoX, puntoY) {
+            escalaNueva = Math.min(ZOOM_MAXIMO, Math.max(1, escalaNueva));
+            const r = zVisor.getBoundingClientRect();
+            const centroX = r.left + r.width / 2, centroY = r.top + r.height / 2;
+            const razon = escalaNueva / zEscala;
+            zx = puntoX - centroX - (puntoX - centroX - zx) * razon;
+            zy = puntoY - centroY - (puntoY - centroY - zy) * razon;
+            zEscala = escalaNueva;
+            if (zEscala === 1) { zx = 0; zy = 0; }
+            limitarDesplazamiento();
+            aplicarZoom();
+        }
+
+        // LA RUEDA DEL MOUSE, que es como se amplia desde la computadora. Amplia hacia donde
+        // esta el puntero y no hacia el centro, que es lo que hace que uno pueda seguir un
+        // detalle sin perderlo de vista.
+        zVisor.addEventListener('wheel', function (e) {
+            e.preventDefault();
+            ampliarHacia(zEscala * (e.deltaY < 0 ? 1.25 : 0.8), e.clientX, e.clientY);
+        }, { passive: false });
+
+        // DOBLE CLICK Y DOBLE TOQUE. Acerca de una, y si ya estaba acercada vuelve al tamaño
+        // original. Es la salida rapida para el que se perdio adentro de la foto.
+        zVisor.addEventListener('dblclick', function (e) {
+            ampliarHacia(zEscala > 1 ? 1 : 2.5, e.clientX, e.clientY);
+        });
+
+        // LOS DEDOS Y EL ARRASTRE. Se usa un solo mecanismo para el mouse y para la pantalla
+        // tactil: dos dedos amplian, y uno solo arrastra la foto pero unicamente cuando ya esta
+        // ampliada. Motivo de esa condicion: sin ella, un dedo apoyado sobre una foto sin ampliar
+        // la correria de lugar sin que la persona haya pedido nada.
+        const zDedos = new Map();
+        let zDistanciaInicial = 0, zEscalaInicial = 1, zUltimoX = 0, zUltimoY = 0, zArrastrando = false;
+
+        zVisor.addEventListener('pointerdown', function (e) {
+            // La captura del puntero se pide adentro de un try a proposito. Sirve para que el
+            // dedo siga mandando aunque se salga del visor a mitad del arrastre, pero es un
+            // lujo, no la funcion: si el navegador la rechaza y la excepcion sube, se corta el
+            // manejador entero y el zoom deja de responder sin que nada avise. Se prefiere un
+            // arrastre que se corta en el borde antes que un visor muerto.
+            try { zVisor.setPointerCapture(e.pointerId); } catch (sinCaptura) { }
+            zDedos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            if (zDedos.size === 1) {
+                zArrastrando = zEscala > 1;
+                zUltimoX = e.clientX; zUltimoY = e.clientY;
+                if (zArrastrando) zVisor.classList.add('arrastrando');
+            }
+            if (zDedos.size === 2) {
+                zArrastrando = false;
+                zVisor.classList.remove('arrastrando');
+                const d = [...zDedos.values()];
+                zDistanciaInicial = Math.hypot(d[0].x - d[1].x, d[0].y - d[1].y);
+                zEscalaInicial = zEscala;
+            }
+        });
+
+        zVisor.addEventListener('pointermove', function (e) {
+            if (!zDedos.has(e.pointerId)) return;
+            zDedos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            if (zDedos.size >= 2) {
+                const d = [...zDedos.values()];
+                const distancia = Math.hypot(d[0].x - d[1].x, d[0].y - d[1].y);
+                if (zDistanciaInicial > 0) {
+                    ampliarHacia(zEscalaInicial * distancia / zDistanciaInicial,
+                                 (d[0].x + d[1].x) / 2, (d[0].y + d[1].y) / 2);
+                }
+                e.preventDefault();
+                return;
+            }
+            if (zArrastrando) {
+                zx += e.clientX - zUltimoX;
+                zy += e.clientY - zUltimoY;
+                zUltimoX = e.clientX; zUltimoY = e.clientY;
+                limitarDesplazamiento();
+                aplicarZoom();
+                e.preventDefault();
+            }
+        });
+
+        ['pointerup', 'pointercancel'].forEach(function (evento) {
+            zVisor.addEventListener(evento, function (e) {
+                zDedos.delete(e.pointerId);
+                if (zDedos.size < 2) zDistanciaInicial = 0;
+                if (zDedos.size === 0) { zArrastrando = false; zVisor.classList.remove('arrastrando'); }
+            });
+        });
 
         // ----------------------------------------------------------------------------------
         // ABRIR Y CERRAR LA CAPA
