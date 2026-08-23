@@ -7,7 +7,7 @@
     <meta name="description" content="Monoambiente a estrenar amueblado con balcon y full amenities en San Telmo, a 150 metros de Puerto Madero. 28,42 m2 totales. USD 69.000.">
     <meta property="og:title" content="Monoambiente a Estrenar Amueblado Full Amenities a 150 de Puerto Madero">
     <meta property="og:description" content="Amueblado, balcon propio, full amenities. 28,42 m2 totales. USD 69.000.">
-    <meta property="og:image" content="https://flippin.m2marketing.app/paseo-colon-1062-san-telmo/fotos/media/foto_01.jpg">
+    <meta property="og:image" content="https://flippin.m2marketing.app/paseo-colon-1062-san-telmo/fotos/grande/foto_01.jpg">
     <meta property="og:url" content="https://flippin.m2marketing.app/paseo-colon-1062-san-telmo/">
     <meta property="og:type" content="website">
 
@@ -166,19 +166,19 @@
                 <div class="rounded-xl overflow-hidden relative gallery-grid cursor-pointer bg-gray-200 shadow-2xs border border-gray-200" onclick="openGallery(0)">
                     <!-- Imagen Principal -->
                     <div class="relative h-full row-span-2 col-span-2 md:col-span-1 md:row-span-2 group overflow-hidden">
-                        <img id="main-photo" src="fotos/media/foto_01.jpg" alt="Vista principal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img id="main-photo" src="fotos/grande/foto_01.jpg" alt="Vista principal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute top-2.5 left-2.5 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1.5 md:hidden backdrop-blur-xs">
                             <i class="fa-regular fa-image"></i> 50 fotos
                         </div>
                     </div>
                     <!-- Imagenes secundarias -->
-                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-1" src="fotos/media/foto_02.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
-                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-2" src="fotos/media/foto_03.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-1" src="fotos/grande/foto_02.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                    <div class="h-full hide-on-mobile group overflow-hidden"><img id="photo-2" src="fotos/grande/foto_03.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
                     <div class="h-full hide-on-mobile group overflow-hidden relative">
-                        <img id="photo-3" src="fotos/media/foto_04.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img id="photo-3" src="fotos/grande/foto_04.jpg" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     </div>
                     <div class="h-full hide-on-mobile group overflow-hidden relative">
-                        <img id="photo-4" src="fotos/media/foto_05.jpg" class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition duration-500">
+                        <img id="photo-4" src="fotos/grande/foto_05.jpg" class="w-full h-full object-cover brightness-75 group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 flex items-center justify-center">
                             <span class="bg-white/95 text-gray-900 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-lg shadow-md flex items-center gap-1.5 hover:bg-white transition backdrop-blur-xs">
                                 <i class="fa-regular fa-images text-fl-noche"></i> Ver todas las fotos
@@ -759,13 +759,13 @@
             }
         }
 
-        // Las 50 fotos viven en la carpeta de al lado, en un solo tamano: 900 por 600. El mosaico
-        // y la galeria usan la misma foto, asi que al abrirla se ve mejor encuadrada y no mas
-        // grande. Es a proposito: el estandar del rubro tampoco deja ampliar.
+        // Las 50 fotos viven en la carpeta de al lado, en un solo tamano: 1600 por 1067. El
+        // mosaico y la galeria usan la misma foto. El tamano lo decide el telefono: tiene que
+        // poder ampliarse con los dedos y mostrar detalle, y con 900 de ancho quedaba corto.
         const TOTAL_FOTOS = 50;
         const galleryImages = [];
         for (let i = 1; i <= TOTAL_FOTOS; i++) {
-            galleryImages.push("fotos/media/foto_" + String(i).padStart(2, "0") + ".jpg");
+            galleryImages.push("fotos/grande/foto_" + String(i).padStart(2, "0") + ".jpg");
         }
 
         let currentSlide = 0;
