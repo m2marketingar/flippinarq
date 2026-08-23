@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flippin ARQ · Publicaciones</title>
+<meta name="description" content="Interfaz creada por M2Marketing para las publicaciones de Flippin ARQ. Comercializa Maria Llona, matricula CPI 6681.">
+
+<!--
+    LA RAIZ DE flippin.m2marketing.app
+
+    POR QUE ESTA PAGINA EXISTE, y es una idea de Pablo del 20/08/2026:
+    cuando alguien recibe el enlace de una propiedad y quiere saber si el sitio es real, hace
+    una cosa muy concreta: borra el final de la direccion y entra a la raiz a ver que hay. Si
+    la raiz no tiene nada, GitHub contesta con su propia pantalla de error, en ingles,
+    diciendo que ahi no hay ningun sitio publicado. Al que estaba comprobando si esto era de
+    verdad, esa pantalla le contesta lo peor posible: que atras no hay nadie.
+
+    POR QUE ES CORTA, y esto tambien lo pidio Pablo: el que llega aca no vino a leer, vino a
+    confirmar una sola cosa en tres segundos. Una pagina larga contesta peor que una corta,
+    porque obliga a buscar el dato adentro del texto en lugar de mostrarlo.
+
+    POR QUE M2MARKETING VA AL PRINCIPIO Y NO AL PIE: decision de Pablo del 20/08/2026. Lo que
+    da confianza es que haya una empresa nombrada y visitable detras del sitio, y eso solo
+    funciona si se ve apenas se entra.
+
+    POR QUE NO HAY UN LISTADO DE PROPIEDADES, que es una decision y no un olvido: a cada
+    propiedad se entra por su propia direccion, con la forma calle-altura-barrio. Esta pagina
+    explica esa forma en lugar de listar, para que el que llego perdido vuelva a su enlace.
+
+    POR QUE NO USA TAILWIND NI NINGUN PROGRAMA DE AFUERA, al reves que la pagina de la
+    propiedad: el unico trabajo de esta pagina es abrir siempre y al instante. Todo lo que
+    viene de otro servidor es algo que puede tardar o fallar, y una pagina de confianza que
+    tarda en cargar hace exactamente lo contrario de lo que vino a hacer. Lo unico externo es
+    la tipografia, y si no llega, el texto se ve igual con la del sistema.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    /* Colores medidos del logo y del flyer real de Flippin ARQ. No se eligieron a ojo. */
+    :root {
+        --noche: #262544;
+        --amarillo: #F2C230;
+        --papel: #f7f7f9;
+        --gris: #6b6b7b;
+        --linea: #e4e4ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        background: var(--papel);
+        color: var(--noche);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .barra { background: var(--noche); border-bottom: 4px solid var(--amarillo); }
+
+    .barra-dentro {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .barra img { height: 40px; width: auto; border-radius: 6px; display: block; }
+
+    .marca { color: #fff; font-weight: 800; letter-spacing: .06em; font-size: 15px; line-height: 1.2; }
+
+    .matricula { color: rgba(255,255,255,.72); font-size: 11.5px; font-weight: 500; margin-top: 2px; }
+
+    main { max-width: 560px; margin: 0 auto; padding: 38px 24px 46px; }
+
+    h1 {
+        font-size: 21px;
+        line-height: 1.35;
+        font-weight: 700;
+        margin: 0 0 20px;
+        letter-spacing: -.01em;
+    }
+
+    h1 b { font-weight: 800; }
+
+    p { margin: 0 0 16px; font-size: 15.5px; }
+
+    /* El molde de la direccion. Va en caja propia porque es lo unico que la persona
+       necesita entender: como esta armada la direccion que tiene en la mano. */
+    .molde {
+        background: #fff;
+        border: 1px solid var(--linea);
+        border-left: 4px solid var(--amarillo);
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin: 0 0 22px;
+        font-weight: 600;
+        font-size: 14.5px;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .molde .parte { color: var(--gris); font-weight: 500; }
+
+    .enlaces {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 26px;
+    }
+
+    .enlaces a {
+        flex: 1 1 200px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 10px;
+        padding: 13px 16px;
+        font-weight: 700;
+        font-size: 14.5px;
+        border: 1px solid var(--linea);
+        background: #fff;
+        color: var(--noche);
+    }
+
+    .enlaces a.principal { background: var(--amarillo); border-color: var(--amarillo); }
+
+    .enlaces a small {
+        display: block;
+        font-weight: 500;
+        font-size: 11.5px;
+        color: var(--gris);
+        margin-top: 2px;
+    }
+
+    .enlaces a.principal small { color: rgba(38,37,68,.72); }
+
+    @media (max-width: 480px) {
+        h1 { font-size: 19px; }
+        .barra img { height: 36px; }
+        main { padding: 30px 20px 40px; }
+        .barra-dentro { padding: 14px 20px; }
+    }
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2460527884444494');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2460527884444494&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<div class="barra">
+    <div class="barra-dentro">
+        <img src="logo-flippin.jpg" alt="Flippin ARQ">
+        <div>
+            <div class="marca">FLIPPIN ARQ</div>
+            <div class="matricula">Comercializa María Llona · CPI 6681</div>
+        </div>
+    </div>
+</div>
+
+<main>
+
+    <h1>Esta es una interfaz creada por <b>M2Marketing</b> para las publicaciones de
+        <b>Flippin ARQ</b>.</h1>
+
+    <p>Cada propiedad tiene su propia dirección:</p>
+
+    <div class="molde">
+        flippin.m2marketing.app<span class="parte">/calle-altura-barrio</span>
+    </div>
+
+    <p>Si llegaste borrando el final del enlace para ver si el sitio era real: es real.
+       Volvé al enlace que recibiste.</p>
+
+    <div class="enlaces">
+        <a href="https://www.instagram.com/flippinarq/">Instagram de Flippin ARQ
+            <small>@flippinarq</small></a>
+        <a class="principal" href="https://m2marketing.app">M2Marketing
+            <small>m2marketing.app</small></a>
+    </div>
+
+</main>
+
+</body>
+</html>
