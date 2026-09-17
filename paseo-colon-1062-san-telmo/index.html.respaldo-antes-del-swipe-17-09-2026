@@ -127,17 +127,15 @@ header.compacta{transform:translateY(-56px);}
     <!-- HEADER ESTILO PORTAL -->
     <header class="sticky top-0 z-40 shadow-xs" style="background:#1A1A1A;border-bottom:4px solid #92AECC;">
         <div id="barra-lsr" class="max-w-6xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
-            <!-- min-w-0 y truncate en cadena: sin eso el nombre y la matricula no se dejan
-                 achicar y en un telefono angosto se montan encima del boton Compartir. -->
-            <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                <img src="fotos/logo-llona-blanco.png" alt="LSR Llona San Román" class="h-8 sm:h-10 w-auto object-contain shrink-0">
-                <div class="block leading-tight min-w-0">
-                    <div class="hidden sm:block text-white text-sm" style="font-weight:800;letter-spacing:.04em;">LSR · LLONA SAN ROMÁN</div>
-                    <div class="text-[10px] sm:text-[11.5px] whitespace-nowrap" style="color:rgba(255,255,255,.72);font-weight:500;">María Llona · CPI 6681 · CMZC 502</div>
+            <div class="flex items-center gap-3">
+                <img src="fotos/logo-llona-blanco.png" alt="LSR Llona San Román" class="h-8 sm:h-10 w-auto object-contain">
+                <div class="block leading-tight">
+                    <div class="text-white text-sm" style="font-weight:800;letter-spacing:.06em;">LSR · LLONA SAN ROMÁN</div>
+                    <div class="text-[11.5px]" style="color:rgba(255,255,255,.72);font-weight:500;">María Llona · CPI 6681 · CMZC 502</div>
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 text-xs sm:text-sm font-medium text-white/80 shrink-0">
+            <div class="flex items-center gap-3 text-xs sm:text-sm font-medium text-white/80">
                 <!-- Este boton era decorativo: un span sin funcion, que no compartia nada.
                      Ahora comparte de verdad y ademas emite la senal mas fuerte de la pagina. -->
                 <span id="boton-compartir" onclick="compartirPropiedad()" class="cursor-pointer transition flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white">
@@ -247,56 +245,6 @@ header.compacta{transform:translateY(-56px);}
                         <span class="text-xs font-semibold text-gray-600 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-200">
                             Expensas: consultar
                         </span>
-                    </div>
-
-                    <!-- ================================================================
-                         EL MAPA, ENTRE EL PRECIO Y LA DESCRIPCION
-
-                         POR QUE VA ACA Y NO AL FINAL. Lo pidio Pablo el 17/09/2026 y el
-                         orden es suyo: primero el precio, despues donde queda, y recien
-                         despues el texto. En una propiedad de inversion la ubicacion es el
-                         segundo dato que se mira, antes que cualquier descripcion: si el
-                         barrio no sirve, lo que diga el texto no importa.
-
-                         POR QUE UN MAPA NAVEGABLE Y NO UNA CAPTURA. Una imagen no responde
-                         la pregunta que la persona se hace de verdad, que no es "donde esta"
-                         sino "que tengo cerca". Alejando se ve Puerto Madero, el subte, la
-                         costanera. Eso no se puede contar con una foto fija.
-
-                         POR QUE ESTE EMBEBIDO Y NO LA API DE GOOGLE MAPS. Este no lleva
-                         clave, no se factura y no se cae cuando vence una cuenta. La API
-                         daria mas control, pero a cambio le ata la pagina a una credencial
-                         que hay que mantener viva, y esta pagina tiene que poder quedarse
-                         publicada sola durante meses.
-
-                         LA CARGA ES DIFERIDA (loading="lazy") A PROPOSITO: el mapa pesa mas
-                         que todo el resto del bloque y esta debajo de lo que se ve al
-                         entrar. Cargarlo de entrada le sacaria segundos a la primera
-                         pantalla, que es la unica que casi todos ven.
-                         ================================================================ -->
-                    <h2 class="text-base sm:text-lg font-bold text-gray-900 mb-2 border-b border-gray-100 pb-1.5">Ubicación</h2>
-                    <div class="mb-5">
-                        <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-                            <iframe
-                                title="Mapa de Av. Paseo Colón 1062, San Telmo, CABA"
-                                src="https://www.google.com/maps?q=Av.%20Paseo%20Col%C3%B3n%201062%2C%20C1063ACW%20Ciudad%20Aut%C3%B3noma%20de%20Buenos%20Aires&amp;z=16&amp;output=embed"
-                                width="100%" height="320" style="border:0;display:block;"
-                                loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="flex items-center justify-between gap-3 mt-2">
-                            <p class="text-[11px] text-gray-500 leading-tight">
-                                Av. Paseo Colón 1062, San Telmo · a 150 m de Puerto Madero
-                            </p>
-                            <!-- El link aparte existe para el telefono: adentro del iframe,
-                                 abrir la app de mapas es incomodo, y desde aca sale derecho
-                                 con las indicaciones ya cargadas. -->
-                            <a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Paseo%20Col%C3%B3n%201062%2C%20CABA"
-                               target="_blank" rel="noopener"
-                               class="shrink-0 text-[11px] font-semibold text-blue-700 hover:underline whitespace-nowrap">
-                                Ver en Google Maps
-                            </a>
-                        </div>
                     </div>
 
                     <!-- DESCRIPCION CON TOGGLE ESTILO ZONAPROP -->
@@ -828,9 +776,7 @@ header.compacta{transform:translateY(-56px);}
                 clarity('set', 'codigo', codigo);
             }
 
-            // El codigo ya no va en el texto: viaja al pixel y a Clarity en las lineas de arriba,
-            // asi que repetirlo en el WhatsApp solo le ensuciaba el mensaje a quien escribe.
-            const texto = 'Hola, quisiera saber más información sobre la propiedad de Paseo Colón. Código ' + codigo;
+            const texto = 'Hola, como andas. Quisiera saber mas sobre la propiedad de Paseo Colon. Codigo ' + codigo;
             window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank');
         }
 
@@ -1013,14 +959,6 @@ header.compacta{transform:translateY(-56px);}
         const zDedos = new Map();
         let zDistanciaInicial = 0, zEscalaInicial = 1, zUltimoX = 0, zUltimoY = 0, zArrastrando = false;
 
-        // EL DESLIZAR PARA PASAR DE FOTO. Convive con el zoom sin pelearse gracias a dos
-        // condiciones: un solo dedo y la foto en su tamano original. Con la foto ampliada, ese
-        // mismo movimiento es arrastrarla adentro del visor, que es lo que la persona espera, y
-        // con dos dedos es el pellizco. El umbral de cuarenta y cinco pixeles y la comparacion
-        // contra el movimiento vertical evitan que un toque tembloroso pase de foto sin querer.
-        const SWIPE_MINIMO = 45;
-        let sActivo = false, sInicioX = 0, sInicioY = 0;
-
         zVisor.addEventListener('pointerdown', function (e) {
             // La captura del puntero se pide adentro de un try a proposito. Sirve para que el
             // dedo siga mandando aunque se salga del visor a mitad del arrastre, pero es un
@@ -1033,11 +971,8 @@ header.compacta{transform:translateY(-56px);}
                 zArrastrando = zEscala > 1;
                 zUltimoX = e.clientX; zUltimoY = e.clientY;
                 if (zArrastrando) zVisor.classList.add('arrastrando');
-                sActivo = zEscala === 1;
-                sInicioX = e.clientX; sInicioY = e.clientY;
             }
             if (zDedos.size === 2) {
-                sActivo = false;
                 zArrastrando = false;
                 zVisor.classList.remove('arrastrando');
                 const d = [...zDedos.values()];
@@ -1071,13 +1006,6 @@ header.compacta{transform:translateY(-56px);}
 
         ['pointerup', 'pointercancel'].forEach(function (evento) {
             zVisor.addEventListener(evento, function (e) {
-                if (sActivo && evento === 'pointerup' && zDedos.size === 1 && zEscala === 1) {
-                    const dx = e.clientX - sInicioX, dy = e.clientY - sInicioY;
-                    if (Math.abs(dx) > SWIPE_MINIMO && Math.abs(dx) > Math.abs(dy)) {
-                        if (dx < 0) nextSlide(); else prevSlide();
-                    }
-                }
-                sActivo = false;
                 zDedos.delete(e.pointerId);
                 if (zDedos.size < 2) zDistanciaInicial = 0;
                 if (zDedos.size === 0) { zArrastrando = false; zVisor.classList.remove('arrastrando'); }
