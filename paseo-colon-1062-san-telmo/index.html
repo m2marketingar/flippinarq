@@ -344,10 +344,10 @@ header.compacta{transform:translateY(-56px);}
                              boton de enviar, donde la persona ya decidio y lo unico que quiere saber
                              es que pasa despues. Verificado el 19/08/2026 sobre una ficha real de
                              Zonaprop: sus botones dicen Contactar y Enviar. -->
-                        <button type="button" onclick="abrirCapa()" class="abrir w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-xs sm:text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-comment-dots"></i> Consultar por esta propiedad
+                        <button type="button" onclick="irAWhatsapp()" class="abrir w-full bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3 rounded-lg transition duration-200 text-xs sm:text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Coordiná la visita por WhatsApp
                         </button>
-                        <p class="text-[10px] text-gray-400 mt-2 text-center">Son dos datos y elegís tu situación. No te llamamos sin avisar.</p>
+                        <p class="text-[10px] text-gray-400 mt-2 text-center">Se abre tu WhatsApp con el mensaje escrito. Lo enviás vos.</p>
 
                         <!-- LA SEGUNDA PUERTA. Va abajo del boton principal y sin relleno de color,
                              para que se lea como lo que es: una salida para el que no vino por esta
@@ -362,9 +362,9 @@ header.compacta{transform:translateY(-56px);}
 
     <!-- BARRA FLOTANTE MOVIL ESTILO ZONAPROP -->
     <div id="mobile-floating-bar" class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2.5 z-50 shadow-[0_-8px_12px_-3px_rgba(0,0,0,0.05)] flex gap-2 transition-all duration-300 opacity-100">
-        <button onclick="abrirCapa()" class="abrir w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-2.5 rounded-lg transition text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs px-2">
-            <i class="fa-solid fa-comment-dots text-base"></i>
-            Consultar por esta propiedad
+        <button onclick="irAWhatsapp()" class="abrir w-full bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-2.5 rounded-lg transition text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs px-2">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            Coordiná la visita por WhatsApp
         </button>
     </div>
 
@@ -750,25 +750,27 @@ header.compacta{transform:translateY(-56px);}
             b.className = 'w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2 cursor-pointer';
         }
 
-        function armarCodigo(cuando) {
+        function armarCodigo() {
             const letras = { compartio: 'C', '45segundos': 'T', leyoLaEmpresa: 'E',
                              descripcionCompleta: 'D', abrioFormulario: 'F' };
             let hizo = '';
             ['compartio', '45segundos', 'leyoLaEmpresa', 'descripcionCompleta', 'abrioFormulario']
                 .forEach(function (k) { if (senalesVistas.indexOf(k) !== -1) hizo += letras[k]; });
             const minutos = Math.max(1, Math.round(segundosMirando / 60));
-            return 'PC-' + cuando + hizo + '-' + minutos + 'm';
+            return 'PC-' + (hizo || '0') + '-' + minutos + 'm';
         }
 
+        // VA DIRECTO Y SIN PREGUNTA PREVIA. Primero se prueba asi, que es lo mas corto que se
+        // puede hacer. Si empieza a entrar gente que no mira nada, el freno es volver a poner
+        // un solo toque antes, no un formulario.
         function irAWhatsapp() {
-            const elegido = document.querySelector('input[name="cuando"]:checked');
-            if (!elegido) return;
-            const codigo = armarCodigo(elegido.value);
+            marcarSenal('abrioFormulario');
+            const codigo = armarCodigo();
 
             // Primero se avisa, despues se sale. Si se hiciera al reves, el navegador cambia de
             // pagina y el evento se pierde en la mitad de los telefonos.
             if (window.fbq) fbq('track', 'Lead',
-                { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, codigo: codigo, cuando: elegido.value });
+                { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, codigo: codigo });
             if (window.clarity) {
                 clarity('set', 'lead', 'si');
                 clarity('set', 'codigo', codigo);
