@@ -17,3 +17,6 @@ ehthumbs.db
 # la vista borradores que ya se descartaron.
 *respaldo*.html
 *RESPALDO*.html
+
+# Los respaldos no se publican: viven en ZZ BASURERO, no en la web.
+*.respaldo-*
