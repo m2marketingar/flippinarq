@@ -109,13 +109,24 @@
         #gallery-current-img.esta-ampliada { cursor: grab; }
         #gallery-viewport.arrastrando #gallery-current-img { cursor: grabbing; }
     </style>
-<style>#boton-compartir{background:#000;border:1px solid rgba(255,255,255,.25);color:#fff;}</style>
+<style>#boton-compartir{background:#000;border:1px solid rgba(255,255,255,.25);color:#fff;}
+/* LA BARRA QUE SE ESCONDE.
+   Bajando, la marca se va y queda solo la franja celeste, que es la que explica de donde
+   llegaste. Subiendo, la marca vuelve: subir es el gesto de quien busca quien vende.
+
+   VA CON transform Y NO CON max-height, Y ESTO NO SE CAMBIA. Con max-height la barra
+   encogia de verdad, el documento se acortaba, el navegador corregia el scroll, ese
+   movimiento disparaba otro scroll y la barra se abria y cerraba sola: titilaba. Con
+   transform el lugar que ocupa queda igual, no hay reflujo y no hay titileo. */
+header{transition:transform .22s ease;will-change:transform;}
+header.compacta{transform:translateY(-56px);}
+@media (min-width:640px){header.compacta{transform:translateY(-64px);}}</style>
 </head>
 <body class="antialiased pb-20 md:pb-8">
 
     <!-- HEADER ESTILO PORTAL -->
     <header class="sticky top-0 z-40 shadow-xs" style="background:#1A1A1A;border-bottom:4px solid #92AECC;">
-        <div class="max-w-6xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
+        <div id="barra-lsr" class="max-w-6xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <img src="fotos/logo-llona-blanco.png" alt="LSR Llona San Román" class="h-8 sm:h-10 w-auto object-contain">
                 <div class="block leading-tight">
@@ -419,56 +430,44 @@
                     <ul id="error-list" class="list-disc pl-4 space-y-0.5"></ul>
                 </div>
 
-                <form id="formularioLead" onsubmit="handleFormSubmit(event)" class="space-y-3" novalidate>
-                    <!-- Opciones de Situacion.
-                         El motor lee este valor: si dice Compra Directa busca al captador de esta
-                         propiedad; cualquier otro valor va a la rueda meritocratica. -->
-                    <div id="bloque-situacion">
-                        <label class="block text-xs font-semibold text-gray-700 mb-2">¿Cuál es tu situación actual? *</label>
-
+                <div id="puertaWhatsapp" class="space-y-3">
+                    <!-- LA PUERTA. No es un formulario: es una sola pregunta.
+                         El formulario pedia nombre y telefono y mandaba uno cada doscientas
+                         visitas. Aca la persona no escribe nada: elige cuando quiere verla y
+                         se va a WhatsApp con el mensaje ya armado. El unico filtro es que
+                         tenga que elegir, y eso alcanza para que el curioso no siga.
+                         El codigo viaja adentro del mensaje y ademas se manda al pixel y a
+                         Clarity en el mismo toque, asi que no depende de que lo copien. -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-2">&iquest;Cu&aacute;ndo te gustar&iacute;a verla? *</label>
                         <div class="space-y-2">
                             <label class="flex items-center p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
-                                <input type="radio" name="search_status" value="Compra Directa" class="w-3.5 h-3.5 border-gray-300">
-                                <span class="ml-2 text-xs text-gray-900 font-bold">Compra directa</span>
+                                <input type="radio" name="cuando" value="1" onchange="habilitarWhatsapp()" class="w-3.5 h-3.5 border-gray-300">
+                                <span class="ml-2 text-xs text-gray-900 font-bold">Esta semana</span>
                             </label>
-
-                            <label class="flex items-start p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
-                                <input type="radio" name="search_status" value="Vender para comprar" class="w-3.5 h-3.5 border-gray-300 mt-0.5">
-                                <div class="ml-2">
-                                    <span class="block text-xs text-gray-900 font-bold">Vendo la mía y compro</span>
-                                    <span class="block text-[11px] text-fl-verde font-bold mt-0.5">Sos más que bienvenido a visitar el inmueble</span>
-                                </div>
+                            <label class="flex items-center p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
+                                <input type="radio" name="cuando" value="2" onchange="habilitarWhatsapp()" class="w-3.5 h-3.5 border-gray-300">
+                                <span class="ml-2 text-xs text-gray-900 font-bold">En las pr&oacute;ximas dos semanas</span>
+                            </label>
+                            <label class="flex items-center p-2.5 border border-gray-200 rounded-lg cursor-pointer hover:bg-amber-50 hover:border-fl-amarillo transition">
+                                <input type="radio" name="cuando" value="3" onchange="habilitarWhatsapp()" class="w-3.5 h-3.5 border-gray-300">
+                                <span class="ml-2 text-xs text-gray-900 font-bold">Todav&iacute;a estoy mirando</span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Campo Nombre -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Nombre y Apellido *</label>
-                        <input type="text" id="nombre" required placeholder="Ej. Juan Pérez" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-fl-amarillo focus:ring-1 focus:ring-fl-amarillo transition">
-                    </div>
-
-                    <!-- Campo WhatsApp precargado limpio 54 9 -->
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">WhatsApp *</label>
-                        <input type="tel" id="whatsapp" required value="54 9 " placeholder="54 9 11 2233 4455" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-fl-amarillo focus:ring-1 focus:ring-fl-amarillo transition">
-                    </div>
-
-                    <!-- BOTON DE ENVIO. Aca si va la promesa, pero abajo y no adentro del boton.
-                         En este punto la persona ya decidio consultar, asi que no hay que
-                         convencerla de nada: lo que necesita es saber que pasa despues de apretar.
-                         Boton corto para la accion, y el que pasa despues en letra chica. -->
                     <div class="pt-1">
-                        <button type="submit" class="w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane"></i> <span id="texto-enviar">Enviar consulta</span>
+                        <button type="button" id="boton-whatsapp" onclick="irAWhatsapp()" disabled
+                                class="w-full font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2 bg-gray-200 text-gray-400 cursor-not-allowed">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> <span>Escribir por WhatsApp</span>
                         </button>
                         <p class="text-[11px] text-gray-500 mt-2 text-center">
-                            <i class="fa-solid fa-user-tie"></i> Un agente de LSR Llona San Román se contactará con vos por WhatsApp.
+                            <i class="fa-solid fa-user-tie"></i> Te responde Mar&iacute;a Llona, de LSR Llona San Rom&aacute;n.
                         </p>
                     </div>
 
-                    <p class="text-[10px] text-gray-400 leading-tight">Comercializa María Llona, CPI 6681. Al enviar aceptás que te contactemos por este medio.</p>
-                </form>
+                    <p class="text-[10px] text-gray-400 leading-tight">Comercializa Mar&iacute;a Llona, CPI 6681. El mensaje se abre en tu WhatsApp y lo envi&aacute;s vos.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -689,6 +688,94 @@
                 boton.style.backgroundColor = '';
                 boton.setAttribute('data-avisando', '');
             }, 2200);
+        }
+
+
+
+        // ---- LA BARRA DE MARCA QUE SE ESCONDE AL BAJAR ---------------------------------------
+        // Se esconde solo la fila de la marca: el encabezado entero se corre para arriba justo
+        // lo que mide esa fila, asi que queda a la vista la franja celeste, que dice quien
+        // difunde y quien comercializa. Esa no se esconde nunca.
+        //
+        // Se lee el scroll una sola vez por cuadro y se exige mover 24 pixeles para cambiar de
+        // estado. Sin esas dos cosas, cualquier temblor de un dedo en el telefono alcanzaba
+        // para abrir y cerrar la barra varias veces por segundo.
+        (function () {
+            const cabecera = document.querySelector('header');
+            if (!cabecera) return;
+            let ultimo = window.scrollY;
+            let pedido = false;
+
+            function revisar() {
+                pedido = false;
+                const ahora = window.scrollY;
+                if (Math.abs(ahora - ultimo) < 24) return;
+                if (ahora > ultimo && ahora > 160) cabecera.classList.add('compacta');
+                else if (ahora < ultimo) cabecera.classList.remove('compacta');
+                ultimo = ahora;
+            }
+
+            window.addEventListener('scroll', function () {
+                if (pedido) return;
+                pedido = true;
+                requestAnimationFrame(revisar);
+            }, { passive: true });
+        })();
+
+        // ---- LA PUERTA DE WHATSAPP -----------------------------------------------------------
+        // Reemplaza al formulario, que mandaba uno cada doscientas o trescientas visitas. El
+        // problema no era el formulario en si: era que pedia escribir. Aca se elige y se va.
+        //
+        // EL CODIGO. Viaja adentro del mensaje de WhatsApp y se lee de un vistazo, sin tabla:
+        //
+        //   PC-2CTE-4m
+        //    |  | |  |
+        //    |  | |  +-- minutos que estuvo mirando de verdad, con la pestana a la vista
+        //    |  | +----- que hizo: C compartio, T se quedo 45 segundos, E leyo quien vende,
+        //    |  |              D desplego la descripcion entera, F abrio esta puerta
+        //    |  +------- cuando quiere verla: 1 esta semana, 2 en dos semanas, 3 esta mirando
+        //    +---------- la propiedad
+        //
+        // Si no toco nada, entre los guiones va solo el numero: PC-3-1m es el que menos calienta.
+        //
+        // El codigo NO depende de que la persona lo copie. Se manda a Meta y a Clarity en el
+        // mismo toque, antes de salir a WhatsApp. El del mensaje sirve para atar la conversacion
+        // con lo que ya sabemos; si lo borra, el dato igual llego.
+        const WHATSAPP = '5491135678024';
+
+        function habilitarWhatsapp() {
+            const b = document.getElementById('boton-whatsapp');
+            if (!b) return;
+            b.disabled = false;
+            b.className = 'w-full bg-fl-amarillo hover:bg-fl-amarilloOscuro text-fl-noche font-bold py-3 rounded-lg transition duration-200 text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2 cursor-pointer';
+        }
+
+        function armarCodigo(cuando) {
+            const letras = { compartio: 'C', '45segundos': 'T', leyoLaEmpresa: 'E',
+                             descripcionCompleta: 'D', abrioFormulario: 'F' };
+            let hizo = '';
+            ['compartio', '45segundos', 'leyoLaEmpresa', 'descripcionCompleta', 'abrioFormulario']
+                .forEach(function (k) { if (senalesVistas.indexOf(k) !== -1) hizo += letras[k]; });
+            const minutos = Math.max(1, Math.round(segundosMirando / 60));
+            return 'PC-' + cuando + hizo + '-' + minutos + 'm';
+        }
+
+        function irAWhatsapp() {
+            const elegido = document.querySelector('input[name="cuando"]:checked');
+            if (!elegido) return;
+            const codigo = armarCodigo(elegido.value);
+
+            // Primero se avisa, despues se sale. Si se hiciera al reves, el navegador cambia de
+            // pagina y el evento se pierde en la mitad de los telefonos.
+            if (window.fbq) fbq('track', 'Lead',
+                { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, codigo: codigo, cuando: elegido.value });
+            if (window.clarity) {
+                clarity('set', 'lead', 'si');
+                clarity('set', 'codigo', codigo);
+            }
+
+            const texto = 'Hola, como andas. Quisiera saber mas sobre la propiedad de Paseo Colon. Codigo ' + codigo;
+            window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank');
         }
 
         // ---- SENAL 2: CUARENTA Y CINCO SEGUNDOS --------------------------------------------
@@ -941,20 +1028,12 @@
             modoCapa = (modo === 'tasacion') ? 'tasacion' : 'propiedad';
             const esTasacion = modoCapa === 'tasacion';
 
-            document.getElementById('capa-titulo').innerText =
-                esTasacion ? 'Tasá tu propiedad, sin cargo' : 'Coordiná la visita';
-            document.getElementById('capa-bajada').innerText =
-                esTasacion ? 'Te decimos cuánto vale hoy. Sin compromiso y sin costo.'
-                           : 'Te respondemos hoy mismo por WhatsApp.';
-            document.getElementById('texto-enviar').innerText =
-                esTasacion ? 'Pedir la tasación' : 'Enviar consulta';
-            document.getElementById('bloque-situacion').classList.toggle('hidden', esTasacion);
+            document.getElementById('capa-titulo').innerText = 'Coordiná la visita';
+            document.getElementById('capa-bajada').innerText = 'Le escribís directo por WhatsApp.';
 
             const capa = document.getElementById('capa');
             capa.classList.remove('hidden');
             capa.classList.add('flex');
-            const n = document.getElementById('nombre');
-            if (n) setTimeout(() => n.focus(), 50);
             if (!yaAviso) {
                 yaAviso = true;
                 if (window.fbq) fbq('trackCustom', 'AbrioFormulario', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, modo: modoCapa });
