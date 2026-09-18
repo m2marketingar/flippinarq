@@ -65,6 +65,20 @@
     </script>
 <!-- End Meta Pixel Code -->
 
+    <!-- Google tag (gtag.js) -->
+    <!-- VA PEGADO AL PIXEL DE META Y NO EN OTRO LADO, A PROPOSITO: los dos tienen que ver lo
+         mismo y en el mismo momento, porque compararlos es para lo que se puso este. Meta decide
+         a quien le muestra el anuncio; Analytics mira que hace la gente adentro de la pagina,
+         incluida la que no llego por el anuncio sino por un link que alguien paso por WhatsApp. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VG023L35BG"></script>
+<script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VG023L35BG');
+</script>
+<!-- End Google tag -->
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -641,6 +655,7 @@ header.compacta{transform:translateY(-56px);}
             senalesVistas.push(cual);
 
             // A Meta le va UNA sola, la primera. Las siguientes quedan para la planilla.
+            const seLaLlevaMeta = !yaMandeSenalAMeta;
             if (!yaMandeSenalAMeta) {
                 yaMandeSenalAMeta = true;
                 if (window.fbq) {
@@ -649,6 +664,21 @@ header.compacta{transform:translateY(-56px);}
                 }
             }
             if (window.clarity) clarity('set', 'senal_' + cual, 'si');
+
+            // A ANALYTICS LE VAN TODAS LAS SENALES, NO SOLO LA PRIMERA. Analytics no compra
+            // pauta: mide. Si viera lo mismo que Meta no habria manera de saber cual disparador
+            // trabaja y cual no, que es justo el dato que hace falta para decidir a cual dejarle
+            // el evento en Meta y a cual sacarselo. Va el orden en que aparecio y si esa fue la
+            // que se llevo Meta, para poder cruzar una lista contra la otra.
+            if (window.gtag) {
+                gtag('event', 'intencion_real', {
+                    senal: cual,
+                    propiedad: PROPIEDAD,
+                    campana: CODIGO_CAMPANA,
+                    orden: senalesVistas.length,
+                    fue_a_meta: seLaLlevaMeta ? 'si' : 'no'
+                });
+            }
         }
 
         // ---- SENAL 1: COMPARTIR ------------------------------------------------------------
@@ -836,6 +866,8 @@ header.compacta{transform:translateY(-56px);}
                 clarity('set', 'lead', 'si');
                 clarity('set', 'codigo', codigo);
             }
+            if (window.gtag) gtag('event', 'lead',
+                { via: 'whatsapp', codigo: codigo, propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
 
             // El codigo ya no va en el texto: viaja al pixel y a Clarity en las lineas de arriba,
             // asi que repetirlo en el WhatsApp solo le ensuciaba el mensaje a quien escribe.
@@ -1121,6 +1153,8 @@ header.compacta{transform:translateY(-56px);}
                 yaAviso = true;
                 if (window.fbq) fbq('trackCustom', 'AbrioFormulario', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, modo: modoCapa });
                 if (window.clarity) clarity('set', 'abrio_formulario', modoCapa);
+                if (window.gtag) gtag('event', 'abrio_formulario',
+                    { modo: modoCapa, propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
             }
             // SENAL 4: abrir el formulario. Es la segunda mas fuerte despues de compartir: la
             // persona ya decidio consultar aunque todavia no haya escrito nada. El evento
@@ -1136,10 +1170,12 @@ header.compacta{transform:translateY(-56px);}
             // Solo se registra QUE abandono y QUE situacion habia marcado. Nunca lo que escribio
             // en nombre ni en whatsapp: un telefono a medio tipear que la persona no envio no es
             // un dato que nos corresponda guardar.
-            if (!yaEnvio && window.clarity) {
+            if (!yaEnvio) {
                 const sit = document.querySelector('input[name="search_status"]:checked');
-                clarity('set', 'abandono_formulario',
-                        modoCapa === 'tasacion' ? 'Tasación' : (sit ? sit.value : 'sin elegir'));
+                const situacion = modoCapa === 'tasacion' ? 'Tasación' : (sit ? sit.value : 'sin elegir');
+                if (window.clarity) clarity('set', 'abandono_formulario', situacion);
+                if (window.gtag) gtag('event', 'abandono_formulario',
+                    { situacion: situacion, propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
             }
         }
 
@@ -1246,6 +1282,8 @@ header.compacta{transform:translateY(-56px);}
 
                 if (window.fbq) fbq('track', 'Lead', { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
                 if (window.clarity) clarity('set', 'lead', 'si');
+                if (window.gtag) gtag('event', 'lead',
+                    { via: 'formulario', propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
 
                 btn.innerHTML = originalText;
                 btn.disabled = false;
