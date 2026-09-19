@@ -1,0 +1,89 @@
+# flippin.m2marketing.app
+#
+# El tablero de metricas es privado. Esta cerrado con usuario y contraseña, asi que ningun
+# rastreador puede leer lo que hay adentro aunque lo intente, pero igual se le pide a todos que no
+# entren: lo que no se rastrea no se indexa, y lo que no se indexa no aparece en ningun lado.
+#
+# Esto es buena fe y nada mas. Un robots.txt es un pedido, no una puerta: el que no lo quiera
+# respetar entra igual. La puerta es la clave, y esa si esta puesta.
+#
+# Las paginas de las propiedades no se tocan: esas se publican para que las encuentren.
+
+User-agent: *
+Disallow: /metricas/
+
+# --------------------------------------------------------------------------------------------
+# LOS RASTREADORES DE INTELIGENCIA ARTIFICIAL. Lo pidio Pablo el 19/09/2026: que el tablero no
+# aparezca tampoco en las respuestas de una IA ni termine adentro de un modelo. Se los nombra uno
+# por uno porque el comodin de arriba no siempre les alcanza: varios solo obedecen a su propio
+# nombre. Se les cierra la carpeta del tablero y nada mas: las landings de las propiedades siguen
+# abiertas, porque ahi aparecer en una respuesta de IA le sirve a Flippin.
+
+User-agent: GPTBot
+Disallow: /metricas/
+
+User-agent: OAI-SearchBot
+Disallow: /metricas/
+
+User-agent: ChatGPT-User
+Disallow: /metricas/
+
+User-agent: ClaudeBot
+Disallow: /metricas/
+
+User-agent: Claude-Web
+Disallow: /metricas/
+
+User-agent: anthropic-ai
+Disallow: /metricas/
+
+User-agent: PerplexityBot
+Disallow: /metricas/
+
+User-agent: Perplexity-User
+Disallow: /metricas/
+
+User-agent: Google-Extended
+Disallow: /metricas/
+
+User-agent: Applebot-Extended
+Disallow: /metricas/
+
+User-agent: Meta-ExternalAgent
+Disallow: /metricas/
+
+User-agent: Meta-ExternalFetcher
+Disallow: /metricas/
+
+User-agent: FacebookBot
+Disallow: /metricas/
+
+User-agent: Amazonbot
+Disallow: /metricas/
+
+User-agent: Bytespider
+Disallow: /metricas/
+
+User-agent: CCBot
+Disallow: /metricas/
+
+User-agent: cohere-ai
+Disallow: /metricas/
+
+User-agent: Diffbot
+Disallow: /metricas/
+
+User-agent: ImagesiftBot
+Disallow: /metricas/
+
+User-agent: Omgilibot
+Disallow: /metricas/
+
+User-agent: Timpibot
+Disallow: /metricas/
+
+User-agent: YouBot
+Disallow: /metricas/
+
+User-agent: Scrapy
+Disallow: /metricas/
