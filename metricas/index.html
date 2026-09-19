@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FUERA DE GOOGLE. El tablero se publica en internet para que Flippin lo abra desde el
+     telefono, pero adentro hay telefonos y mails de gente que consulto: no puede aparecer en
+     una busqueda. Esto le dice a los buscadores que no lo indexen ni lo sigan. No es una
+     clave: el que tenga la direccion entra. -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Flippin ARQ · Tablero</title>
+<style>
+/* La estetica es la de una app de Mac: superficies limpias, hairlines, tipografia del sistema y
+   pesos livianos. Los colores de los graficos son los tres validados y no se tocan por gusto. */
+:root{
+  color-scheme: light;
+  --marca:#181737; --acento:#6f5ce0; --acento-suave:rgba(111,92,224,.12);
+  --plano:#f5f5f7; --superficie:#ffffff; --superficie-2:rgba(255,255,255,.72);
+  --tinta:#1d1d1f; --tinta-2:#6e6e73; --tinta-3:#8e8e93;
+  --linea:rgba(0,0,0,.08); --linea-fuerte:rgba(0,0,0,.14);
+  --pista:rgba(0,0,0,.05);
+  --sombra:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.05);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  /* EL NARANJA DE LA PAUTA, bajado de tono a proposito. Meta es plata que ellos gastan y el color
+     no tiene que asustarlos: el naranja vivo de la paleta, que es el de Mercado Libre, grita al
+     lado del azul. Este es el mismo naranja con menos saturacion, que sigue dando 3,3 a 1 contra
+     el blanco y por eso se lee como barra. Ademas, al no ser el mismo tono que Mercado Libre, la
+     pauta y el portal no se confunden en ningun panel. */
+  --pauta:#d77342;
+  /* EL AMBAR DE LO QUE TODAVIA NO ES AUTOMATICO. Lo pidio Pablo el 19/09/2026 y el motivo es de
+     lectura, no de gusto: lo cargado a mano se marcaba con el naranja de la pauta, el mismo color
+     con el que el tablero dibuja a Meta, asi que en Paseo Colon las dos cosas se confundian y no
+     se podia saber si el naranja decia "esto lo trajo la pauta" o "esto lo escribio una persona".
+     Ahora el naranja significa una sola cosa, Meta, y el ambar otra, todavia no es automatico.
+     Se descarto el violeta, que es el acento del tablero y ya quiere decir otra cosa. El ambar
+     queda en la familia calida, se lee como advertencia y da 4,6 a 1 contra el blanco. */
+  --mano:#9a6b0c;
+}
+html[data-theme="dark"]{
+  color-scheme: dark;
+  --marca:#c9c2f5; --acento:#a78bfa; --acento-suave:rgba(167,139,250,.16);
+  --plano:#000000; --superficie:#1c1c1e; --superficie-2:rgba(28,28,30,.72);
+  --tinta:#f5f5f7; --tinta-2:#a1a1a6; --tinta-3:#8e8e93;
+  --linea:rgba(255,255,255,.10); --linea-fuerte:rgba(255,255,255,.18);
+  --pista:rgba(255,255,255,.08);
+  --sombra:none;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --pauta:#c16333;
+  --mano:#d7a12a;
+}
+*{box-sizing:border-box}
+html,body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{margin:0;background:var(--plano);color:var(--tinta);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",
+    system-ui,"Segoe UI",sans-serif;
+  font-size:15px;line-height:1.47;letter-spacing:-.01em;
+  transition:background .25s ease,color .25s ease}
+.envase{max-width:1120px;margin:0 auto;padding:0 22px 72px}
+
+/* LOS DOS CARTELES DE ARRIBA SALIERON EL 19/09/2026, A LAS 11:20, Y LO PIDIO PABLO. El verde
+   prometia que todo se actualiza solo cada 24 horas, y eso todavia no pasa: la pasada diaria en la
+   nube no esta armada y hoy el tablero se rearma cuando Pablo lo corre. Un cartel que promete algo
+   que no ocurre es exactamente lo que este tablero no puede hacer, porque lo unico que lo sostiene
+   es que cada cosa que dice sea cierta. El naranja explicaba el codigo de colores, pero los dos
+   juntos hacian que el tablero se leyera como mas terminado de lo que esta. Lo que explicaban va
+   ahora en el mensaje con el que Pablo lo manda. Los estilos se van con ellos: si vuelven, vuelven
+   escritos de nuevo y con la promesa cumplida atras. */
+
+/* ---------- barra superior, translucida como la de macOS ---------- */
+/* LA BARRA VA DE BORDE A BORDE y su contenido se alinea con el del medio. El padding lateral se
+   calcula solo: nunca menos de 22px y lo que haga falta para pegarse a la columna de 1120px. */
+.tapa{position:sticky;top:0;z-index:20;background:var(--superficie-2);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--linea);margin:0 0 26px;
+  padding:12px max(22px, calc((100% - 1120px) / 2));
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px}
+.logo svg{width:26px;height:26px}
+.logo b{font-size:17px;font-weight:600;letter-spacing:-.02em}
+.logo i{font-style:normal;font-size:11px;font-weight:600;color:var(--tinta-3);letter-spacing:.12em}
+.tapa .sep{width:1px;height:22px;background:var(--linea)}
+.tapa h1{margin:0;font-size:15px;font-weight:500;color:var(--tinta-2);letter-spacing:-.01em}
+.tapa .der{margin-left:auto;display:flex;align-items:center;gap:14px}
+
+.accion{border:1px solid var(--linea-fuerte);background:transparent;color:var(--tinta);
+  border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer;
+  transition:background .18s ease,border-color .18s ease}
+.accion:hover{background:var(--acento-suave);border-color:var(--acento)}
+
+/* ---------- controles ---------- */
+.controles{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.segmentado{display:inline-flex;background:var(--pista);border-radius:11px;padding:2px;gap:2px}
+.segmentado button{border:0;background:transparent;border-radius:9px;padding:6px 16px;
+  font:inherit;font-size:13px;font-weight:500;color:var(--tinta-2);cursor:pointer;
+  transition:background .18s ease,color .18s ease}
+.segmentado button[aria-pressed="true"]{background:var(--superficie);color:var(--tinta);
+  box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.bloque-control{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.pie-control{font-size:11.5px;color:var(--tinta-3);padding-left:4px;font-variant-numeric:tabular-nums}
+
+/* ---------- tarjetas ---------- */
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:14px}
+.tarjeta{background:var(--superficie);border:1px solid var(--linea);border-radius:18px;
+  padding:16px 18px;box-shadow:var(--sombra)}
+.tarjeta .rotulo{font-size:12.5px;color:var(--tinta-2);font-weight:500}
+.tarjeta .cifra{font-size:34px;font-weight:600;letter-spacing:-.035em;line-height:1.15;margin-top:8px}
+.tarjeta .pie{font-size:12.5px;color:var(--tinta-3);margin-top:3px}
+
+.panel{background:var(--superficie);border:1px solid var(--linea);border-radius:18px;
+  padding:20px 22px;margin-top:16px;box-shadow:var(--sombra)}
+.panel h2{margin:0;font-size:17px;font-weight:600;letter-spacing:-.02em}
+.tituloPanel{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.segmentado.chico button{padding:5px 11px;font-size:12px}
+.acciones-panel{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* switch tamano iOS */
+.switch{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--tinta-2);cursor:pointer}
+.switch input{position:absolute;opacity:0;pointer-events:none}
+.switch .via{width:44px;height:26px;border-radius:999px;background:var(--pista);flex:none;
+  border:1px solid var(--linea);position:relative;transition:background .22s ease}
+.switch .bolita{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .22s cubic-bezier(.4,.05,.2,1)}
+.switch input:checked + .via{background:var(--acento);border-color:transparent}
+.switch input:checked + .via .bolita{transform:translateX(18px)}
+.switch input:focus-visible + .via{outline:2px solid var(--acento);outline-offset:2px}
+.panel .sub{margin:3px 0 18px;font-size:13px;color:var(--tinta-3)}
+.dos{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:880px){.dos{grid-template-columns:1fr}}
+.dos .panel{margin-top:0}
+
+.segmentado.grande{margin-bottom:18px}
+.segmentado.grande button{padding:7px 20px;font-size:14px}
+
+/* ---------- el embudo ---------- */
+/* LA MISMA CARA QUE PROPIEDADES. Lo pidio Pablo y ademas conviene: es la forma de leer que ya
+   aprendieron dos paneles mas arriba, nombre a la izquierda, barra al medio y numero a la derecha.
+   La barra no mide contra el primer escalon sino contra el anterior: novecientas vistas al lado de
+   una muestra confirmada dejarian los tres ultimos en una rayita. Cada barra dice cuanto paso del
+   escalon de arriba, que es lo unico que un embudo tiene para decir, y el numero entero esta al
+   lado. La frase larga vive en el title, que aparece al posar el mouse y no ocupa lugar. */
+.lista-embudo .nombre{white-space:normal}
+.lista-embudo .nombre b{display:block;font-size:13.5px;font-weight:500}
+.lista-embudo .nombre small{display:block;font-size:11.5px;color:var(--tinta-3);line-height:1.35}
+.lista-embudo .fila{padding:7px 0}
+.lista-embudo .pista{height:11px}
+
+/* LO PUESTO A MANO VA EN NARANJA. Pablo lo pidio asi y es la regla que hace que este tablero se
+   pueda mandar: todo lo que se ve es dato leido por la maquina, menos lo naranja, que lo escribio
+   una persona porque todavia no hay de donde leerlo. Va en ambar y no en el naranja de la pauta:
+   compartian color y en Paseo Colon no se sabia si el naranja decia que el dato lo trajo Meta o
+   que lo escribio Pablo. Un color, un significado. */
+.aMano{font-style:normal;color:var(--mano);font-weight:500}
+
+/* UNA VISTA PREVIA TIENE QUE PARECER UNA VISTA PREVIA. El borde punteado ambar y los numeros del
+   mismo ambar se leen antes que cualquier cartel: nadie confunde este panel con los de al lado,
+   que son dato leido. El resto del panel es igual a los demas a proposito, porque lo que se esta
+   mostrando es exactamente como va a quedar el dia que la API lo llene. */
+.panel.previa{border-style:dashed;border-color:var(--mano)}
+.panel.previa h2{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.lista-previa .valor{color:var(--mano)}
+/* El segundo numero de un escalon partido es el de la pauta y va del color de la pauta, para que
+   se lea contra su propia barra sin tener que contar renglones. */
+.valor2.esPauta{color:var(--pauta)}
+/* En el panel de ejemplo el segundo numero es inventado como el primero, asi que va en ambar. */
+.valor2.esMano{color:var(--mano)}
+.lista-previa .pista{background:var(--pista)}
+.pildora.mano{border-color:var(--mano);color:var(--mano)}
+
+.muestras{display:grid;gap:7px;margin-top:4px}
+.dia-visitas{font-size:12.5px;font-weight:600;color:var(--tinta-2);letter-spacing:-.01em;
+  display:flex;align-items:baseline;gap:9px;margin:16px 2px 2px}
+.dia-visitas:first-child{margin-top:0}
+.dia-visitas .raya{flex:1;height:1px;background:var(--linea)}
+.muestra{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:13px;
+  border:1px solid var(--linea);border-radius:13px;padding:11px 14px}
+.muestra .cuando{font-size:12.5px;color:var(--tinta-2);font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+.muestra .quien{font-size:14px;min-width:0}
+.muestra .quien b{font-weight:500}
+.muestra .quien small{display:block;color:var(--tinta-3);font-size:12.5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.muestra .pildoras{display:flex;align-items:center;gap:6px;white-space:nowrap}
+@media(max-width:560px){
+  .muestra{grid-template-columns:auto minmax(0,1fr);row-gap:6px}
+  .muestra .pildoras{grid-column:1 / -1;justify-self:start}
+}
+
+/* ---------- barras horizontales ---------- */
+/* LOS NOMBRES MANDAN EL ANCHO. Las cuatro columnas son las mismas para todas las filas y la
+   primera mide exactamente lo que mide el nombre mas largo: ni se corta ni deja un hueco al medio,
+   y todo lo que sobra se lo lleva la barra. Si el navegador no entiende subgrid, se usa el ancho
+   fijo de siempre, que es como estaba hasta hoy. */
+.lista-barras{display:grid}
+@supports (grid-template-columns: subgrid){
+  .lista-barras{grid-template-columns:minmax(0,max-content) minmax(90px,1fr) auto}
+  .lista-barras .fila{grid-column:1 / -1;grid-template-columns:subgrid}
+}
+.fila{display:grid;grid-template-columns:minmax(140px,230px) 1fr auto;align-items:center;
+  gap:12px;padding:4px 0;border-radius:10px}
+.fila:hover{background:var(--acento-suave)}
+.fila .nombre{font-size:13.5px;color:var(--tinta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila .pista{height:8px;border-radius:999px;background:var(--pista);position:relative;overflow:hidden}
+.fila .barrita{position:absolute;inset:0 auto 0 0;border-radius:999px;min-width:6px}
+.fila .valor{font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums;min-width:22px;text-align:right}
+.fila .valor2{display:block;font-size:11.5px;font-weight:500;color:var(--tinta-3)}
+.par{display:flex;flex-direction:column;gap:4px}
+.pista.fina{height:6px}
+.fila .bajar{opacity:0;border:0;background:transparent;color:var(--tinta-3);cursor:pointer;
+  border-radius:8px;width:26px;height:26px;display:grid;place-items:center;
+  transition:opacity .16s ease,background .16s ease,color .16s ease}
+.fila:hover .bajar,.fila .bajar:focus-visible{opacity:1}
+.fila .bajar:hover{background:var(--acento);color:#fff}
+.fila .bajar svg{width:15px;height:15px}
+
+.leyenda{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--tinta-2);margin-top:16px}
+.leyenda i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px}
+
+svg.grafico{display:block;width:100%;height:auto;overflow:visible}
+.ejeTexto{font-size:10.5px;fill:var(--tinta-3)}
+.grillaLinea{stroke:var(--linea);stroke-width:1}
+.baseLinea{stroke:var(--linea-fuerte);stroke-width:1}
+
+/* ---------- tablas ---------- */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:12px;font-weight:500;color:var(--tinta-3);
+  padding:6px 10px;border-bottom:1px solid var(--linea);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--linea);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:hover td{background:var(--acento-suave)}
+a{color:inherit}
+a.enlace{color:var(--acento);text-decoration:none}
+a.enlace:hover{text-decoration:underline}
+.pildora{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;
+  border:1px solid var(--linea-fuerte);color:var(--tinta-2);white-space:nowrap}
+.punto{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}
+
+/* ---------- los avisos publicados ---------- */
+.avisos{display:grid;gap:18px}
+.edificio{display:grid;gap:7px}
+.edificio-tit{display:flex;align-items:baseline;gap:9px;padding:0 2px}
+.edificio-tit b{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.edificio-tit span{font-size:11.5px;color:var(--tinta-3)}
+.edificio-tit .raya{flex:1;height:1px;background:var(--linea)}
+.tarjeta-aviso{display:flex;align-items:center;gap:10px;
+  border:1px solid var(--linea);border-radius:14px;padding:13px 16px;background:transparent;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.tarjeta-aviso .cuerpo{display:flex;align-items:center;gap:14px;flex:1;min-width:0;
+  text-decoration:none;color:inherit}
+/* EL BOTON DE LA FICHA. Salia el cuadrado vacio que dibuja el navegador solo, que es lo que
+   Pablo vio raro: la regla que le da cara al boton es ".fila .bajar" y este boton vive adentro de
+   ".tarjeta-aviso", asi que no lo alcanzaba ninguna. Ahora tiene su propia cajita con la flecha
+   centrada adentro, y se ve siempre: escondido hasta pasar el mouse, en el telefono no existe. */
+.tarjeta-aviso .bajar{flex:none;width:32px;height:32px;display:grid;place-items:center;
+  border:1px solid var(--linea-fuerte);border-radius:10px;background:var(--superficie);
+  color:var(--tinta-2);cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease}
+.tarjeta-aviso .bajar{text-decoration:none}
+.tarjeta-aviso .bajar svg{width:16px;height:16px}
+.tarjeta-aviso .bajar:hover,.tarjeta-aviso .bajar:focus-visible{
+  background:var(--acento);border-color:var(--acento);color:#fff}
+.tarjeta-aviso:hover{background:var(--acento-suave);border-color:var(--acento);transform:translateX(2px)}
+.tarjeta-aviso .dir{font-size:14.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tarjeta-aviso .precio{font-size:13.5px;color:var(--tinta-2);font-variant-numeric:tabular-nums;
+  margin-left:auto;white-space:nowrap}
+.tarjeta-aviso .ir{font-size:12.5px;color:var(--tinta-3);white-space:nowrap;transition:color .18s ease}
+.tarjeta-aviso:hover .ir{color:var(--acento)}
+@media(max-width:560px){.tarjeta-aviso .ir{display:none}}
+
+.aviso{font-size:12px;color:var(--tinta-3);margin-top:14px}
+.pie-pagina{margin-top:30px;font-size:12px;color:var(--tinta-3);text-align:center;line-height:1.7}
+.matricula{color:var(--tinta-2)}
+
+/* ---------- en el telefono ---------- */
+@media(max-width:760px){
+  .envase{padding:0 14px 48px}
+  .tapa{margin:0 0 18px;padding:10px 14px;gap:10px}
+  .tapa h1,.tapa .sep{display:none}
+  .tarjetas{grid-template-columns:repeat(2,1fr);gap:10px}
+  .tarjeta{padding:13px 14px;border-radius:15px}
+  .tarjeta .cifra{font-size:26px}
+  .panel{padding:16px 15px;border-radius:15px;margin-top:12px}
+  .dos{gap:12px}
+  .acciones-panel{width:100%;justify-content:space-between}
+  .fila{grid-template-columns:minmax(0,1fr) 90px auto;gap:9px}
+  .fila .nombre{font-size:13px}
+  .fila .bajar{opacity:1}  /* en el telefono no hay mouse que se pose */
+  table{font-size:12.5px}
+  th,td{padding:8px 6px}
+}
+
+@media print{
+  body{background:#fff}
+  .tapa,.controles{display:none !important}
+  .panel,.tarjeta{break-inside:avoid;box-shadow:none;border-color:#ddd}
+  .reservado{display:none !important}
+}
+html[data-privado="si"] .reservado{display:none}
+</style>
+</head>
+<body>
+
+<div class="tapa">
+  <div class="logo">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 3 3 13.5h3.4V29h19.2V13.5H29z" fill="currentColor" style="color:var(--marca)"/>
+      <path d="M22.2 4.6h4.2v5.2l-4.2-3.3z" fill="#f5c451"/>
+    </svg>
+    <div><b>flippin</b> <i>ARQ</i></div>
+  </div>
+  <div class="sep"></div>
+  <h1>Tablero de propiedades</h1>
+  <div class="der">
+    <span class="pie-control" id="sello"></span>
+  </div>
+</div>
+
+<div class="envase">
+
+  <!-- LAS DOS SOLAPAS. Arriba de todo porque son dos preguntas distintas: las metricas dicen que
+       paso, el embudo dice hasta donde llego. Mezcladas en una sola pagina, la de abajo no se lee
+       nunca. El filtro de fechas queda afuera de las dos porque manda sobre las dos. -->
+  <div class="segmentado grande" id="secciones">
+    <button type="button" data-seccion="metricas" aria-pressed="true">Metricas</button>
+    <button type="button" data-seccion="embudo">Embudo</button>
+  </div>
+
+  <div class="controles">
+    <div class="bloque-control">
+      <div class="segmentado" id="rangos">
+        <button type="button" data-dias="7">Semana</button>
+        <button type="button" data-dias="30" aria-pressed="true">Mes</button>
+        <button type="button" data-dias="0">Todo</button>
+      </div>
+      <span class="pie-control" id="fechas"></span>
+    </div>
+    <span class="pie-control" id="ventana" style="margin-top:9px"></span>
+  </div>
+
+  <div id="zonaMetricas">
+  <div class="tarjetas" id="tarjetas"></div>
+
+
+  <div class="dos">
+    <div class="panel">
+      <div class="tituloPanel">
+        <div>
+          <h2>Propiedades</h2>
+          <p class="sub">Consultas por unidad, por los portales y por la pauta.</p>
+        </div>
+        <div class="acciones-panel">
+          <div class="segmentado chico" id="fuentes">
+            <button type="button" data-fuente="tokko">Tokko Broker</button>
+            <button type="button" data-fuente="meta">Meta Ads</button>
+            <button type="button" data-fuente="ambas" aria-pressed="true">Las dos</button>
+          </div>
+          <button class="accion" id="btnPdf" type="button">Descargar informe</button>
+        </div>
+      </div>
+      <div class="lista-barras" id="porPropiedad"></div>
+      <div class="leyenda" id="leyendaFuentes"></div>
+    </div>
+    <div class="panel">
+      <h2>De donde llegan</h2>
+      <p class="sub">El portal por el que entro cada consulta.</p>
+      <div id="porPortal"></div>
+      <div class="leyenda" id="leyendaPortales"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Dia por dia</h2>
+    <p class="sub">Cada dia, lo que entro por los portales y lo que trajo la pauta. Pasando el
+    mouse se ve el detalle.</p>
+    <div id="porDia"></div>
+    <div class="leyenda" id="leyendaDia"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Publicidad en Meta</h2>
+    <p class="sub">Lo invertido desde la cuenta de Flippin ARQ y lo que devolvio.</p>
+    <div id="meta"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Como se ve publicado</h2>
+    <p class="sub">Hace clic y se abre la publicacion, siempre la ultima version. El boton de la
+    derecha abre la ficha de esa propiedad, con las fotos y el texto del aviso y sin un solo
+    dato de contacto, para compartir. Se rehace sola cada manana desde la publicacion.</p>
+    <div class="avisos" id="avisos"></div>
+  </div>
+
+  <div class="panel reservado">
+    <div class="tituloPanel">
+      <div>
+        <h2>Cada consulta</h2>
+        <p class="sub">La lista completa. El telefono abre WhatsApp directo con esa persona.</p>
+      </div>
+      <label class="switch" title="Ver solamente las consultas de Bernardini 2100">
+        <input type="checkbox" id="swBernardini">
+        <span class="via"><span class="bolita"></span></span>
+        <span>Solo Bernardini 2100</span>
+      </label>
+    </div>
+    <div style="overflow-x:auto"><table id="tabla"></table></div>
+    <p class="aviso">Son datos de personas que dejaron su contacto en un aviso. Se usan para
+      responderles y no se comparten fuera de la oficina. El mail no se muestra: alcanza el WhatsApp.</p>
+  </div>
+  </div><!-- /zonaMetricas -->
+
+  <div id="zonaEmbudo" hidden>
+    <div class="panel">
+      <div class="tituloPanel">
+        <div>
+          <h2>El embudo</h2>
+          <p class="sub">Del primer clic al departamento. Cada escalon dice cuantos quedaron y si
+          eso ya paso o esta agendado; al pasar el mouse, de donde sale el numero.</p>
+        </div>
+        <div class="segmentado chico" id="modoEmbudo">
+          <button type="button" data-modo="general" aria-pressed="true">General</button>
+          <button type="button" data-modo="portal">Portales</button>
+          <button type="button" data-modo="meta">Meta</button>
+        </div>
+      </div>
+      <div id="embudo"></div>
+    </div>
+
+    <div class="panel previa">
+      <div class="tituloPanel">
+        <div>
+          <h2>Compartido a colegas <span class="pildora mano">Ejemplo</span></h2>
+          <p class="sub">Los colegas que hoy tienen un comprador buscando algo parecido, y hasta
+          donde llega el mensaje que les entra.</p>
+        </div>
+      </div>
+      <div id="colegas"></div>
+    </div>
+
+    <div class="panel reservado">
+      <div class="tituloPanel">
+        <div>
+          <h2>Las visitas</h2>
+          <p class="sub">Una por una, con quien va y por donde llego. El telefono abre WhatsApp.</p>
+        </div>
+        <div class="segmentado chico" id="cuandoVisitas">
+          <button type="button" data-cuando="futuras" aria-pressed="true">Futuras</button>
+          <button type="button" data-cuando="hechas">Ultimas realizadas</button>
+        </div>
+      </div>
+      <div class="muestras" id="muestras"></div>
+      <p class="aviso">Son datos de personas que dejaron su contacto en un aviso. Se usan para
+        responderles y no se comparten fuera de la oficina.</p>
+    </div>
+  </div>
+
+  <div class="pie-pagina">
+    Publicaciones a cargo de <span class="matricula">MARIA LLONA · CPI 6681</span><br>
+    Tablero de M2Marketing con datos de Tokko Broker y de la cuenta publicitaria de Flippin ARQ
+  </div>
+</div>
+
+<script id="datos" type="application/json">{"actualizado": "19/09/2026 a las 11:23", "dias_con_datos": 2, "consultas": [{"fecha": "2026-09-19T09:13:32-03:00", "nombre": "Valeria Analia Taverna", "mail": "oestetecnologia@yahoo.com.ar", "tel": "+5491132275453", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "San Telmo", "precio": "USD 69.900", "enlace": "", "flippin": true}, {"fecha": "2026-09-18T17:36:38-03:00", "nombre": "Sandra", "mail": "svilloria@yahoo.com", "tel": "+5491141470968", "propiedad": "Julián Álvarez 469 Piso 7 Departamento 702 70k", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 70.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60175237.html", "flippin": true}, {"fecha": "2026-09-16T15:26:13-03:00", "nombre": "Alex", "mail": "alexyassin8@hotmail.com", "tel": "+5491155770999", "propiedad": "Bernardini 2100", "portal": "zonaprop", "tipo": "Vio telefono", "barrio": "General San Martín", "precio": "USD 1.200.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60164940.html", "flippin": true}, {"fecha": "2026-09-16T00:26:58-03:00", "nombre": "Julián", "mail": "julian.spari@hotmail.com", "tel": "+5491130891722", "propiedad": "Julián Álvarez 469 Piso 11 Departamento 1102", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 179.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60128536.html", "flippin": true}, {"fecha": "2026-09-15T11:43:10-03:00", "nombre": "Soledad Loguzzo", "mail": "sol_loguzzo@hotmail.com", "tel": "+5491133439907", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "", "flippin": true}, {"fecha": "2026-09-14T14:58:12-03:00", "nombre": "Daniel", "mail": "ibarra.ramos.daniel@gmail.com", "tel": "+5491123983141", "propiedad": "Achala 3547 Piso 5 Financiado", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Parque Patricios", "precio": "USD 70.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60125966.html", "flippin": true}, {"fecha": "2026-09-13T19:00:49-03:00", "nombre": "Elizabeth", "mail": "drabak@gmail.com", "tel": "", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "proppit", "tipo": "Consulta", "barrio": "Argentina | Capital Federal | Villa Crespo", "precio": "USD 80.000", "enlace": "", "flippin": true}, {"fecha": "2026-09-13T18:12:40-03:00", "nombre": "Mariano", "mail": "mcalmanovici@gmail.com", "tel": "+5491150559407", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60119798.html", "flippin": true}, {"fecha": "2026-09-12T22:15:54-03:00", "nombre": "Daniel Osvaldo Buaon", "mail": "dbuaon@gmail.com", "tel": "+5491150569727", "propiedad": "Julián Álvarez 469 Piso 11 Departamento 1102", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 179.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60128536.html", "flippin": true}, {"fecha": "2026-09-12T17:34:37-03:00", "nombre": "Monica", "mail": "monimar99@yahoo.com", "tel": "+5491140853296", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60119798.html", "flippin": true}, {"fecha": "2026-09-11T16:34:47-03:00", "nombre": "Laura Leiva", "mail": "mlauraleiva05@gmail.com", "tel": "+5491150017042", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-60119798.html", "flippin": true}, {"fecha": "2026-09-11T09:49:32-03:00", "nombre": "Sofia Giovanelli", "mail": "giovanellisofia17@gmail.com", "tel": "+5491133843019", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "", "flippin": true}, {"fecha": "2026-09-11T07:42:39-03:00", "nombre": "Mauro Ezequiel Nahman De Matteo", "mail": "mndm71@hotmail.com", "tel": "+5491136725489", "propiedad": "Julián Álvarez 469 Piso 3 Departamento 304", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Crespo", "precio": "USD 80.000", "enlace": "", "flippin": true}, {"fecha": "2026-09-09T20:36:41-03:00", "nombre": "Demian", "mail": "esqui352@gmail.com", "tel": "+5491141583112", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "San Telmo", "precio": "USD 69.900", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59905896.html", "flippin": true}, {"fecha": "2026-09-02T16:29:08-03:00", "nombre": "Malena", "mail": "malenaressia@gmail.com", "tel": "+5491133478969", "propiedad": "Conesa 2652 Piso 4 Departamento C", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Belgrano", "precio": "USD 750", "enlace": "", "flippin": false}, {"fecha": "2026-09-02T12:49:23-03:00", "nombre": "Lucia Rios", "mail": "luriosw@gmail.com", "tel": "+5491131228346", "propiedad": "Conesa 2652 Piso 4 Departamento B", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Belgrano", "precio": "USD 850", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59954782.html", "flippin": false}, {"fecha": "2026-09-01T15:50:32-03:00", "nombre": "Arami", "mail": "nextgentalent@mike.uy", "tel": "+5491138020350", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-09-01T08:15:24-03:00", "nombre": "Ivan", "mail": "ivanjagodnik@gmail.com", "tel": "+5491124503478", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-31T23:49:50-03:00", "nombre": "Micaela", "mail": "espaciocaracol.mov@gmail.com", "tel": "+5491132274387", "propiedad": "Achala 3547 Piso 5 Departamento A", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Parque Patricios", "precio": "USD 120.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59909031.html", "flippin": true}, {"fecha": "2026-08-31T20:57:17-03:00", "nombre": "Yorka Bastidas", "mail": "yorkabas@gmail.com", "tel": "+5403513599406", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "", "flippin": false}, {"fecha": "2026-08-31T13:34:50-03:00", "nombre": "Celeste", "mail": "Celestelazzarich@gmail.com", "tel": "+5491169112267", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-31T12:28:53-03:00", "nombre": "Guillermina", "mail": "guille.boyaciyan@gmail.com", "tel": "+5491157557843", "propiedad": "Achala 3547 Piso 5 Departamento A", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Parque Patricios", "precio": "USD 120.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59909031.html", "flippin": true}, {"fecha": "2026-08-31T10:59:44-03:00", "nombre": "Sol", "mail": "soltoscano99@gmail.com", "tel": "+5491121813909", "propiedad": "Achala 3547 Piso 5 Departamento A", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Parque Patricios", "precio": "USD 120.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59909031.html", "flippin": true}, {"fecha": "2026-08-30T15:31:56-03:00", "nombre": "Florencia Lasagna", "mail": "lic.florencialasagna@gmail.com", "tel": "+5491162630424", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-30T15:21:33-03:00", "nombre": "Maria Eugenia Elvira", "mail": "meugeniaelvira@hotmail.com", "tel": "+5491132156720", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-30T12:53:26-03:00", "nombre": "Carolina Olivelli Olivelli", "mail": "carolina.olivelli@gmail.com", "tel": "+5491144350216", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-29T11:51:36-03:00", "nombre": "Gm", "mail": "guidobro@hotmail.com", "tel": "+5491161351652", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-28T18:56:44-03:00", "nombre": "Luciana Diaco", "mail": "luladiacov@gmail.com", "tel": "+5491131277084", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "", "flippin": false}, {"fecha": "2026-08-28T18:55:39-03:00", "nombre": "Luciana Diaco", "mail": "luladiacov@gmail.com", "tel": "+5491131277084", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "", "flippin": false}, {"fecha": "2026-08-28T14:05:54-03:00", "nombre": "Angeles", "mail": "Mdicrescenzo0@gmail.com", "tel": "+5491138604426", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-28T11:01:03-03:00", "nombre": "Malena", "mail": "malenaressia@gmail.com", "tel": "+5491133478969", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-28T10:39:22-03:00", "nombre": "Angeles", "mail": "Mdicrescenzo0@gmail.com", "tel": "+5491138604426", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-28T10:37:32-03:00", "nombre": "Angeles", "mail": "Mdicrescenzo0@gmail.com", "tel": "+5491138604426", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59995383.html", "flippin": false}, {"fecha": "2026-08-27T22:52:01-03:00", "nombre": "Franco Piumetto", "mail": "franph21@hotmail.com", "tel": "+5493517073403", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "", "flippin": false}, {"fecha": "2026-08-26T15:48:03-03:00", "nombre": "Valeria", "mail": "vale_anahi03@hotmail.com", "tel": "+5491138701197", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59974299.html", "flippin": false}, {"fecha": "2026-08-26T12:37:15-03:00", "nombre": "Mailen", "mail": "mailenburlini@gmail.com", "tel": "+5491167059733", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59974299.html", "flippin": false}, {"fecha": "2026-08-25T10:25:34-03:00", "nombre": "Diego De Luca", "mail": "diego.deluca.2001@gmail.com", "tel": "+5491139134867", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "", "enlace": "", "flippin": false}, {"fecha": "2026-08-25T07:34:01-03:00", "nombre": "Carla", "mail": "damicocarla@gmail.com", "tel": "+5491168491706", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59966920.html", "flippin": false}, {"fecha": "2026-08-24T17:56:07-03:00", "nombre": "Alejo", "mail": "sgroalejo@gmail.com", "tel": "+5492944613133", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 650", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59949164.html", "flippin": false}, {"fecha": "2026-08-24T08:45:14-03:00", "nombre": "Carla", "mail": "damicocarla@gmail.com", "tel": "+5491168491706", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "USD 650", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59949164.html", "flippin": false}, {"fecha": "2026-08-24T00:02:27-03:00", "nombre": "Betiana", "mail": "distanzabetiana@gmail.com", "tel": "+5491124706079", "propiedad": "Achala 3547 Piso 5 Departamento A", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Parque Patricios", "precio": "USD 120.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59909031.html", "flippin": true}, {"fecha": "2026-08-23T10:02:46-03:00", "nombre": "Angeles", "mail": "Mdicrescenzo0@gmail.com", "tel": "+5491138604426", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59949164.html", "flippin": false}, {"fecha": "2026-08-18T11:05:39-03:00", "nombre": "Agustin", "mail": "agustinstrianese@gmail.com", "tel": "+5491135896420", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "zonaprop", "tipo": "Consulta", "barrio": "San Telmo", "precio": "USD 69.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59842013.html", "flippin": true}, {"fecha": "2026-08-15T13:56:48-03:00", "nombre": "Lucas", "mail": "lucas.grasselli@gmail.con", "tel": "+5491141778829", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-14T16:53:50-03:00", "nombre": "Oscar Abel Penarez", "mail": "abelpenarez@gmail.com", "tel": "+5492477590767", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "San Telmo", "precio": "USD 69.000", "enlace": "", "flippin": true}, {"fecha": "2026-08-14T13:29:39-03:00", "nombre": "Alva Benarez", "mail": "trabajoalva5@gmail.com", "tel": "+5493412385824", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "San Telmo", "precio": "USD 69.000", "enlace": "", "flippin": true}, {"fecha": "2026-08-14T12:24:15-03:00", "nombre": "Luis", "mail": "info@falcopropiedades.com", "tel": "+5491165543895", "propiedad": "Caracas 555 Piso 4", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Flores", "precio": "USD 109.900", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59774296.html", "flippin": true}, {"fecha": "2026-08-13T18:04:55-03:00", "nombre": "Pablo Reina", "mail": "pablo.d.reina@gmail.com", "tel": "+5491135678024", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "San Telmo", "precio": "USD 69.000", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59842013.html", "flippin": true}, {"fecha": "2026-08-13T16:51:19-03:00", "nombre": "Nicolas", "mail": "ushinhwa01@hotmail.com", "tel": "+5491162527512", "propiedad": "Caracas 555 Piso 4", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Flores", "precio": "USD 109.900", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59774296.html", "flippin": true}, {"fecha": "2026-08-13T16:17:27-03:00", "nombre": "Nicolas", "mail": "ushinhwa01@hotmail.com", "tel": "+5491162527512", "propiedad": "Caracas 555 Piso 4", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Flores", "precio": "USD 109.900", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59774296.html", "flippin": true}, {"fecha": "2026-08-12T19:26:20-03:00", "nombre": "Jime Velez", "mail": "velezjimena@hotmail.com", "tel": "+5491158102976", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "", "flippin": false}, {"fecha": "2026-08-12T16:10:34-03:00", "nombre": "Montserrat", "mail": "monntsi@gmail.com", "tel": "+5491137554663", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-11T17:11:56-03:00", "nombre": "Angeles", "mail": "Mdicrescenzo0@gmail.com", "tel": "+5491138604426", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-11T13:25:33-03:00", "nombre": "Vale", "mail": "valeqiu@hotmail.com", "tel": "+5491152298158", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-11T00:25:11-03:00", "nombre": "Ariana Camila Espinoza Di Vincenzo", "mail": "arianaespinoza577@icloud.com", "tel": "+5491161272877", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "", "flippin": false}, {"fecha": "2026-08-10T18:27:31-03:00", "nombre": "Yanina", "mail": "yaninacrugna@gmail.com", "tel": "+5491133986067", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Consulta", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-10T18:20:24-03:00", "nombre": "Yanina", "mail": "yaninacrugna@gmail.com", "tel": "+5491133986067", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-10T18:17:55-03:00", "nombre": "Lucia", "mail": "lcaiglesias@gmail.com", "tel": "+5491162637163", "propiedad": "Donado 1871 Piso 3", "portal": "zonaprop", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "http://www.zonaprop.com.ar/propiedades/p-59831620.html", "flippin": false}, {"fecha": "2026-08-10T17:11:01-03:00", "nombre": "Lucia Rios", "mail": "rioslucia2498@gmail.com", "tel": "+5491131228346", "propiedad": "Donado 1871 Piso 3", "portal": "mercadolibre", "tipo": "Contacto por Whatsapp", "barrio": "Villa Urquiza", "precio": "USD 670", "enlace": "", "flippin": false}], "meta": {"cuenta": "1000279140119291", "campana": "Paseo Colon 1062 a 150 m de Puerto Madero - Conversion WhatsApp - 09/2026", "gasto_30d": 9324.68, "impresiones": 896, "clics": 90, "alcance": 687, "ctr": "10,04%", "cpc": 103.61, "resultados": 4, "costo_resultado": 2331.17, "pausadas": 41, "leido": "19/09/2026, MCP de Meta Ads, ventana last_30d, con el dia por dia", "campanas": [{"nombre": "Paseo Colon 1062 a 150 m de Puerto Madero - Conversion WhatsApp - 09/2026", "id": "120252076957060203", "clave": "Avenida Paseo Colon 1062", "estado": "ACTIVE", "gasto": 9324.68, "impresiones": 896, "clics": 90, "resultados": 4}, {"nombre": "Paseo Colon 1062 Interior - Conversion WhatsApp - 09/2026", "id": "120252100988060203", "clave": "Avenida Paseo Colon 1062", "estado": "ACTIVE", "gasto": 0, "impresiones": 0, "clics": 0, "resultados": 0}], "dias": [{"fecha": "2026-09-17", "gasto": 3560.5, "impresiones": 330, "clics": 36, "resultados": 0, "campanas": {"120252076957060203": 0}}, {"fecha": "2026-09-18", "gasto": 5764.18, "impresiones": 566, "clics": 54, "resultados": 4, "campanas": {"120252076957060203": 4}}]}, "muestras": [{"fecha": "2026-09-23T17:00:00-03:00", "titulo": "17hs confirmada +54 9 11 5040-5928 ~Marce 🇦🇷", "estado": "confirmada", "tel": "1150405928", "quien": "Marce", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "", "cruzada": false, "aMano": true, "fuenteMano": "meta"}, {"fecha": "2026-09-23T16:00:00-03:00", "titulo": "16hs Posible muestra, a confirmar+54 9 11 2589-0007 ~Daniel", "estado": "a confirmar", "tel": "1125890007", "quien": "Daniel", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "", "cruzada": false, "aMano": true, "fuenteMano": "meta"}, {"fecha": "2026-09-19T17:00:00-03:00", "titulo": "17hs +54 9 11 3227-5453 ~Valeria", "estado": "coordinada", "tel": "1132275453", "quien": "Valeria Analia Taverna", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "mercadolibre", "cruzada": true, "aMano": false, "fuenteMano": ""}, {"fecha": "2026-09-19T16:00:00-03:00", "titulo": "16 hs Julián Alvarez 469", "estado": "confirmada", "tel": "1130891722", "quien": "Julián", "propiedad": "Julián Álvarez 469 Piso 11 Departamento 1102", "portal": "zonaprop", "cruzada": true, "aMano": false, "fuenteMano": ""}, {"fecha": "2026-09-19T15:30:00-03:00", "titulo": "15:30hs - +54 9 11 4147-0968 ~Sandra", "estado": "coordinada", "tel": "1141470968", "quien": "Sandra", "propiedad": "Julián Álvarez 469 Piso 7 Departamento 702 70k", "portal": "zonaprop", "cruzada": true, "aMano": false, "fuenteMano": ""}, {"fecha": "2026-09-19T15:00:00-03:00", "titulo": "15hs Julián Alvarez 469 prueba", "estado": "coordinada", "tel": "1154091100", "quien": "Elizabeth Bak", "propiedad": "Julián Alvarez 469", "portal": "", "cruzada": false, "aMano": false, "fuenteMano": ""}, {"fecha": "2026-09-05T15:00:00-03:00", "titulo": "15hs #Inmo +54 9 11 3227-4387 ~Micaela *Dj Cosmika*", "estado": "coordinada", "tel": "1132274387", "quien": "Micaela", "propiedad": "Achala 3547 Piso 5 Departamento A", "portal": "zonaprop", "cruzada": true, "aMano": false, "fuenteMano": ""}, {"fecha": "2026-08-22T15:00:00-03:00", "titulo": "Visita Paseo Colón 1062", "estado": "coordinada", "tel": "3412385824", "quien": "Alva Benarez", "propiedad": "Avenida Paseo Colón 1062 Piso 11 Departamento 1011", "portal": "mercadolibre", "cruzada": true, "aMano": false, "fuenteMano": ""}], "fichas": {"Avenida Paseo Colón 1062 Piso 11 Departamento 1011": "fichas/avenida-paseo-colon-1062-piso-11-departamento-1011.html", "Julián Álvarez 469 Piso 7 Departamento 702 70k": "fichas/julian-alvarez-469-piso-7-departamento-702-70k.html", "Bernardini 2100": "fichas/bernardini-2100.html", "Julián Álvarez 469 Piso 11 Departamento 1102": "fichas/julian-alvarez-469-piso-11-departamento-1102.html", "Julián Álvarez 469 Piso 3 Departamento 304": "fichas/julian-alvarez-469-piso-3-departamento-304.html", "Achala 3547 Piso 5 Financiado": "fichas/achala-3547-piso-5-financiado.html", "Achala 3547 Piso 5 Departamento A": "fichas/achala-3547-piso-5-departamento-a.html"}}</script>
+<script>
+(function(){
+  const D = JSON.parse(document.getElementById("datos").textContent);
+  const PORTALES = {zonaprop:"var(--s1)", mercadolibre:"var(--s2)", proppit:"var(--s3)"};
+  const HEX = {zonaprop:"#2a78d6", mercadolibre:"#eb6834", proppit:"#1baf7a"};
+  const NOMBRE = {zonaprop:"Zonaprop", mercadolibre:"Mercado Libre", proppit:"Proppit"};
+  const estado = {dias:30, fuente:"ambas", embudo:"general", seccion:"metricas",
+                  visitas:"futuras"};
+
+  const numero = n => n.toLocaleString("es-AR");
+  const pesos  = n => "$" + Math.round(n).toLocaleString("es-AR");
+  const dia    = f => f.toLocaleDateString("es-AR",{day:"numeric",month:"short"}).replace(".","");
+  /* EL NOMBRE CORTO. Tokko escribe "Julian Alvarez 469 Piso 3 Departamento 304" y en pantalla no
+     entra. Se abrevia el nombre de pila de la calle y el piso y la unidad pasan a UF, que es como
+     lo dicen ellos. El nombre entero sigue estando en el title de cada fila y en la ficha. */
+  const corto  = n => String(n==null?"":n)
+    .replace(/^Avenida\s/i, "Av. ")
+    .replace(/^(\p{L})\p{L}+\s(?=\p{Lu})/u, "$1. ")
+    .replace(/\sPiso\s\S+\sDepartamento\s(\S+)/i, " · UF $1")
+    .replace(/\sDepartamento\s(\S+)/i, " · UF $1")
+    .replace(/\sPiso\s(\S+)/i, " · P$1");
+  /* EL NOMBRE DE PILA Y EL TELEFONO CORTO. En la lista lo que importa es reconocer a la persona y
+     poder llamarla: el apellido y el +54 9 solo hacen ancho. El numero entero viaja igual en el
+     enlace de WhatsApp, que es lo unico que lo usa. */
+  /* QUE PIDIO, EN UNA PALABRA. Tokko escribe "Contacto por Whatsapp" y no hace falta tanto: en la
+     pildora va la palabra sola y la explicacion aparece al posar el mouse, que es donde no molesta. */
+  const QUE_PIDIO = {
+    "contacto por whatsapp":  ["WhatsApp",       "Escribio por WhatsApp desde el aviso."],
+    "vio telefono":           ["Vio el telefono","Miro el numero en el aviso, sin escribir todavia."],
+    "contacto por mail":      ["Mail",           "Mando un mail desde el aviso."],
+    "contacto telefonico":    ["Llamo",          "Llamo por telefono desde el aviso."],
+    "contacto por formulario":["Consulta",       "Dejo un mensaje en el formulario del portal."],
+    "mensaje":                ["Consulta",       "Dejo un mensaje en el portal."],
+    "consulta":               ["Consulta",       "Dejo una consulta en el portal."]
+  };
+  const pedido = tipo => QUE_PIDIO[pelar(tipo || "consulta")] || [tipo || "Consulta", "Consulta que entro por el portal."];
+
+  const pila   = s => String(s||"").trim().split(/\s+/)[0] || "—";
+  const linea  = s => String(s||"").replace(/\D/g,"").replace(/^549?/, "");
+  const esc    = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  function rango(){
+    const hasta = new Date();
+    let desde;
+    if(estado.dias){
+      desde = new Date(hasta.getTime() - (estado.dias-1)*86400000);
+    }else{
+      const fs = D.consultas.map(c => new Date(c.fecha).getTime());
+      desde = new Date(Math.min.apply(null, fs.length ? fs : [hasta.getTime()]));
+    }
+    desde.setHours(0,0,0,0);
+    return {desde, hasta};
+  }
+
+  function vigentes(){
+    const {desde} = rango();
+    return D.consultas.filter(c => new Date(c.fecha) >= desde && c.flippin);
+  }
+
+  function tarjetas(cs){
+    const props = new Set(cs.map(c => c.propiedad)).size;
+    const wpp = cs.filter(c => /whatsapp/i.test(c.tipo)).length;
+    const {desde, hasta} = rango();
+    const semanas = Math.max(1, (hasta - desde)/(7*86400000));
+    const t = [
+      ["Consultas", numero(cs.length), props + (props===1?" propiedad":" propiedades") + " con movimiento"],
+      ["Por semana", (cs.length/semanas).toFixed(1).replace(".",","), "promedio del periodo elegido"],
+      ["Por WhatsApp", numero(wpp), cs.length ? Math.round(wpp*100/cs.length) + "% de las consultas" : "sin datos"],
+      ["Invertido en Meta", pesos(D.meta.gasto_30d), "pesos, ultimos 30 dias"]
+    ];
+    document.getElementById("tarjetas").innerHTML = t.map(x =>
+      `<div class="tarjeta"><div class="rotulo">${x[0]}</div><div class="cifra">${x[1]}</div><div class="pie">${x[2]}</div></div>`).join("");
+  }
+
+  const ICONO_BAJAR = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M4.6 6.8 8 10.2l3.4-3.4M2.6 13.4h10.8"/></svg>';
+
+  /* EL ENLACE DEL AVISO SALE SIEMPRE DEL MAIL MAS NUEVO DE ESA PROPIEDAD. Pablo republica seguido:
+     apenas entra una consulta de la publicacion nueva, el tablero pasa a apuntar ahi solo. Es el
+     estandar de la casa y por eso se calcula sobre todas las consultas y no sobre el periodo. */
+  const ULTIMO_AVISO = {};
+  D.consultas.forEach(c => { if(c.enlace && !ULTIMO_AVISO[c.propiedad]) ULTIMO_AVISO[c.propiedad] = c; });
+
+  /* LAS DOS FUENTES. Tokko cuenta la consulta que entro por un portal; Meta cuenta la que se le
+     atribuye a la pauta. Cada campana declara a que direccion apunta, porque en Meta la propiedad
+     vive en el nombre de la campana y en ningun campo. Las dos miden consultas: misma escala. */
+  const pelar = s => String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const CAMPANAS = D.meta.campanas || [];
+  function metaDe(propiedad){
+    const p = pelar(propiedad);
+    return CAMPANAS.filter(c => p.startsWith(pelar(c.clave)))
+                   .reduce((a,c) => a + (c.resultados||0), 0);
+  }
+
+  /* LAS VISITAS DE LA AGENDA MIRAN PARA LOS DOS LADOS, Y EL PERIODO TAMBIEN. Pablo lo dijo asi:
+     "mes seria mes pasado o mes futuro, porque las consultas son de atras pero se suman las
+     muestras de adelante". Tenia razon, y antes esto no tenia tope por arriba: con Mes elegido, el
+     embudo contaba visitas de cinco semanas adelante. Ahora el periodo es simetrico, un mes para
+     atras y un mes para adelante, que es lo que el filtro dice arriba. Con Todo no hay tope. */
+  function muestrasVigentes(){
+    const {desde} = rango();
+    const tope = estado.dias ? new Date(Date.now() + estado.dias*86400000) : null;
+    return (D.muestras || []).filter(m => {
+      const f = new Date(m.fecha);
+      return f >= desde && (!tope || f <= tope);
+    });
+  }
+
+  /* LOS ESCALONES DE CADA EMBUDO. Son tres embudos y no uno con todo adentro: Pablo dijo que
+     mezclado no se entiende, y tiene razon, porque las novecientas vistas son de la pauta y las
+     dieciocho consultas son de los portales, que no publican cuantas veces se vio un aviso. El de
+     portales y el de Meta se leen por separado y ahi si se puede decir si la pauta funciona.
+     El rotulo corto se lee de un vistazo y la frase entera aparece al posar el mouse. */
+  /* PASADO Y FUTURO, DICHO EN EL RENGLON. Pablo miro el embudo y no supo que estaba contando:
+     las consultas y las vistas ya pasaron, pero una muestra puede ser del martes que viene. El
+     numero grande sigue siendo el total, porque el embudo tiene que mostrar todo, y debajo del
+     rotulo se escribe como se parte ese total. Asi el renglon cierra contra la lista de visitas
+     de al lado: lo que ahi esta en "Futuras" es exactamente lo que aca dice "por venir". */
+  function repartoEnElTiempo(l){
+    const ahora = new Date();
+    const hechas = l.filter(x => new Date(x.fecha) < ahora).length;
+    const porVenir = l.length - hechas;
+    if(!l.length)   return "ninguna todavia";
+    if(!porVenir)   return hechas === 1 ? "ya se hizo" : "ya se hicieron";
+    if(!hechas)     return porVenir === 1 ? "agendada, todavia no fue" : "agendadas, todavia no fueron";
+    return `${hechas} ${hechas === 1 ? "hecha" : "hechas"} · ${porVenir} por venir`;
+  }
+
+  /* CUANTAS DE ESTAS LAS PUSO UNA PERSONA. Va al lado del numero, en ambar, y no escondido en
+     el texto del mouse: el que mira tiene que poder separar de un vistazo lo que leyo la maquina
+     de lo que completo Pablo mientras no este la API. */
+  function marcaMano(l){
+    const n = l.filter(x => x.aMano).length;
+    return n ? ` · <em class="aMano">${n} a mano</em>` : "";
+  }
+
+  const ESCALA = " Las barras no estan a escala: los numeros de arriba y los de abajo no entran " +
+    "juntos en la misma linea. La barra sirve para ver que baja; el numero de al lado es el que vale.";
+  const YAPASO = " Esto ya paso: es lo que ocurrio adentro del periodo elegido arriba.";
+  const DOSLADOS = " Mira para los dos lados: cuenta las visitas que ya se hicieron y las que " +
+    "estan agendadas para adelante, y el renglon de abajo dice cuantas son de cada una.";
+  const MANO = " Lo que dice a mano en ambar lo completo Pablo, porque una persona que escribe " +
+    "por WhatsApp desde la pauta no deja ningun rastro que el tablero pueda cruzar solo. Cuando " +
+    "este conectada la API de WhatsApp eso se lee solo y el ambar desaparece.";
+
+  function escalones(cs, ms){
+    const m = D.meta;
+    const conf = l => l.filter(x => x.estado === "confirmada");
+    const dePortal  = ms.filter(x => x.cruzada);
+    const deLaPauta = ms.filter(x => !x.cruzada);
+
+    /* PORTALES ARRANCA EN CONSULTAS. Tenia arriba un escalon de Vistas con una raya, porque los
+       portales no publican cuantas veces se vio un aviso. Pablo lo hizo sacar: un escalon vacio
+       no informa nada y encima deja al embudo empezando en la nada. Zonaprop muestra las vistas
+       de los ultimos treinta dias abajo del aviso; el dia que se puedan leer, vuelve. */
+    if(estado.embudo === "portal") return [
+      {r:"Consultas", c:"preguntaron", v:cs.length,
+       t:"Dejaron su contacto en un aviso de un portal. Es el aviso que llega de Tokko Broker." + YAPASO + ESCALA},
+      {r:"Muestras", c:repartoEnElTiempo(dePortal) + marcaMano(dePortal), v:dePortal.length,
+       t:"Visitas de la agenda cuyo telefono es el de alguien que habia consultado por un portal." + DOSLADOS}
+    ];
+
+    /* EL EMBUDO DE META EMPIEZA EN EL CLIC Y NO EN LA VISTA. Lo definio Pablo el 19/09/2026. Una
+       vista es que el aviso paso por la pantalla de alguien, y eso no es intencion de nada: son
+       ochocientas noventa y seis contra cuatro, y al lado de ese numero todo lo demas es una
+       rayita. El clic ya es alguien que freno, y el WhatsApp es intencion real. Los escalones que
+       quedan son los cuatro que dicen algo. */
+    if(estado.embudo === "meta") return [
+      {r:"Clic en el aviso", c:"tocaron la pauta", v:m.clics || 0,
+       t:"Las veces que alguien toco el aviso de Meta. Todavia no escribio nada, pero freno." + YAPASO + ESCALA},
+      {r:"Hablaron por WhatsApp", c:"escribieron", v:m.resultados || 0,
+       t:"Conversaciones de WhatsApp que arrancaron desde la pauta. Es el resultado que Meta cuenta y el que se paga, y es la primera intencion real." + YAPASO},
+      {r:"Muestras", c:repartoEnElTiempo(deLaPauta) + marcaMano(deLaPauta), v:deLaPauta.length,
+       t:"Visitas de la agenda que no tienen atras ninguna consulta de portal. No llegan firmadas por Meta: se le atribuyen porque no vinieron por ningun otro lado." + DOSLADOS + MANO}
+    ];
+
+    /* GENERAL ES UNA COMPARACION Y NO UNA SUMA. Pablo lo pidio asi: las dos fuentes enfrentadas,
+       una barra arriba de la otra, igual que en Propiedades. Sumadas en un solo numero, el embudo
+       general contestaba cuanta gente llego y no contestaba la unica pregunta que importa, que es
+       si la pauta esta trayendo algo que los portales no traen. Cada escalon lleva las dos barras
+       y los dos numeros, y no se inventa ninguno: si de un lado no hay dato, ese lado va vacio. */
+    return [
+      {r:"Consultas", c:"preguntaron", dos:true, vt:cs.length, vm:m.resultados || 0,
+       t:`Por los portales, ${numero(cs.length)}: dejaron su contacto en un aviso y llega por Tokko Broker. Por la pauta, ${numero(m.resultados || 0)}: escribieron por WhatsApp desde un aviso de Meta.` + YAPASO + ESCALA},
+      {r:"Muestras", c:repartoEnElTiempo(ms) + marcaMano(ms), dos:true,
+       vt:ms.filter(x => x.cruzada).length, vm:ms.filter(x => !x.cruzada).length,
+       t:"Visitas anotadas en la agenda para ir a ver el departamento. Arriba las que tienen atras una consulta de portal; abajo las que no, que se le atribuyen a la pauta porque no vinieron por ningun otro lado." + DOSLADOS + MANO}
+    ];
+  }
+
+  const porciento = v => (!v ? "0" : v < 10 ? v.toFixed(1) : String(Math.round(v))).replace(".", ",") + "%";
+
+  /* POR QUE LAS BARRAS NO ESTAN A ESCALA. Novecientas vistas y una visita confirmada no entran en
+     la misma linea: a escala, los tres ultimos escalones son una rayita y el dibujo deja de ser un
+     embudo. La barra crece de a saltos cada vez mas chicos, asi que siempre baja de un escalon al
+     siguiente y siempre se ve. Los numeros de al lado son los de verdad, y la leyenda lo dice. */
+  function anchoEmbudo(v, tope){
+    if(!v) return 0;
+    if(tope <= 1) return 100;
+    return Math.max(7, 100 * Math.log(v + 1) / Math.log(tope + 1));
+  }
+
+  function filasEmbudo(pasos){
+    /* Un escalon partido en dos vale por su suma para medir la caida de un escalon al siguiente:
+       lo que importa es cuanta gente quedo, no por donde entro. */
+    const total = p => p.dos ? (p.vt || 0) + (p.vm || 0) : p.v;
+    const tope = Math.max(1, ...pasos.map(p => total(p) || 0));
+    return pasos.map((p, i) => {
+      const v = total(p);
+      const previo = i ? total(pasos[i-1]) : null;
+      const hay = i > 0 && previo > 0 && v !== null;
+      const pasa = hay ? v * 100 / previo : 0;
+      const ultimo = i === pasos.length - 1;
+      const explica = p.t + (hay ? ` Pasaron ${numero(v)} de ${numero(previo)}: ${porciento(pasa)}.` : "");
+      const una = (x, color) => {
+        const a = x === null ? 0 : anchoEmbudo(x, tope);
+        return a ? `<span class="barrita" style="width:${a}%;background:${color}"></span>` : "";
+      };
+      let barras, valor;
+      if(p.dos){
+        // Dos barras, la de arriba los portales y la de abajo la pauta, con los mismos colores
+        // que se usan en todo el tablero para esas dos fuentes.
+        barras = `<span class="par">
+            <span class="pista fina" title="Por los portales: ${numero(p.vt)}">${una(p.vt, "var(--s1)")}</span>
+            <span class="pista fina" title="Por la pauta de Meta: ${numero(p.vm)}">${una(p.vm, "var(--pauta)")}</span>
+          </span>`;
+        valor = `${numero(p.vt)}<span class="valor2 esPauta">${numero(p.vm)}</span>`;
+      }else{
+        barras = `<span class="pista">${una(p.v, ultimo ? "var(--acento)" : "var(--s1)")}</span>`;
+        valor = `${p.v === null ? "—" : numero(p.v)}<span class="valor2">${hay ? porciento(pasa) : "&nbsp;"}</span>`;
+      }
+      return `<div class="fila" title="${esc(explica)}">
+          <span class="nombre"><b>${p.r}</b><small>${p.c}</small></span>
+          ${barras}
+          <span class="valor">${valor}</span>
+        </div>`;
+    }).join("");
+  }
+
+  /* LAS VISITAS QUE SE LISTAN. Dos listas distintas y no una partida al medio: lo que viene sirve
+     para organizarse y lo que paso sirve para mirar como fue. El filtro de arriba manda en las dos,
+     para adelante en una y para atras en la otra, que es lo que Pablo pidio. */
+  function visitasDeLaLista(){
+    const ahora = new Date();
+    const todas = D.muestras || [];
+    if(estado.visitas === "futuras"){
+      const tope = estado.dias ? new Date(ahora.getTime() + estado.dias*86400000) : null;
+      return todas.filter(m => new Date(m.fecha) >= ahora && (!tope || new Date(m.fecha) <= tope))
+                  .sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+    }
+    const {desde} = rango();
+    return todas.filter(m => new Date(m.fecha) < ahora && (!estado.dias || new Date(m.fecha) >= desde))
+                .sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
+  }
+
+  const HORA = f => /T/.test(f)
+    ? new Date(f).toLocaleTimeString("es-AR",{hour:"2-digit",minute:"2-digit",hour12:false}) + " hs"
+    : "todo el dia";
+  const DIA_LARGO = f => {
+    const s = new Date(f).toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+  /* El telefono se escribe como se lee en voz alta y el enlace lleva el numero entero con el 54 y
+     el 9 adelante, que es lo unico que WhatsApp entiende. Buenos Aires se corta 11 3089-1722, dos
+     digitos de area; el interior se corta 341 238-5824, tres. Cortando siempre en dos quedaba
+     "34 1238-5824", que es un numero de Rosario escrito como si fuera de Capital. */
+  const telLindo = d => {
+    const s = String(d||"");
+    return /^11/.test(s)
+      ? s.replace(/^(\d{2})(\d{4})(\d{4})$/, "$1 $2-$3")
+      : s.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1 $2-$3");
+  };
+
+  const ESTADO_MUESTRA = {
+    "confirmada":  ["Confirmada",  "La persona confirmo que va."],
+    "a confirmar": ["A confirmar", "Esta anotada y falta que la confirme."],
+    "coordinada":  ["Coordinada",  "Quedo coordinada en la agenda."]
+  };
+
+  function listaDeVisitas(){
+    const ms = visitasDeLaLista();
+    const caja = document.getElementById("muestras");
+    if(!ms.length){
+      caja.innerHTML = `<p class="sub" style="margin:0">${estado.visitas === "futuras"
+        ? "No hay visitas anotadas para adelante en este periodo."
+        : "No hubo visitas en este periodo."}</p>`;
+      return;
+    }
+    const dias = [];
+    ms.forEach(m => {
+      const clave = m.fecha.slice(0,10);
+      let d = dias.find(x => x.clave === clave);
+      if(!d){ d = {clave, titulo: DIA_LARGO(m.fecha), filas: []}; dias.push(d); }
+      d.filas.push(m);
+    });
+    caja.innerHTML = dias.map(d =>
+      `<div class="dia-visitas">${esc(d.titulo)}<span class="raya"></span></div>` +
+      d.filas.map(m => {
+        const e = ESTADO_MUESTRA[m.estado] || ESTADO_MUESTRA["coordinada"];
+        const tel = m.tel
+          ? `<a class="enlace" href="https://wa.me/549${esc(m.tel)}" target="_blank" rel="noopener">${esc(telLindo(m.tel))}</a>`
+          : "";
+        /* De donde llego. Si cruzo una consulta, el portal. Si la completo Pablo, lo que el
+           escribio como fuente. Si no se sabe, se dice que no se sabe y no se inventa. */
+        const de = m.portal ? ` · ${esc(NOMBRE[m.portal] || m.portal)}`
+          : m.fuenteMano === "meta" ? " · WhatsApp desde la pauta"
+          : " · sin consulta previa";
+        const mano = m.aMano
+          ? `<span class="pildora mano" title="La propiedad de esta visita la completo Pablo a mano. La persona escribio por WhatsApp desde la pauta y no dejo ninguna consulta de portal atras, asi que el tablero no la puede cruzar solo. Cuando este conectada la API de WhatsApp esto se lee solo y deja de estar en ambar.">A mano</span>`
+          : "";
+        return `<div class="muestra">
+            <span class="cuando">${esc(HORA(m.fecha))}</span>
+            <span class="quien" title="${esc(m.titulo)}"><b>${esc(m.quien || "Sin nombre")}</b> ${tel}
+              <small>${esc(corto(m.propiedad))}${de}</small></span>
+            <span class="pildoras">${mano}<span class="pildora" title="${esc(e[1])}">${esc(e[0])}</span></span>
+          </div>`;
+      }).join("")).join("");
+  }
+
+  /* DEBAJO DEL EMBUDO NO VA NINGUN TEXTO. Lo pidio Pablo el 19/09/2026: las dos leyendas que
+     estaban ahi explicaban la escala y el pasado contra el futuro, y las dos hablaban de escalones
+     puntuales. Puestas abajo, las lee todo el mundo siempre, incluso el que no tenia la duda, y le
+     comen al panel el aire que lo hace parecer una app. Ahora ese mismo texto esta en el escalon al
+     que le corresponde y aparece al posar el mouse, que es donde uno pregunta. */
+  function embudo(cs){
+    document.getElementById("embudo").innerHTML =
+      `<div class="lista-barras lista-embudo">${filasEmbudo(escalones(cs, muestrasVigentes()))}</div>`;
+    colegas();
+    listaDeVisitas();
+  }
+
+  /* EL EMBUDO DE LO COMPARTIDO CON COLEGAS. Todavia no tiene un solo dato adentro y esta puesto
+     igual, en cero y en naranja, porque Pablo lo quiere mostrar: la idea es que Flippin vea de
+     antemano en que se convierte la plata que ponen y que quede claro que lo naranja no es real.
+     La jugada existe y ya corrio a mano: el programa del proyecto 100139 rastrilla Zonaprop en los
+     barrios de alrededor, se queda con las propiedades muy parecidas a la que se vende y saca de
+     ahi los colegas que hoy estan trabajando un comprador para algo igual. Lo unico que falta son
+     los cuatro numeros del final, enviados, entregados, leidos y contestados, que hoy no existen
+     en ningun lado y que los da la API nativa de WhatsApp. */
+  /* LOS NUMEROS DE ESTE PANEL SON INVENTADOS, Y ESTAN INVENTADOS A PROPOSITO. Estuvieron en cero
+     unas horas y Pablo los hizo llenar: un embudo en cero no muestra la forma de nada y no sirve
+     para lo que este panel tiene que hacer, que es que Flippin entienda de antemano en que se
+     convierte la plata que ponen. Que sean mentira no se esconde: el panel va con borde punteado,
+     con la pildora Ejemplo y con los numeros en ambar. Son tres marcas para que nadie los lea como
+     medidos, y la cuarta la pone el mensaje con el que Pablo manda el tablero.
+     De donde salen los numeros, para que sean verosimiles y no cualquier cosa: la corrida real del
+     proyecto 100139 rastrillo diez mil avisos, se quedo con los mas parecidos y Pablo mando a
+     cincuenta colegas de Paseo Colon. Eso fija los dos primeros escalones. Los otros bajan con
+     porcentajes de WhatsApp que no llaman la atencion ni para arriba ni para abajo. */
+  const COLEGAS = [
+    {r:"Colegas parecidos", v:112, c:"tienen comprador para algo igual",
+     t:"Los colegas que hoy estan trabajando un comprador para una propiedad muy parecida a esta. Se rastrillan en Zonaprop en los barrios de alrededor y quedan los que publicaron algo parecido, entre quince y ochenta dias atras y con mas de ciento cincuenta vistas en el ultimo mes."},
+    {r:"Mensajes enviados", v:50, c:"uno por colega, con su ficha",
+     t:"Un mensaje por colega, con la ficha de la propiedad armada con los datos de contacto de ese colega y no los de Pablo, para que se la pueda reenviar a sus compradores. Por la API nativa de WhatsApp cada mensaje sale 0,0618 USD mas impuestos: cincuenta mensajes son poco mas de tres dolares. Corre por cuenta de Flippin ARQ y se liquida una vez al mes."},
+    {r:"Entregados", v:47, c:"llegaron al telefono",
+     t:"Los mensajes que efectivamente llegaron al telefono del colega. Hoy no hay forma de saberlo: mandando a mano no queda registro de nada. Lo va a decir la API de WhatsApp."},
+    {r:"Leidos", v:38, c:"lo abrieron",
+     t:"Los colegas que abrieron el mensaje. Es el primer numero que dice si el mensaje sirve o si pasa de largo. Lo va a decir la API de WhatsApp."},
+    {r:"Contestaron", v:9, c:"respondieron",
+     t:"Los colegas que contestaron. Aca empieza la conversacion y es el escalon que vale, igual que WhatsApp en el embudo de la pauta."},
+    {r:"Muestras", v:2, c:"trajeron a alguien a verlo",
+     t:"Los compradores que un colega trajo a ver la propiedad. Cuando esto ande, estas muestras se cruzan solas con la agenda igual que las otras y dejan de escribirse a mano."}
+  ];
+
+  function colegas(){
+    const tope = Math.max(...COLEGAS.map(p => p.v));
+    document.getElementById("colegas").innerHTML =
+      `<div class="lista-barras lista-embudo lista-previa">${COLEGAS.map((p, i) => {
+        const previo = i ? COLEGAS[i-1].v : 0;
+        const pasa = previo ? p.v * 100 / previo : 0;
+        const t = p.t + (previo ? ` Pasaron ${numero(p.v)} de ${numero(previo)}: ${porciento(pasa)}.` : "") +
+          " Es un numero inventado, para mostrar como se va a ver: todavia no esta conectada la API de WhatsApp.";
+        return `<div class="fila" title="${esc(t)}">
+          <span class="nombre"><b>${p.r}</b><small>${p.c}</small></span>
+          <span class="pista"><span class="barrita" style="width:${anchoEmbudo(p.v, tope)}%;background:var(--mano)"></span></span>
+          <span class="valor">${numero(p.v)}<span class="valor2 esMano">${previo ? porciento(pasa) : "&nbsp;"}</span></span>
+        </div>`;
+      }).join("")}</div>`;
+  }
+
+  function barrasPropiedad(cs){
+    const cuenta = {};
+    cs.forEach(c => { (cuenta[c.propiedad] = cuenta[c.propiedad] || []).push(c); });
+    const f = estado.fuente;
+    const items = Object.entries(cuenta).map(([nombre, lista]) =>
+      ({nombre, lista, t:lista.length, m:metaDe(nombre)}));
+    items.sort((a,b) => (f === "meta" ? b.m - a.m : (b.t + b.m) - (a.t + a.m)) || b.t - a.t);
+    const tope = Math.max(1, ...items.map(x =>
+      f === "tokko" ? x.t : f === "meta" ? x.m : Math.max(x.t, x.m)));
+    // Una propiedad sin pauta no tiene barra de Meta: el cero se muestra vacio y no como un puntito.
+    const barra = (v, color) => v
+      ? `<span class="barrita" style="width:${Math.max(4, v*100/tope)}%;background:${color}"></span>`
+      : "";
+    const caja = document.getElementById("porPropiedad");
+    if(!items.length){ caja.innerHTML = '<p class="sub">Sin consultas en este periodo.</p>'; return; }
+    caja.innerHTML = items.map(x => {
+      let barras, valor;
+      if(f === "ambas"){
+        barras = `<span class="par">
+             <span class="pista fina" title="Tokko Broker: ${x.t}">${barra(x.t, "var(--s1)")}</span>
+             <span class="pista fina" title="Meta Ads: ${x.m}">${barra(x.m, "var(--pauta)")}</span>
+           </span>`;
+        /* EL CERO DE META NO SE ESCRIBE. El guion no decia nada que la barra vacia no dijera ya,
+           y repetido en casi todas las filas armaba una columna de rayitas que ensuciaba. Queda el
+           renglon, con un espacio duro adentro, para que todas las filas midan lo mismo. */
+        valor = `${x.t}<span class="valor2">${x.m || "&nbsp;"}</span>`;
+      }else{
+        const v = f === "meta" ? x.m : x.t;
+        barras = `<span class="pista">${barra(v, f === "meta" ? "var(--pauta)" : "var(--s1)")}</span>`;
+        valor = String(v);
+      }
+      return `<div class="fila">
+         <span class="nombre" title="${esc(x.nombre)}">${esc(corto(x.nombre))}</span>
+         ${barras}
+         <span class="valor">${valor}</span>
+       </div>`;
+    }).join("");
+    /* AZUL TOKKO, NARANJA APAGADO META. Se probaron los tres: el naranja vivo grita, el verde no
+       decia nada, y quedo el naranja bajado de tono. Lo dijo Pablo: el color no los tiene que
+       asustar con el gasto. Vive en --pauta y no se toca por gusto. */
+    const ley = f === "meta"  ? [["Meta Ads","var(--pauta)","consultas atribuidas por Meta"]]
+              : f === "tokko" ? [["Tokko Broker","var(--s1)","consultas que entraron por los portales"]]
+              : [["Tokko Broker","var(--s1)","por los portales"],
+                 ["Meta Ads","var(--pauta)","atribuidas por la pauta"]];
+    document.getElementById("leyendaFuentes").innerHTML = ley.map(x =>
+      `<span><i style="background:${x[1]}"></i>${x[0]} · ${x[2]}</span>`).join("");
+  }
+
+  function barrasPortal(cs){
+    const cuenta = {};
+    cs.forEach(c => cuenta[c.portal] = (cuenta[c.portal]||0) + 1);
+    const orden = Object.entries(cuenta).sort((a,b) => b[1]-a[1]);
+    const tope = Math.max(1, ...orden.map(x => x[1]));
+    document.getElementById("porPortal").innerHTML = orden.length ? orden.map(([p,n]) =>
+      `<div class="fila" style="grid-template-columns:minmax(110px,160px) 1fr auto">
+         <span class="nombre">${esc(NOMBRE[p]||p)}</span>
+         <span class="pista"><span class="barrita" style="width:${Math.max(4,n*100/tope)}%;background:${PORTALES[p]||"var(--s3)"}"></span></span>
+         <span class="valor">${n}</span>
+       </div>`).join("") : '<p class="sub">Sin consultas en este periodo.</p>';
+    document.getElementById("leyendaPortales").innerHTML = orden.map(([p,n]) =>
+      `<span><i style="background:${PORTALES[p]||"var(--s3)"}"></i>${esc(NOMBRE[p]||p)} · ${n}</span>`).join("");
+  }
+
+  /* DIA POR DIA, CON LAS DOS FUENTES. La de Meta sale de meta.json, que ahora trae la serie diaria
+     ademas del total del mes: el MCP la da pidiendo time_increment de un dia. Los dias que Meta no
+     informa no son cero, son que no hay dato, y por eso la barra naranja simplemente no se dibuja. */
+  function barrasDia(cs){
+    const {desde, hasta} = rango();
+    const total = Math.round((hasta - desde)/86400000) + 1;
+    const meta = {};
+    (D.meta.dias || []).forEach(d => { meta[d.fecha] = d.resultados || 0; });
+    const serie = [];
+    for(let i = 0; i < total; i++){
+      const f = new Date(desde.getTime() + i*86400000); f.setHours(0,0,0,0);
+      const clave = f.getFullYear() + "-" + String(f.getMonth()+1).padStart(2,"0") + "-" +
+                    String(f.getDate()).padStart(2,"0");
+      serie.push({f, n:0, m: meta[clave] || 0});
+    }
+    cs.forEach(c => {
+      const f = new Date(c.fecha); f.setHours(0,0,0,0);
+      const s = serie.find(x => x.f.getTime() === f.getTime());
+      if(s) s.n++;
+    });
+    const tope = Math.max(1, ...serie.map(s => Math.max(s.n, s.m)));
+    const ancho = 1000, alto = 170, base = alto - 24, izq = 22;
+    const paso = (ancho - izq)/serie.length;
+    const grosor = Math.max(3, Math.min(9, (paso - 5)/2));
+    let g = "";
+    [0, Math.ceil(tope/2), tope].filter((v,i,a) => a.indexOf(v) === i).forEach(v => {
+      const y = base - (v/tope)*(base-12);
+      g += `<line class="${v?"grillaLinea":"baseLinea"}" x1="${izq}" y1="${y}" x2="${ancho}" y2="${y}"/>
+            <text class="ejeTexto" x="0" y="${y+3.5}">${v}</text>`;
+    });
+    const cada = serie.length > 24 ? 7 : (serie.length > 12 ? 3 : 1);
+    const par = grosor*2 + 1;
+    serie.forEach((s,i) => {
+      const x = izq + i*paso + (paso-par)/2;
+      [[s.n, "var(--s1)", "por los portales", 0],
+       [s.m, "var(--pauta)", "por la pauta", grosor+1]].forEach(([v, color, que, corre]) => {
+        if(!v) return;
+        const h = Math.max(4, (v/tope)*(base-12));
+        g += `<rect x="${x+corre}" y="${base-h}" width="${grosor}" height="${h}" rx="2.5" ry="2.5"
+                    fill="${color}"><title>${dia(s.f)}: ${v} ${v===1?"consulta":"consultas"} ${que}</title></rect>`;
+      });
+      const ultima = i === serie.length-1;
+      if((i % cada === 0 && serie.length-1-i >= cada) || ultima)
+        g += `<text class="ejeTexto" text-anchor="middle" x="${x+par/2}" y="${alto-5}">${dia(s.f)}</text>`;
+    });
+    document.getElementById("porDia").innerHTML =
+      `<svg class="grafico" viewBox="0 0 ${ancho} ${alto}" role="img" aria-label="Consultas por dia">${g}</svg>`;
+    document.getElementById("leyendaDia").innerHTML =
+      [["Tokko Broker","var(--s1)","consultas que entraron por los portales"],
+       ["Meta Ads","var(--pauta)","consultas atribuidas por la pauta"]].map(x =>
+        `<span><i style="background:${x[1]}"></i>${x[0]} · ${x[2]}</span>`).join("");
+  }
+
+  function panelMeta(){
+    const m = D.meta;
+    const filas = [
+      ["Invertido", pesos(m.gasto_30d), "pesos"],
+      ["Alcance", numero(m.alcance), "personas distintas"],
+      ["Impresiones", numero(m.impresiones), "veces que se mostro"],
+      ["Clics", numero(m.clics), m.ctr + " de los que lo vieron"],
+      ["Consultas", numero(m.resultados), "atribuidas por Meta"],
+      ["Costo por consulta", pesos(m.costo_resultado), "pesos"]
+    ];
+    document.getElementById("meta").innerHTML =
+      `<div class="tarjetas">${filas.map(f =>
+        `<div class="tarjeta" style="border-radius:14px"><div class="rotulo">${f[0]}</div>
+         <div class="cifra" style="font-size:26px">${f[1]}</div><div class="pie">${f[2]}</div></div>`).join("")}</div>
+       <p class="aviso">Campana activa: ${esc(m.campana)}. La pauta se paga desde la cuenta de Flippin ARQ.</p>`;
+  }
+
+  function panelAvisos(cs){
+    const items = [...new Set(cs.map(c => c.propiedad))]
+      .map(p => ULTIMO_AVISO[p]).filter(Boolean);
+    /* AGRUPADO POR EDIFICIO. Flippin tiene varias unidades en la misma direccion y las nombran por
+       la calle: ven "Julian Alvarez" y adentro las unidades. Asi encuentran la suya de un vistazo. */
+    const edificios = {};
+    items.forEach(c => {
+      const n = corto(c.propiedad);
+      const g = /^(.*?\s\d+)(?:\s·\s(.+))?$/.exec(n);
+      const edificio = g ? g[1] : n;
+      (edificios[edificio] = edificios[edificio] || []).push({c, unidad: (g && g[2]) || "Unidad unica"});
+    });
+    const orden = Object.entries(edificios).sort((a,b) => b[1].length - a[1].length);
+    /* LA FICHA VIVE ACA. Es el mismo lugar donde estan los avisos, que es lo que ellos mandan
+       afuera: el aviso para que lo vean y la ficha sin datos para que la puedan pasar. */
+    const fichas = [];
+    document.getElementById("avisos").innerHTML = orden.length ? orden.map(([edificio, unidades]) =>
+      `<div class="edificio">
+         <div class="edificio-tit"><b>${esc(edificio)}</b>
+           <span>${unidades.length} ${unidades.length===1?"unidad":"unidades"}</span>
+           <span class="raya"></span></div>
+         ${unidades.map(u => {
+           const i = fichas.push({nombre: u.c.propiedad,
+                                  lista: cs.filter(c => c.propiedad === u.c.propiedad)}) - 1;
+           /* LA HOJA LINDA SI LA HAY, Y SI NO LA DE SIEMPRE. El programa de al lado entra todas
+              las mananas al aviso de Zonaprop y deja escrita la ficha de la propiedad, con las
+              fotos, el precio y el texto tal cual esta publicado. Cuando esa hoja existe, el
+              boton la abre. Cuando no existe, porque el aviso se dio de baja o porque esa
+              propiedad solo esta en Mercado Libre, el boton baja la ficha de consultas de
+              siempre y nadie se queda sin nada. */
+           const hoja = (D.fichas || {})[u.c.propiedad];
+           const boton = hoja
+             ? `<a class="bajar" href="${esc(hoja)}" target="_blank" rel="noopener"
+                   title="Abrir la ficha de la propiedad: las fotos, el precio y el texto del aviso, sin un solo dato de contacto. Se rehace sola todas las mananas desde la publicacion, y adentro tiene un boton para guardarla en PDF."
+                   aria-label="Ver la ficha de ${esc(u.c.propiedad)}">${ICONO_BAJAR}</a>`
+             : `<button class="bajar" type="button" data-ficha="${i}"
+                   title="Descargar la ficha de consultas, sin datos de contacto. La ficha con las fotos de la propiedad todavia no se pudo armar: el aviso de Zonaprop no esta publicado."
+                   aria-label="Descargar la ficha sin datos de ${esc(u.c.propiedad)}">${ICONO_BAJAR}</button>`;
+           return `<div class="tarjeta-aviso">
+              <a class="cuerpo" href="${esc(u.c.enlace)}" target="_blank" rel="noopener"
+                 title="Hace clic para ver la publicacion en ${esc(NOMBRE[u.c.portal]||u.c.portal)}">
+                <span class="dir">${esc(u.unidad)}</span>
+                <span class="precio">${esc(u.c.precio||"")}</span>
+                <span class="ir">Ver aviso ↗</span>
+              </a>
+              ${boton}
+            </div>`;
+         }).join("")}
+       </div>`).join("") : '<p class="sub">Sin avisos en este periodo.</p>';
+    document.querySelectorAll("#avisos [data-ficha]").forEach(b => b.onclick = () => {
+      const f = fichas[+b.dataset.ficha];
+      bajarFicha(f.nombre, f.lista);
+    });
+  }
+
+  /* SOLO BERNARDINI. Esa la miran ellos aparte, asi que tiene su propio interruptor. Filtra esta
+     lista y ninguna otra cosa del tablero: los graficos de arriba siguen mostrando toda la cartera. */
+  const soloBernardini = () => document.getElementById("swBernardini").checked;
+
+  function tabla(todas){
+    const cs = soloBernardini()
+      ? todas.filter(c => pelar(c.propiedad).startsWith("bernardini 2100")) : todas;
+    if(!cs.length){
+      document.getElementById("tabla").innerHTML =
+        `<tbody><tr><td style="color:var(--tinta-3)">Sin consultas${soloBernardini()?" de Bernardini 2100":""} en este periodo.</td></tr></tbody>`;
+      return;
+    }
+    document.getElementById("tabla").innerHTML =
+      `<thead><tr><th>Fecha</th><th>Quien</th><th>WhatsApp</th><th>Propiedad</th><th>Portal</th><th>Que pidio</th></tr></thead><tbody>
+       ${cs.map(c => `<tr>
+         <td class="num">${dia(new Date(c.fecha))}</td>
+         <td title="${esc(c.nombre||"")}">${esc(pila(c.nombre))}</td>
+         <td class="num">${c.tel?`<a class="enlace" href="https://wa.me/${esc(c.tel.replace(/[^\d]/g,""))}" target="_blank" rel="noopener">${esc(linea(c.tel))}</a>`:"—"}</td>
+         <td class="num" title="${esc(c.propiedad)}">${esc(corto(c.propiedad))}</td>
+         <td class="num"><span class="punto" style="background:${PORTALES[c.portal]||"var(--s3)"}"></span>${esc(NOMBRE[c.portal]||c.portal)}</td>
+         <td>${(p => `<span class="pildora" title="${esc(p[1])}">${esc(p[0])}</span>`)(pedido(c.tipo))}</td>
+       </tr>`).join("")}</tbody>`;
+  }
+
+  /* LA FICHA DE UNA PROPIEDAD SALE SIN UN SOLO DATO DE CONTACTO. Es la que ellos mandan o
+     imprimen: dice cuantas consultas hubo, por que portal y en que dias, y nada de quien pregunto. */
+  function bajarFicha(nombre, lista){
+    const {desde, hasta} = rango();
+    const porPortal = {};
+    lista.forEach(c => porPortal[c.portal] = (porPortal[c.portal]||0) + 1);
+    const porDia = {};
+    lista.forEach(c => { const d = dia(new Date(c.fecha)); porDia[d] = (porDia[d]||0)+1; });
+    const uno = lista[0] || {};
+    const html = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
+<title>${esc(nombre)} · ficha</title>
+<style>
+ body{margin:0;padding:48px;background:#fff;color:#1d1d1f;
+   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+   letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+ .hoja{max-width:720px;margin:0 auto}
+ .marca{font-size:13px;color:#8e8e93;letter-spacing:.12em;text-transform:uppercase}
+ h1{font-size:30px;font-weight:600;letter-spacing:-.03em;margin:6px 0 2px}
+ .periodo{color:#6e6e73;font-size:14px;margin-bottom:30px}
+ .cifras{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+ .c{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px 20px;min-width:150px}
+ .c b{display:block;font-size:32px;font-weight:600;letter-spacing:-.03em}
+ .c span{font-size:12.5px;color:#6e6e73}
+ h2{font-size:15px;font-weight:600;margin:26px 0 10px}
+ table{width:100%;border-collapse:collapse;font-size:14px}
+ td{padding:8px 0;border-bottom:1px solid rgba(0,0,0,.07)}
+ td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+ .pie{margin-top:34px;font-size:12px;color:#8e8e93;line-height:1.7}
+ @media print{body{padding:0}}
+</style></head><body><div class="hoja">
+ <div class="marca">flippin ARQ</div>
+ <h1>${esc(nombre)}</h1>
+ <div class="periodo">Del ${dia(desde)} al ${dia(hasta)} de ${hasta.getFullYear()}${uno.precio ? " · " + esc(uno.precio) : ""}</div>
+ <div class="cifras">
+   <div class="c"><b>${lista.length}</b><span>consultas recibidas</span></div>
+   <div class="c"><b>${Object.keys(porPortal).length}</b><span>portales con movimiento</span></div>
+   <div class="c"><b>${Object.keys(porDia).length}</b><span>dias con consultas</span></div>
+ </div>
+ <h2>Por portal</h2>
+ <table>${Object.entries(porPortal).sort((a,b)=>b[1]-a[1]).map(([p,n]) =>
+   `<tr><td>${esc(NOMBRE[p]||p)}</td><td>${n}</td></tr>`).join("")}</table>
+ <h2>Por dia</h2>
+ <table>${Object.entries(porDia).map(([d,n]) => `<tr><td>${d}</td><td>${n}</td></tr>`).join("")}</table>
+ <div class="pie">
+   Ficha sin datos de contacto, pensada para compartir.<br>
+   Publicaciones a cargo de MARIA LLONA · CPI 6681. Datos de Tokko Broker al ${esc(D.actualizado)}.
+ </div>
+</div></body></html>`;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([html], {type:"text/html;charset=utf-8"}));
+    a.download = "Ficha - " + nombre.replace(/[\\/:*?"<>|]/g,"") + ".html";
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  }
+
+  /* EL MISMO FILTRO DICE DOS COSAS DISTINTAS SEGUN LA SOLAPA, Y POR ESO CAMBIA DE NOMBRE. En
+     Metricas se mira lo que ya paso: un mes es el mes que pasó, dato cerrado. En Embudo entran
+     ademas las visitas que estan agendadas para adelante, asi que ese mismo mes va para los dos
+     lados y son dos meses de ventana. Pablo lo vio y lo dijo: con la palabra en singular, "Mes"
+     se lee como mes pasado y el numero de muestras no cierra con esa lectura. En plural, Semanas
+     y Meses, y con las dos fechas escritas al lado, se lee lo que es. El plural es chico a
+     proposito: cambia lo justo para que se note, sin que parezcan dos filtros distintos. */
+  const enElEmbudo = () => estado.seccion === "embudo";
+
+  function textoDelPeriodo(){
+    const {desde, hasta} = rango();
+    if(!enElEmbudo())
+      return estado.dias ? `Del ${dia(desde)} al ${dia(hasta)}`
+                         : `Todo: del ${dia(desde)} al ${dia(hasta)}`;
+    if(!estado.dias) return `Del ${dia(desde)} en adelante, con todo lo que ya esta agendado`;
+    const adelante = new Date(Date.now() + estado.dias*86400000);
+    return `Del ${dia(desde)} al ${dia(adelante)}: para atras lo que paso, para adelante lo agendado`;
+  }
+
+  function rotulosDelPeriodo(){
+    const nombres = enElEmbudo() ? ["Semanas", "Meses", "Todo"] : ["Semana", "Mes", "Todo"];
+    const ayudas = enElEmbudo()
+      ? ["Una semana para atras y una para adelante.",
+         "Un mes para atras y un mes para adelante.",
+         "Todo lo que hay para atras, y todo lo agendado para adelante."]
+      : ["Los ultimos siete dias.", "Los ultimos treinta dias.", "Todo lo que hay."];
+    document.querySelectorAll("#rangos button").forEach((b, i) => {
+      b.textContent = nombres[i];
+      b.title = ayudas[i];
+    });
+    document.getElementById("fechas").textContent = textoDelPeriodo();
+  }
+
+  function leyendas(cs){
+    const {desde, hasta} = rango();
+    document.getElementById("fechas").textContent = textoDelPeriodo();
+    document.getElementById("ventana").textContent =
+      `${cs.length} consulta${cs.length===1?"":"s"} en el periodo`;
+  }
+
+  function pintar(){
+    const cs = vigentes();
+    tarjetas(cs); embudo(cs); barrasPropiedad(cs); barrasPortal(cs); barrasDia(cs);
+    panelMeta(); panelAvisos(cs); tabla(cs); leyendas(cs); rotulosDelPeriodo();
+  }
+
+  document.getElementById("sello").textContent = "Actualizado " + D.actualizado;
+
+  document.querySelectorAll("#rangos button").forEach(b => b.onclick = () => {
+    estado.dias = +b.dataset.dias;
+    document.querySelectorAll("#rangos button").forEach(o => o.setAttribute("aria-pressed", o===b));
+    pintar();
+  });
+  document.getElementById("swBernardini").onchange = () => tabla(vigentes());
+
+  document.querySelectorAll("#secciones button").forEach(b => b.onclick = () => {
+    estado.seccion = b.dataset.seccion;
+    document.querySelectorAll("#secciones button").forEach(o => o.setAttribute("aria-pressed", o===b));
+    document.getElementById("zonaMetricas").hidden = estado.seccion !== "metricas";
+    document.getElementById("zonaEmbudo").hidden   = estado.seccion !== "embudo";
+    rotulosDelPeriodo();
+  });
+
+  document.querySelectorAll("#modoEmbudo button").forEach(b => b.onclick = () => {
+    estado.embudo = b.dataset.modo;
+    document.querySelectorAll("#modoEmbudo button").forEach(o => o.setAttribute("aria-pressed", o===b));
+    embudo(vigentes());
+  });
+
+  document.querySelectorAll("#cuandoVisitas button").forEach(b => b.onclick = () => {
+    estado.visitas = b.dataset.cuando;
+    document.querySelectorAll("#cuandoVisitas button").forEach(o => o.setAttribute("aria-pressed", o===b));
+    listaDeVisitas();
+  });
+
+  document.querySelectorAll("#fuentes button").forEach(b => b.onclick = () => {
+    estado.fuente = b.dataset.fuente;
+    document.querySelectorAll("#fuentes button").forEach(o => o.setAttribute("aria-pressed", o===b));
+    barrasPropiedad(vigentes());
+  });
+  /* CLARO Y PUNTO. Pablo decidio que ellos vean siempre el modo claro, sin switch y sin preguntar.
+     El modo oscuro sigue definido en el estilo y se abre con ?tema=oscuro, para mirarlo nosotros. */
+  if(new URLSearchParams(location.search).get("tema") === "oscuro")
+    document.documentElement.setAttribute("data-theme", "dark");
+  document.getElementById("btnPdf").onclick = () => window.print();
+
+  pintar();
+})();
+</script>
+</body>
+</html>
