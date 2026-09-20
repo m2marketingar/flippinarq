@@ -197,7 +197,7 @@ header.compacta{transform:translateY(-56px);}
                     <div class="relative h-full row-span-2 col-span-2 md:col-span-1 md:row-span-2 group overflow-hidden">
                         <img id="main-photo" src="fotos/grande/foto_01.jpg" alt="Vista principal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute top-2.5 left-2.5 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1.5 md:hidden backdrop-blur-xs">
-                            <i class="fa-regular fa-image"></i> 53 fotos
+                            <i class="fa-regular fa-image"></i> 51 fotos
                         </div>
                     </div>
                     <!-- Imagenes secundarias -->
@@ -472,7 +472,7 @@ header.compacta{transform:translateY(-56px);}
             </button>
 
             <div class="text-white text-sm mt-4 font-medium tracking-widest">
-                <span id="current-slide-num">1</span> / 53
+                <span id="current-slide-num">1</span> / 51
             </div>
             <!-- AVISO DE QUE SE PUEDE AMPLIAR. Va escrito porque el zoom no se ve: una foto que
                  se puede ampliar y una que no se ven exactamente iguales hasta que alguien lo
@@ -936,7 +936,7 @@ header.compacta{transform:translateY(-56px);}
         // Las 50 fotos viven en la carpeta de al lado, en un solo tamano: 1600 por 1067. El
         // mosaico y la galeria usan la misma foto. El tamano lo decide el telefono: tiene que
         // poder ampliarse con los dedos y mostrar detalle, y con 900 de ancho quedaba corto.
-        const TOTAL_FOTOS = 53;
+        const TOTAL_FOTOS = 51;
         const galleryImages = [];
         for (let i = 1; i <= TOTAL_FOTOS; i++) {
             galleryImages.push("fotos/grande/foto_" + String(i).padStart(2, "0") + ".jpg");
