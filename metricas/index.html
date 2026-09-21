@@ -79,7 +79,7 @@ button[disabled]{opacity:.55;cursor:default;transform:none}
        este con gente al lado la tapa de un toque. -->
   <label for="c">Contraseña</label>
   <div class="conOjo">
-    <input id="c" name="password" type="text" autocapitalize="none" autocorrect="off"
+    <input id="c" name="password" type="password" autocapitalize="none" autocorrect="off"
            spellcheck="false" autocomplete="current-password" required>
     <button class="ojo" id="ojo" type="button" aria-pressed="false"
             aria-label="Ocultar la contraseña">ocultar</button>
@@ -157,6 +157,11 @@ button[disabled]{opacity:.55;cursor:default;transform:none}
   }
 
   var ojo = document.getElementById("ojo");
+  /* NACE COMO CAMPO DE CLAVE Y RECIEN AHI SE DESTAPA. Parece un rodeo y no lo es: si el input
+     arranca como texto, el navegador no reconoce el formulario como uno de login y no ofrece
+     guardar la contrasena nunca mas. Se deja que la vea escrita, que es lo que Pablo pidio, pero
+     el navegador ya la fichó como clave. */
+  c.type = "text";
   ojo.addEventListener("click", function(){
     var tapada = c.type === "password";
     c.type = tapada ? "text" : "password";
