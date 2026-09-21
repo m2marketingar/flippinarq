@@ -660,13 +660,39 @@ header.compacta{transform:translateY(-56px);}
         const senalesVistas = [];
         let yaMandeSenalAMeta = false;
 
+        // ----------------------------------------------------------------------------------
+        // SENALES QUE SE MIDEN PERO NO SE LE MANDAN A META
+        //
+        // EL PROBLEMA. La operacion es por boleto y no admite credito hipotecario. El que
+        // necesita credito igual entra, lee todo con atencion y se queda un rato largo: es
+        // justamente el que mas lee, porque esta buscando si puede financiarla. Quedarse
+        // cuarenta y cinco segundos y desplegar la descripcion completa son, para el, gestos
+        // normales, y con eso disparaba IntencionReal. Meta entonces aprendia a traer mas gente
+        // igual a esa, que es exactamente la que no puede comprar, y por eso al subir el
+        // presupuesto volvian a caer consultas de credito.
+        //
+        // QUE SE HACE. Esas dos dejan de viajar al pixel. Las otras tres siguen: compartir,
+        // abrir el formulario y leer quien vende son gestos de alguien que quiere avanzar, no
+        // de alguien que averigua si le dan el credito.
+        //
+        // POR QUE SIGUEN YENDO A ANALYTICS. Pedido por Pablo el 21/09/2026. Analytics no compra
+        // pauta: mide. Dejarlas ahi deja el espejo de lo que ya no se le manda a Meta, y permite
+        // ver si sacarlas hizo caer el volumen de eventos y cuanto.
+        //
+        // OJO CON EL VOLUMEN. Sacar dos de cinco baja los eventos por semana, y el algoritmo
+        // necesita del orden de cincuenta para salir de la etapa de tanteo. Si el evento se
+        // vuelve demasiado raro, la salida NO es devolver estas dos: es aflojar el umbral de las
+        // que quedan, por ejemplo bajando los segundos de la senal de tiempo.
+        // ----------------------------------------------------------------------------------
+        const SOLO_SE_MIDEN = ['45segundos', 'descripcionCompleta'];
+
         function marcarSenal(cual) {
             if (senalesVistas.indexOf(cual) !== -1) return;   // cada senal se anota una vez
             senalesVistas.push(cual);
 
-            // A Meta le va UNA sola, la primera. Las siguientes quedan para la planilla.
-            const seLaLlevaMeta = !yaMandeSenalAMeta;
-            if (!yaMandeSenalAMeta) {
+            // A Meta le va UNA sola, la primera de las que si le sirven para optimizar.
+            const seLaLlevaMeta = !yaMandeSenalAMeta && SOLO_SE_MIDEN.indexOf(cual) === -1;
+            if (seLaLlevaMeta) {
                 yaMandeSenalAMeta = true;
                 if (window.fbq) {
                     fbq('trackCustom', 'IntencionReal',
