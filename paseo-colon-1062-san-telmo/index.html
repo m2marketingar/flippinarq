@@ -451,6 +451,35 @@ header.compacta{transform:translateY(-56px);}
                              boton de enviar, donde la persona ya decidio y lo unico que quiere saber
                              es que pasa despues. Verificado el 19/08/2026 sobre una ficha real de
                              Zonaprop: sus botones dicen Contactar y Enviar. -->
+                        <!-- EL PASO DEL TELEFONO. Es la maqueta que Pablo aprobo el 22/09/2026, que
+                             vive en telefono-vivo.html del proyecto 100266. El campo va ARRIBA del
+                             boton y adentro de la misma tarjeta: no hay pantalla nueva. Si el boton
+                             se aprieta con el campo vacio se abre la capa, y el cartel que explica
+                             para que hace falta el numero aparece recien ahi, que es donde la persona
+                             se lo pregunta. Es obligatorio: el que no deja el numero no consulta.
+                             Pierde alguna consulta real y Pablo lo eligio igual, porque sin el numero
+                             no se puede automatizar nada y de paso filtra al curioso. -->
+                        <label for="tel" class="block text-xs font-semibold text-gray-700 mb-1.5">Tu WhatsApp</label>
+                        <div class="flex gap-2 mb-1">
+                            <select id="pais1" aria-label="Codigo de pais" class="shrink-0 border border-gray-300 rounded-lg px-2 py-2.5 text-xs text-gray-900 bg-white">
+                                <option value="54911|8" selected>+54 9 11</option>
+                                <option value="549|8">+54 9 (resto)</option>
+                                <option value="598|6">+598 Uruguay</option>
+                                <option value="55|8">+55 Brasil</option>
+                                <option value="56|8">+56 Chile</option>
+                                <option value="595|6">+595 Paraguay</option>
+                                <option value="591|6">+591 Bolivia</option>
+                                <option value="51|8">+51 Peru</option>
+                                <option value="1|10">+1 EE.UU.</option>
+                                <option value="34|9">+34 Espana</option>
+                                <option value="0|6">Otro pais</option>
+                            </select>
+                            <input id="tel" name="telefono" type="tel" placeholder="5555 5555" inputmode="tel"
+                                   autocomplete="tel" enterkeyhint="go"
+                                   class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-900">
+                        </div>
+                        <p id="mal1" class="hidden text-[11px] text-red-600 mb-2">Fijate el numero: le faltan digitos.</p>
+                        <div class="h-2"></div>
                         <button type="button" onclick="irAWhatsapp()" class="abrir w-full bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3 rounded-lg transition duration-200 text-xs sm:text-sm tracking-wide shadow-2xs flex items-center justify-center gap-2">
                             <i class="fa-brands fa-whatsapp text-lg"></i> Coordiná la visita por WhatsApp
                         </button>
@@ -912,20 +941,41 @@ header.compacta{transform:translateY(-56px);}
         // VA DIRECTO Y SIN PREGUNTA PREVIA. Primero se prueba asi, que es lo mas corto que se
         // puede hacer. Si empieza a entrar gente que no mira nada, el freno es volver a poner
         // un solo toque antes, no un formulario.
+        // AHORA PIDE EL TELEFONO PRIMERO. Si el campo de la tarjeta esta vacio, o si se apreto
+        // desde la barra flotante del celular, que no tiene campo al lado, se abre la capa y ahi
+        // se pide el numero. Sin numero no sale a WhatsApp: lo decidio Pablo el 22/09/2026.
         function irAWhatsapp() {
+            const campo = document.getElementById('tel');
+            const sel = document.getElementById('pais1');
+            if (!campo || !sel) { salirAWhatsapp(''); return; }
+            const estado = validaTel(sel, campo);
+            if (estado === 'vacio') { abrirCapaTel(); return; }
+            if (!marcarTel(estado, campo, document.getElementById('mal1'))) return;
+            salirAWhatsapp(telEntero(sel, campo));
+        }
+
+        function salirAWhatsapp(numero) {
             marcarSenal('abrioFormulario');
             const codigo = armarCodigo();
 
+            // El aviso por mail sale antes de cambiar de pagina, por el mismo motivo que el
+            // pixel: si se hiciera despues, el navegador se va y el aviso se pierde.
+            if (numero) avisarPorMail(numero, codigo);
+
             // Primero se avisa, despues se sale. Si se hiciera al reves, el navegador cambia de
             // pagina y el evento se pierde en la mitad de los telefonos.
-            if (window.fbq) fbq('track', 'Lead',
-                { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, codigo: codigo });
-            if (window.clarity) {
-                clarity('set', 'lead', 'si');
-                clarity('set', 'codigo', codigo);
+            // EN MODO PRUEBA NO SE MIDE. Es lo que permite probar la vuelta entera sin ensuciar
+            // los numeros de Meta ni los de Analytics.
+            if (!ES_PRUEBA) {
+                if (window.fbq) fbq('track', 'Lead',
+                    { propiedad: PROPIEDAD, campana: CODIGO_CAMPANA, codigo: codigo });
+                if (window.clarity) {
+                    clarity('set', 'lead', 'si');
+                    clarity('set', 'codigo', codigo);
+                }
+                if (window.gtag) gtag('event', 'lead',
+                    { via: 'whatsapp', codigo: codigo, propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
             }
-            if (window.gtag) gtag('event', 'lead',
-                { via: 'whatsapp', codigo: codigo, propiedad: PROPIEDAD, campana: CODIGO_CAMPANA });
 
             // El codigo ya no va en el texto: viaja al pixel y a Clarity en las lineas de arriba,
             // asi que repetirlo en el WhatsApp solo le ensuciaba el mensaje a quien escribe.
@@ -1385,5 +1435,196 @@ header.compacta{transform:translateY(-56px);}
             }
         });
     </script>
+
+<!-- LA CAPA DEL TELEFONO. Se abre sola cuando el boton verde se aprieta sin el numero puesto, y
+     tambien cuando se aprieta desde la barra flotante del celular, que no tiene campo al lado.
+     Tapa todo para que adentro no haya nada mas que decidir, que es el mismo criterio con el que
+     antes se abria el formulario. -->
+<div id="capa-tel" class="fixed inset-0 z-[80] bg-slate-900/75 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center relative shadow-2xl">
+    <button type="button" id="cerrar-tel" aria-label="Cerrar" class="absolute top-3 right-4 text-2xl leading-none text-gray-400">&times;</button>
+    <div class="w-14 h-14 rounded-full bg-green-100 text-[#1da851] flex items-center justify-center text-2xl mx-auto mb-3">
+      <i class="fa-brands fa-whatsapp"></i>
+    </div>
+    <h2 class="text-lg font-bold text-gray-900 mb-4">Tu WhatsApp</h2>
+    <div class="text-left">
+      <label for="tel2" class="block text-xs font-semibold text-gray-700 mb-1.5">Numero</label>
+      <div class="flex gap-2 mb-1">
+        <select id="pais2" aria-label="Codigo de pais" class="shrink-0 border border-gray-300 rounded-lg px-2 py-2.5 text-xs text-gray-900 bg-white">
+          <option value="54911|8" selected>+54 9 11</option>
+          <option value="549|8">+54 9 (resto)</option>
+          <option value="598|6">+598 Uruguay</option>
+          <option value="55|8">+55 Brasil</option>
+          <option value="56|8">+56 Chile</option>
+          <option value="595|6">+595 Paraguay</option>
+          <option value="591|6">+591 Bolivia</option>
+          <option value="51|8">+51 Peru</option>
+          <option value="1|10">+1 EE.UU.</option>
+          <option value="34|9">+34 Espana</option>
+          <option value="0|6">Otro pais</option>
+        </select>
+        <input id="tel2" name="telefono" type="tel" placeholder="5555 5555" inputmode="tel"
+               autocomplete="tel" enterkeyhint="go"
+               class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-900">
+      </div>
+      <p id="mal2" class="hidden text-[11px] text-red-600 mb-2">Fijate el numero: le faltan digitos.</p>
+      <!-- EL CARTEL NO ESTA DE ENTRADA, A PROPOSITO. Aparece recien cuando se aprieta el boton sin
+           el numero: ahi es donde la persona pregunta por que hace falta, y ahi se le contesta.
+           Puesto antes, es un parrafo que nadie leyo y que ya pide algo. -->
+      <p id="aviso-tel" class="hidden text-[11px] text-gray-600 bg-green-50 border border-green-200 rounded-lg px-3 py-2 mb-3">Con tu numero te escribimos nosotros si no llega tu mensaje.</p>
+    </div>
+    <button type="button" id="mandar-tel" class="w-full bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3 rounded-lg transition text-sm flex items-center justify-center gap-2">
+      <i class="fa-brands fa-whatsapp text-lg"></i> Seguir por WhatsApp
+    </button>
+    <p class="text-[10px] text-gray-400 mt-2">Lo usamos solo para esta consulta.</p>
+  </div>
+</div>
+
+<script>
+    // ------------------------------------------------------------------------------------
+    // EL PASO DEL TELEFONO
+    //
+    // Es la maqueta aprobada por Pablo el 22/09/2026, que vive en telefono-vivo.html del
+    // proyecto 100266. Aca no se redisena nada: se copia el comportamiento.
+    //
+    // LA VERIFICACION QUE SE PUEDE HACER SIN MANDAR UN CODIGO. Se mira que llegue al minimo de
+    // digitos del pais elegido, que no sea el mismo digito repetido y que no sea una escalera
+    // tipo 12345678. Saber si la linea existe de verdad exige un codigo por SMS o por WhatsApp,
+    // y eso es otra decision que Pablo todavia no tomo.
+    //
+    // ES UN MINIMO Y NO UN LARGO EXACTO, decidido por Pablo el 22/09/2026: si el autocompletado
+    // mete un digito de mas no es grave, y trabar la consulta por eso si.
+    // ------------------------------------------------------------------------------------
+    const capaTel = document.getElementById('capa-tel');
+    const tel1 = document.getElementById('tel');
+    const tel2 = document.getElementById('tel2');
+    const paisUno = document.getElementById('pais1');
+    const paisDos = document.getElementById('pais2');
+    const cartel1 = document.getElementById('mal1');
+    const cartel2 = document.getElementById('mal2');
+    const avisoTel = document.getElementById('aviso-tel');
+
+    function soloDigitos(v) { return (v || '').replace(/[^0-9]/g, ''); }
+
+    function validaTel(sel, inp) {
+        const n = soloDigitos(inp.value);
+        const largo = Number(sel.value.split('|')[1]);
+        if (!n) return 'vacio';
+        if (/^(\d)\1+$/.test(n)) return 'falso';
+        if ('0123456789'.includes(n) || '9876543210'.includes(n)) return 'falso';
+        return (n.length >= largo && n.length <= 15) ? 'ok' : 'corto';
+    }
+
+    function telEntero(sel, inp) {
+        const cod = sel.value.split('|')[0];
+        return '+' + (cod === '0' ? '' : cod) + soloDigitos(inp.value);
+    }
+
+    function marcarTel(estado, inp, cartel) {
+        const mal = (estado === 'corto' || estado === 'falso');
+        inp.classList.toggle('border-red-500', mal);
+        cartel.classList.toggle('hidden', !mal);
+        cartel.textContent = (estado === 'falso')
+            ? 'Ese numero no parece real.'
+            : 'Fijate el numero: le faltan digitos.';
+        return !mal;
+    }
+
+    function abrirCapaTel() {
+        capaTel.classList.remove('hidden');
+        capaTel.classList.add('flex');
+        setTimeout(function () { tel2.focus(); }, 120);
+    }
+
+    function cerrarCapaTel() {
+        capaTel.classList.add('hidden');
+        capaTel.classList.remove('flex');
+        avisoTel.classList.add('hidden');
+        cartel2.classList.add('hidden');
+        tel2.classList.remove('border-red-500');
+    }
+
+    // ------------------------------------------------------------------------------------
+    // POR DONDE SE VA EL NUMERO: UN MAIL Y NADA MAS
+    //
+    // Pablo lo decidio el 22/09/2026, despues de descartar cuatro caminos: un Apps Script con
+    // planilla, el Motor Central de GuardPerf, un Worker de Cloudflare y una planilla de Google.
+    // El mail gana porque no hay nada que mantener y porque el tablero ya sabe leer mails: asi
+    // lee los de Tokko.
+    //
+    // MIENTRAS AVISO_MAIL_URL este vacio, la pagina funciona igual y no avisa a nadie. No se
+    // frena la consulta por eso: el que aprieta el boton sale a WhatsApp siempre.
+    //
+    // MODO PRUEBA. Con prueba igual a uno en la direccion, el mail va rotulado como prueba y no
+    // se disparan ni el pixel ni Analytics. Es lo que permite probar la vuelta entera sin
+    // ensuciar ni los numeros de Meta ni los del tablero.
+    // ------------------------------------------------------------------------------------
+    const AVISO_MAIL_URL = "https://script.google.com/macros/s/AKfycbx7ydgwi1j8ceBGmkwGp2pfkoJWiV6VirKub9UsQxjh8nPS2NSZ4QH3K-KGLa5KOknj/exec";
+    const ES_PRUEBA = /[?&]prueba=1/i.test(window.location.search);
+
+    function avisarPorMail(numero, codigo) {
+        if (!AVISO_MAIL_URL || !AVISO_MAIL_URL.startsWith('http')) return;
+        try {
+            fetch(AVISO_MAIL_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    telefono: numero,
+                    propiedad: PROPIEDAD,
+                    campana: CODIGO_CAMPANA,
+                    codigo: codigo,
+                    senales: senalesVistas.join(', '),
+                    prueba: ES_PRUEBA ? 'si' : 'no',
+                    landing: window.location.origin + window.location.pathname
+                })
+            });
+        } catch (e) { /* si el aviso falla, la consulta sale igual */ }
+    }
+
+    document.getElementById('mandar-tel').addEventListener('click', function () {
+        const estado = validaTel(paisDos, tel2);
+        if (estado === 'vacio') {
+            avisoTel.classList.remove('hidden');
+            tel2.focus();
+            return;
+        }
+        if (!marcarTel(estado, tel2, cartel2)) return;
+        const numero = telEntero(paisDos, tel2);
+        if (tel1) { tel1.value = soloDigitos(tel2.value); paisUno.value = paisDos.value; }
+        cerrarCapaTel();
+        salirAWhatsapp(numero);
+    });
+
+    [[tel1, cartel1], [tel2, cartel2]].forEach(function (par) {
+        const inp = par[0], cartel = par[1];
+        if (!inp) return;
+        // SOLO NUMEROS. La letra no se marca como error: no entra. Un cartel por cada letra
+        // tipeada seria un reto constante; que la tecla no haga nada se entiende solo.
+        inp.addEventListener('input', function () {
+            const limpio = inp.value.replace(/[^0-9 ]/g, '');
+            if (inp.value !== limpio) {
+                const donde = inp.selectionStart - (inp.value.length - limpio.length);
+                inp.value = limpio;
+                inp.setSelectionRange(donde, donde);
+            }
+            inp.classList.remove('border-red-500');
+            cartel.classList.add('hidden');
+            if (inp === tel2 && soloDigitos(inp.value)) {
+                avisoTel.classList.add('hidden');
+            }
+        });
+        inp.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            if (inp === tel1) { irAWhatsapp(); } else { document.getElementById('mandar-tel').click(); }
+        });
+    });
+
+    document.getElementById('cerrar-tel').addEventListener('click', cerrarCapaTel);
+    capaTel.addEventListener('click', function (e) { if (e.target === capaTel) cerrarCapaTel(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarCapaTel(); });
+</script>
+
 </body>
 </html>
