@@ -1562,6 +1562,13 @@ header.compacta{transform:translateY(-56px);}
     const AVISO_MAIL_URL = "https://script.google.com/macros/s/AKfycbx7ydgwi1j8ceBGmkwGp2pfkoJWiV6VirKub9UsQxjh8nPS2NSZ4QH3K-KGLa5KOknj/exec";
     const ES_PRUEBA = /[?&]prueba=1/i.test(window.location.search);
 
+    // EL MAIL DICE LA PROPIEDAD ENTERA Y LAS METRICAS SIGUEN CON EL NOMBRE CORTO. Dos nombres a
+    // proposito: Pablo pidio el 22/09/2026 que el mail se lea sin abrir nada, con la avenida y la
+    // unidad funcional, que es ademas como el backend nombra la carpeta. El nombre corto no se
+    // toca porque es la etiqueta con la que Meta y Analytics vienen midiendo desde el 16/09/2026,
+    // y cambiarla ahi cortaria la serie al medio.
+    const PROPIEDAD_ENTERA = "Avenida Paseo Colon 1062, UF 1101";
+
     function avisarPorMail(numero, codigo) {
         if (!AVISO_MAIL_URL || !AVISO_MAIL_URL.startsWith('http')) return;
         try {
@@ -1571,7 +1578,7 @@ header.compacta{transform:translateY(-56px);}
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify({
                     telefono: numero,
-                    propiedad: PROPIEDAD,
+                    propiedad: PROPIEDAD_ENTERA,
                     campana: CODIGO_CAMPANA,
                     codigo: codigo,
                     senales: senalesVistas.join(', '),
