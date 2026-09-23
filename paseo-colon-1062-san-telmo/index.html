@@ -1569,6 +1569,13 @@ header.compacta{transform:translateY(-56px);}
     // y cambiarla ahi cortaria la serie al medio.
     const PROPIEDAD_ENTERA = "Avenida Paseo Colon 1062, UF 1101";
 
+    // EL ATADO CON EL BACKEND. La inmobiliaria y el ID de la unidad viajan en cada consulta porque
+    // son lo unico que no cambia: el nombre de la carpeta se mueve y se renombra, el ID no. El
+    // backend lee el mail, busca este ID en su padron y sabe de que propiedad es sin adivinar por
+    // palabras. El ID sale del ID.txt de la carpeta Dto 1101 y se copia aca, nunca se inventa.
+    const INMOBILIARIA = "flipping";
+    const ID_DE_LA_PROPIEDAD = "FLI-04-02";
+
     function avisarPorMail(numero, codigo) {
         if (!AVISO_MAIL_URL || !AVISO_MAIL_URL.startsWith('http')) return;
         try {
@@ -1579,6 +1586,8 @@ header.compacta{transform:translateY(-56px);}
                 body: JSON.stringify({
                     telefono: numero,
                     propiedad: PROPIEDAD_ENTERA,
+                    inmobiliaria: INMOBILIARIA,
+                    id: ID_DE_LA_PROPIEDAD,
                     campana: CODIGO_CAMPANA,
                     codigo: codigo,
                     senales: senalesVistas.join(', '),
