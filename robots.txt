@@ -8,82 +8,109 @@
 # respetar entra igual. La puerta es la clave, y esa si esta puesta.
 #
 # Las paginas de las propiedades no se tocan: esas se publican para que las encuentren.
+#
+# El basurero guarda lo que se retiro del tablero, y se cierra igual que el tablero. Lo aprobo
+# Pablo el 28/09/2026, cuando se retiro /metricas/preview.
 
 User-agent: *
 Disallow: /metricas/
+Disallow: /basurero/
 
 # --------------------------------------------------------------------------------------------
 # LOS RASTREADORES DE INTELIGENCIA ARTIFICIAL. Lo pidio Pablo el 19/09/2026: que el tablero no
 # aparezca tampoco en las respuestas de una IA ni termine adentro de un modelo. Se los nombra uno
 # por uno porque el comodin de arriba no siempre les alcanza: varios solo obedecen a su propio
-# nombre. Se les cierra la carpeta del tablero y nada mas: las landings de las propiedades siguen
-# abiertas, porque ahi aparecer en una respuesta de IA le sirve a Flippin.
+# nombre. Se les cierra la carpeta del tablero y el basurero, y nada mas: las landings de las
+# propiedades siguen abiertas, porque ahi aparecer en una respuesta de IA le sirve a Flippin.
 
 User-agent: GPTBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: OAI-SearchBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: ChatGPT-User
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: ClaudeBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Claude-Web
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: anthropic-ai
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: PerplexityBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Perplexity-User
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Google-Extended
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Applebot-Extended
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Meta-ExternalAgent
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Meta-ExternalFetcher
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: FacebookBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Amazonbot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Bytespider
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: CCBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: cohere-ai
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Diffbot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: ImagesiftBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Omgilibot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Timpibot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: YouBot
 Disallow: /metricas/
+Disallow: /basurero/
 
 User-agent: Scrapy
 Disallow: /metricas/
+Disallow: /basurero/
