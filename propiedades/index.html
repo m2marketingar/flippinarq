@@ -1,50 +1,70 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Flipping × Jonas San Román — Propiedades</title>
+<title>Flippin Arq · Todas nuestras propiedades</title>
 <style>
-:root{--ink:#14161a;--mute:#6b7078;--gold:#c8a15a;--bg:#f6f4ef;--card:#fff}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(135deg,#14161a,#2a2e36);color:#fff;padding:22px 16px 20px;text-align:center}
-header small{letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-size:12px}
-header h1{margin:10px 0 6px;font-size:clamp(18px,3.5vw,26px);font-weight:700}
-header h1 span{color:var(--gold)}header p{margin:0;color:#c9ccd2}
-.duo{display:flex;justify-content:center;gap:12px;margin-top:18px;flex-wrap:wrap}
-.duo div{border:1px solid #444a55;border-radius:30px;padding:8px 16px;font-size:14px}
-.duo b{color:var(--gold)}
+/* La estetica es la de metricas, una app de Mac: superficies limpias, hairlines, tipografia del
+   sistema y pesos livianos. La marca la pone el logo de Flipping. */
+:root{--tinta:#1d1d1f;--mute:#6e6e73;--acento:#181737;--plano:#f5f5f7;--card:#fff;--linea:rgba(0,0,0,.08);--sombra:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.05)}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;background:var(--plano);color:var(--tinta);-webkit-font-smoothing:antialiased}
+header{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--linea);padding:34px 16px 28px;text-align:center}
+header img{height:56px;width:auto;border-radius:12px;display:block;margin:0 auto 14px}
+header small{letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-size:11px;font-weight:600}
+header h1{margin:10px 0 6px;font-size:clamp(24px,4.5vw,36px);font-weight:600;letter-spacing:-.025em}
+header h1 small{display:block;margin-top:6px;font-size:15px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--mute)}
+header h1 small b{color:var(--tinta);font-weight:600}
+header p{margin:8px 0 0;color:var(--mute);font-size:15px}
+.duo{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+.duo div{background:#fff;border:1px solid var(--linea);border-radius:980px;padding:8px 16px;font-size:13px;color:var(--mute)}
+.duo b{color:var(--tinta);font-weight:600}
 main{max-width:1100px;margin:auto;padding:24px 16px 100px}
-h2{font-size:20px;margin:28px 0 12px}h2 em{font-style:normal;background:var(--gold);color:#fff;border-radius:6px;padding:2px 8px;font-size:12px;margin-left:8px;vertical-align:middle}
-.filtros{display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:12px;border-radius:12px;box-shadow:0 1px 4px #0001}
-.filtros select,.filtros input{padding:9px 10px;border:1px solid #ddd;border-radius:8px;font-size:14px;flex:1;min-width:130px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.card{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px #0000000f;display:flex;flex-direction:column}
-.card.dest{outline:2px solid var(--gold)}
-.foto{height:170px;background:#ccc center/cover;position:relative}
-.foto i{position:absolute;top:10px;left:10px;background:var(--gold);color:#fff;font-style:normal;font-size:11px;padding:3px 8px;border-radius:20px}
-.body{padding:14px;flex:1;display:flex;flex-direction:column;gap:6px}
-.precio{font-weight:700;font-size:18px}.meta{color:var(--mute);font-size:13px}
-.fechas{font-size:12px;background:#f3eee3;border-radius:8px;padding:6px 8px}
-.acc{display:flex;gap:8px;margin-top:auto;padding-top:8px}
-.acc a,.acc button{flex:1;text-align:center;border:0;border-radius:8px;padding:9px;font-size:13px;cursor:pointer;text-decoration:none}
-.wa{background:#25d366;color:#fff}.sh{background:#eee;color:var(--ink)}
-.flot{position:fixed;right:18px;bottom:18px;background:#25d366;color:#fff;border-radius:40px;padding:14px 20px;text-decoration:none;font-weight:600;box-shadow:0 4px 14px #0003}
-.zp{display:inline-flex;gap:6px;align-items:center;align-self:flex-start;font-size:13px;color:#1a7f37;background:#e7f6ec;border-radius:20px;padding:5px 11px;text-decoration:none;font-weight:800}.zp b{background:#1a7f37;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-grid;place-items:center;font-size:12px}
-.ov{position:fixed;inset:0;background:#000a;display:none;align-items:flex-end;justify-content:center;z-index:9}.ov.on{display:flex}
-.hoja{background:#fff;width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:20px;max-height:90vh;overflow:auto}
-@media(min-width:600px){.ov{align-items:center}.hoja{border-radius:18px}}
-.hoja h3{margin:0 0 4px}.hoja label{display:block;font-size:13px;margin:12px 0 4px;color:var(--mute)}
-.hoja select,.hoja input{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:15px}
-.chips{display:flex;gap:6px;flex-wrap:wrap}.chips button{border:1px solid #ddd;background:#fff;border-radius:20px;padding:7px 12px;cursor:pointer}.chips button.on{background:var(--ink);color:#fff}
-.hoja .go{display:block;width:100%;margin-top:16px;background:#25d366;color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:600;cursor:pointer}
-.hoja .vol{display:block;width:100%;margin-top:8px;background:none;border:0;color:var(--mute);padding:10px;cursor:pointer;font-size:14px}
-footer{text-align:center;color:var(--mute);font-size:13px;padding:20px}
+h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:36px 0 14px}h2 em{font-style:normal;background:var(--acento);color:#fff;border-radius:980px;padding:3px 10px;font-size:11px;font-weight:600;letter-spacing:.06em;margin-left:10px;vertical-align:middle}
+.filtros{margin-top:36px;display:flex;gap:8px;flex-wrap:wrap;background:#fff;padding:10px;border-radius:16px;border:1px solid var(--linea);box-shadow:var(--sombra)}
+.filtros select,.filtros input{padding:10px 12px;border:1px solid var(--linea);background:var(--plano);border-radius:10px;font-size:14px;flex:1;min-width:130px;color:var(--tinta);font-family:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--linea);box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.05),0 16px 40px rgba(0,0,0,.08)}
+.foto{height:190px;background:#e5e5ea center/cover;position:relative}
+.foto i{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);color:var(--tinta);font-style:normal;font-size:11px;font-weight:600;padding:4px 10px;border-radius:980px}
+.body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;gap:6px}
+.precio{font-weight:600;font-size:21px;letter-spacing:-.02em}.meta{color:var(--mute);font-size:13px}
+.fechas{font-size:12px;color:var(--mute);background:var(--plano);border-radius:10px;padding:7px 10px}
+.acc{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:10px}
+.acc a,.acc button{flex:1;text-align:center;border:0;border-radius:980px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;font-family:inherit}
+.wa{background:var(--acento);color:#fff}.sh{background:var(--plano);color:var(--tinta)}
+.ficha{display:inline-block;color:#0066cc;font-size:14px;font-weight:500;text-decoration:none}.ficha:hover{text-decoration:underline}
+.flot{position:fixed;right:18px;bottom:18px;background:var(--acento);color:#fff;border-radius:980px;padding:14px 22px;text-decoration:none;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.zp{display:inline-flex;gap:6px;align-items:center;align-self:flex-start;font-size:12px;color:#1a7f37;background:#eaf6ee;border-radius:980px;padding:4px 10px;text-decoration:none;font-weight:600}.zp b{background:#1a7f37;color:#fff;border-radius:50%;width:16px;height:16px;display:inline-grid;place-items:center;font-size:10px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center;z-index:9}.ov.on{display:flex}
+.hoja{background:#fff;width:100%;max-width:480px;border-radius:22px 22px 0 0;padding:24px;max-height:90vh;overflow:auto}
+@media(min-width:600px){.ov{align-items:center}.hoja{border-radius:22px}}
+.hoja h3{margin:0 0 4px;font-weight:600;letter-spacing:-.02em;font-size:20px}.hoja label{display:block;font-size:13px;margin:14px 0 6px;color:var(--mute)}
+.hoja select,.hoja input{width:100%;padding:11px;border:1px solid var(--linea);background:var(--plano);border-radius:10px;font-size:15px;font-family:inherit}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chips button{border:1px solid var(--linea);background:#fff;border-radius:980px;padding:7px 13px;cursor:pointer;font-family:inherit}.chips button.on{background:var(--tinta);color:#fff}
+.hoja .go{display:block;width:100%;margin-top:18px;background:var(--acento);color:#fff;border:0;border-radius:980px;padding:14px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
+.hoja .vol{display:block;width:100%;margin-top:8px;background:none;border:0;color:#0066cc;padding:10px;cursor:pointer;font-size:14px;font-family:inherit}
+footer{text-align:center;color:var(--mute);font-size:12px;padding:24px}
+.marca{display:flex;align-items:center;justify-content:center;gap:14px;text-align:left}
+header img.logo{height:52px;margin:0;border-radius:12px}
+.marca b{display:block;font-size:clamp(22px,4vw,30px);font-weight:600;letter-spacing:-.025em}
+.marca span{display:block;color:var(--mute);font-size:15px}
+header p.com{margin:16px 0 0;font-size:13px}header p.com b{color:var(--tinta);font-weight:600}
+footer p{max-width:760px;margin:6px auto}footer p.legal{font-size:11px;line-height:1.5;text-align:left;color:var(--mute)}
+/* Las demas se ven a medias: quien llega de Meta ve primero lo promocionado y despliega el resto. */
+.plegada{position:relative;max-height:100px;overflow:hidden}
+.plegada::after{content:"";position:absolute;left:0;right:0;bottom:0;height:100px;background:linear-gradient(rgba(245,245,247,0),var(--plano) 95%);pointer-events:none}
+.abrir{display:block;margin:14px auto 0;background:var(--acento);color:#fff;border:0;border-radius:980px;padding:13px 24px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.plegada.abierta{max-height:none;overflow:visible}.plegada.abierta::after{display:none}
+.hoja .muestra{margin:16px 0 4px;font-size:15px}
+.dias{display:flex;flex-direction:column;gap:8px;margin-top:10px}.dias .go{margin-top:0}
+.dias .otro{background:var(--plano);color:var(--tinta);border:0;border-radius:980px;padding:14px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit}
 </style></head><body>
 <header>
-<small>Todas nuestras propiedades publicadas</small>
-<h1><span>Flipping</span> promociona<br><small style="font-size:.7em;letter-spacing:0;text-transform:none;color:#fff">comercializa <b style="color:var(--gold)">Jonas San Román</b></small></h1>
-<p>Hola, ¿cómo andás? Acá podés ver todas nuestras propiedades.</p>
-<div class="duo"><div>Coordiná tu visita con <b>Pablo Reina</b>, agente inmobiliario</div><div style="cursor:pointer" onclick="compartir()">↗ Compartir esta página</div></div>
+<div class="marca"><img class="logo" alt="Flipping" src="data:image/jpeg;base64,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"><div><b>Flippin Arq</b><span>Todas nuestras propiedades</span></div></div>
+<p class="com">Comercializa <b>LSR Llona San Román</b> · CPI 6681 · CMZC 502</p>
 </header>
 <main>
+<h2>Actualmente en Meta</h2>
+<div class="grid" id="dest"></div>
 <div class="filtros">
 <select id="fTipo"><option value="">Todas las tipologías</option></select>
 <select id="fOp"><option value="">Venta y alquiler</option><option>Venta</option></select>
@@ -52,61 +72,52 @@ footer{text-align:center;color:var(--mute);font-size:13px;padding:20px}
 <select id="fZona"><option value="">Todas las zonas</option></select>
 <input id="fMax" type="number" placeholder="Precio máx. USD">
 </div>
-<h2>Promocionadas actualmente<em>EN META</em></h2>
-<div class="grid" id="dest"></div>
 <h2>Todas las demás</h2>
-<div class="grid" id="resto"></div>
+<div class="plegada" id="pliegue"><div class="grid" id="resto"></div></div>
+<button class="abrir" id="abrirDemas" onclick="$('pliegue').classList.add('abierta');this.remove()">Ver las demás propiedades</button>
 </main>
 <a class="flot" href="#" onclick="abrir(0);return false">📅 Coordinar visita</a>
 <div class="ov" id="ov" onclick="if(event.target==this)cerrar()"><div class="hoja">
-<h3>Coordinar visita</h3><div class="meta">Con Pablo Reina, agente inmobiliario</div>
-<label>Propiedad</label><select id="vProp"></select>
-<label>¿Qué día te queda mejor?</label><div class="chips" id="vDia"></div>
-<label>¿En qué horario?</label><div class="chips" id="vHora"><button>Mañana</button><button>Mediodía</button><button>Tarde</button></div>
-<label>Tu nombre</label><input id="vNom" placeholder="Opcional">
-<button class="go" onclick="enviar()">Enviar por WhatsApp</button>
+<h3 id="vTit">Coordinar visita</h3>
+<select id="vProp" hidden></select>
+<p class="muestra">Se está mostrando el <b>miércoles</b> y el <b>sábado</b>.</p>
+<div class="dias"><button class="go" onclick="enviar('el miércoles')">Miércoles</button><button class="go" onclick="enviar('el sábado')">Sábado</button><button class="otro" onclick="enviar('')">Puedo otro día</button></div>
 <button class="vol" onclick="cerrar()">← Volver a todas las propiedades</button>
 </div></div>
-<footer>Flipping × Jonas San Román · Pablo Reina, agente inmobiliario</footer>
+<footer><p class="legal">Se deja constancia de que algunas de las imágenes y/o fotografías publicadas pueden haber sido editadas digitalmente, mejoradas mediante inteligencia artificial o contar con amoblamiento virtual (virtual staging) con fines netamente ilustrativos, descriptivos y de referencia visual, no constituyendo una representación contractual exacta del estado actual de la propiedad. Las medidas y superficies consignadas en la presente son aproximadas y no resultan vinculantes. Los datos definitivos son los que surgen del título de propiedad. Los montos especificados de expensas, servicios, tasas e impuestos responden a una declaración del propietario el día que fue visitada la propiedad por nuestro personal. Favor requerir verificación del monto actualizado antes de concretar la operación.</p>
+<p>Corredor Público Matriculado Responsable: LSR Llona San Román · CPI 6681 · CMZC 502</p>
+<p>Flippin Arq</p></footer>
 <script>
-// Espejo del tablero de Flipping (fichas) + campañas activas de Meta, leído el 27/09/2026.
+// La arma el backend, programa 10586, con los frontends.py: el enlace, el precio y el estado de cada
+// propiedad salen del backend, y la pauta de las campañas activas de Meta. No se edita en la web.
 const WA="5491135678024";
-const P=[
-{id:1,zp:"https://www.zonaprop.com.ar/propiedades/p-59905896.html",t:"Monoambiente",op:"Venta",zona:"San Telmo",dir:"Paseo Colón 1062, piso 11",amb:1,m2:28,usd:69900,meta:true,f:["En Meta desde el 17/09/2026"],img:"fotos/2072518672.jpg",url:"https://flippin.m2marketing.app/paseo-colon-1062-san-telmo/",tt:"Monoambiente a estrenar amueblado, full amenities, a 150 m de Puerto Madero"},
-{id:2,zp:"https://www.zonaprop.com.ar/propiedades/p-60128536.html",t:"Departamento",op:"Venta",zona:"Villa Crespo",dir:"Julián Álvarez 469, piso 11",amb:3,m2:62,usd:179000,meta:false,f:["Visitas a coordinar"],img:"fotos/2077876325.jpg",tt:"3 ambientes con balcón, parrilla propia y amenities"},
-{id:3,zp:"https://www.zonaprop.com.ar/propiedades/p-60119798.html",t:"Monoambiente",op:"Venta",zona:"Villa Crespo",dir:"Julián Álvarez 469, piso 3",amb:1,m2:37,usd:80000,meta:false,f:["Visitas a coordinar"],img:"fotos/2077795871.jpg",tt:"Mono divisible contrafrente, tranquilo, balcón y amenities"},
-{id:4,zp:"https://www.zonaprop.com.ar/propiedades/p-60175237.html",t:"Monoambiente",op:"Venta",zona:"Villa Crespo",dir:"Julián Álvarez 469, piso 7",amb:1,m2:24,usd:70000,meta:false,f:["Visitas a coordinar"],img:"fotos/2079035195.jpg",tt:"Monoambiente piso alto contrafrente, balcón y amenities"},
-{id:5,zp:"https://www.zonaprop.com.ar/propiedades/p-59909031.html",t:"Departamento",op:"Venta",zona:"Parque Patricios",dir:"Achala 3547, piso 5 A",amb:3,m2:74,usd:120000,meta:false,f:["Visitas a coordinar"],img:"fotos/2072598467.jpg",tt:"3 ambientes, 2 baños, torre full amenities"},
-{id:6,zp:"https://www.zonaprop.com.ar/propiedades/p-60125966.html",t:"Departamento",op:"Venta",zona:"Parque Patricios",dir:"Achala 3547, piso 5 (financiado)",amb:3,m2:74,usd:70000,meta:false,f:["Visitas a coordinar"],img:"fotos/2077813089.jpg",tt:"3 ambientes apto profesional, financiado"},
-{id:7,zp:"https://www.zonaprop.com.ar/propiedades/p-60164940.html",t:"Terreno",op:"Venta",zona:"Villa Maipú",dir:"Bernardini 2100",amb:0,m2:4300,usd:1200000,meta:false,f:["Visitas a coordinar"],img:"fotos/2078780619.jpg",tt:"Oportunidad constructiva, 9.600 m² vendibles"}];
+const P=[{"id": 1, "cod": "FLI-04-02", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-monoambiente-a-estrenar-amueblado-full-amenities-a-150-60198641.html", "t": "Monoambiente", "op": "Venta", "zona": "San Telmo", "dir": "Paseo Colón 1062, piso 11", "amb": 1, "m2": 28, "usd": 69900, "meta": true, "f": ["En Meta desde el 17/09/2026"], "img": "fotos/2072518672.jpg", "tt": "Monoambiente a estrenar amueblado, full amenities, a 150 m de Puerto Madero", "url": "https://flippin.m2marketing.app/paseo-colon-1062-san-telmo-uf-1101/"}, {"id": 2, "cod": "FLI-03-01", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-dto-3-amb-p11-con-balcon-parrilla-propia-y-amenities-60239423.html", "t": "Departamento", "op": "Venta", "zona": "Villa Crespo", "dir": "Julián Álvarez 469, piso 11", "amb": 3, "m2": 62, "usd": 179000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2077876325.jpg", "tt": "3 ambientes con balcón, parrilla propia y amenities", "url": "https://flippin.m2marketing.app/julian-alvarez-469-villa-crespo-uf-1102/"}, {"id": 3, "cod": "FLI-03-02", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-mono-divisible-contrafrente-tranquilo-balcon-amenities-60198651.html", "t": "Monoambiente", "op": "Venta", "zona": "Villa Crespo", "dir": "Julián Álvarez 469, piso 3", "amb": 1, "m2": 37, "usd": 80000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2077795871.jpg", "tt": "Mono divisible contrafrente, tranquilo, balcón y amenities", "url": "https://flippin.m2marketing.app/julian-alvarez-469-villa-crespo-uf-304/"}, {"id": 4, "cod": "FLI-03-03", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-monoambiente-piso-alto-contrafrente-balcon-amenities-v-60198652.html", "t": "Monoambiente", "op": "Venta", "zona": "Villa Crespo", "dir": "Julián Álvarez 469, piso 7", "amb": 1, "m2": 24, "usd": 70000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2079035195.jpg", "tt": "Monoambiente piso alto contrafrente, balcón y amenities", "url": "https://flippin.m2marketing.app/julian-alvarez-469-villa-crespo-uf-702/"}, {"id": 5, "cod": "FLI-02-01", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-dto-3-amb-2-banos-compl-en-torre-de-categoria-apto-60198639.html", "t": "Departamento", "op": "Venta", "zona": "Parque Patricios", "dir": "Achala 3547, piso 5 A", "amb": 3, "m2": 74, "usd": 120000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2072598467.jpg", "tt": "3 ambientes, 2 baños, torre full amenities", "url": "https://flippin.m2marketing.app/achala-3547-parque-patricios-uf-5a/"}, {"id": 6, "cod": "FLI-02-02", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-dto-3-amb-2-banos-compl-en-torre-de-categoria-apto-60198648.html", "t": "Departamento", "op": "Venta", "zona": "Parque Patricios", "dir": "Achala 3547, piso 5 (financiado)", "amb": 3, "m2": 74, "usd": 70000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2077813089.jpg", "tt": "3 ambientes apto profesional, financiado", "url": "https://flippin.m2marketing.app/achala-3547-parque-patricios-uf-5a-financiado/"}, {"id": 7, "cod": "FLI-12-01", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-mono-xl-a-estrenar-con-tamano-de-2-amb-colegiales-60246205.html", "t": "Monoambiente", "op": "Venta", "zona": "Colegiales", "dir": "Virrey Avilés 2763, piso 1", "amb": 1, "m2": 47, "usd": 109000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/virrey-aviles-2763-104.jpg", "tt": "Mono XL a estrenar con tamaño de 2 ambientes, balcón", "url": "https://flippin.m2marketing.app/virrey-aviles-2763-colegiales-uf-104/"}, {"id": 8, "cod": "FLI-01-01", "zp": "https://www.zonaprop.com.ar/propiedades/clasificado/vecltrin-oportunidad-constructiva-9.600-m-sup2--vendibles-villa-60198649.html", "t": "Terreno", "op": "Venta", "zona": "Villa Maipú", "dir": "Bernardini 2100", "amb": 0, "m2": 4300, "usd": 1200000, "meta": false, "f": ["Visitas a coordinar"], "img": "fotos/2078780619.jpg", "tt": "Oportunidad constructiva, 9.600 m² vendibles", "url": "https://flippin.m2marketing.app/bernardini-2100-general-san-martin/"}];
 const $=i=>document.getElementById(i);
 [...new Set(P.map(p=>p.t))].forEach(t=>$("fTipo").add(new Option(t)));
 [...new Set(P.map(p=>p.zona))].forEach(t=>$("fZona").add(new Option(t)));
 const tit=p=>`${p.t} ${p.amb?p.amb+" amb. ":""}en ${p.zona} (${p.dir})`;
-const card=p=>{return `<div class="card ${p.meta?"dest":""}"><div class="foto" style="background-image:url(${p.img})">${p.meta?"<i>Destacada</i>":""}</div>
-<div class="body"><div class="precio">USD ${p.usd.toLocaleString("es-AR")}${p.op=="Alquiler"?" /mes":""}</div>
-<div><b>${p.tt}</b></div><div class="meta">${p.dir} · ${p.zona}</div><div class="meta">${p.op} · ${p.m2} m²</div>
+const card=p=>{return `<div class="card ${p.meta?"dest":""}"${p.url?` onclick="if(!event.target.closest('a,button'))location.href='${p.url}'" style="cursor:pointer"`:""}><div class="foto" style="background-image:url(${p.img})">${p.meta?"<i>Destacada</i>":""}</div>
+<div class="body"><div class="precio">${p.usd?"USD "+p.usd.toLocaleString("es-AR")+(p.op=="Alquiler"?" /mes":""):"Precio a consultar"}</div>
+<div><b>${p.tt}</b></div><div class="meta">${p.dir} · ${p.zona}</div><div class="meta">${p.op}${p.m2?" · "+p.m2+" m²":""}</div>
 <div class="fechas">📅 ${p.f.join(" · ")}</div>
 <a class="zp" target="_blank" rel="noopener" href="${p.zp}"><b>✓</b> Publicada en Zonaprop</a>
-${p.url?`<a class="meta" style="color:var(--ink);font-weight:600" href="${p.url}">Ver ficha completa →</a>`:""}
-<div class="acc"><button class="wa" onclick="abrir(${p.id})">📅 Quiero coordinar una visita</button></div></div></div>`};
+${p.url?`<a class="ficha" href="${p.url}">Ver ficha</a>`:""}
+<div class="acc"><button class="wa" onclick="abrir(${p.id})">Coordinar visita</button></div></div></div>`};
 function comp(id){const p=P.find(x=>x.id==id),u=location.href.split("#")[0]+"#p"+id;
 navigator.share?navigator.share({title:tit(p),url:u}):navigator.clipboard.writeText(u).then(()=>alert("Link copiado"))}
 function compartir(){const u=location.href.split("#")[0];navigator.share?navigator.share({title:document.title,url:u}):navigator.clipboard.writeText(u).then(()=>alert("Link copiado"))}
 function pintar(){const t=$("fTipo").value,o=$("fOp").value,a=+$("fAmb").value||0,z=$("fZona").value,m=+$("fMax").value||1e12;
-const L=P.filter(p=>(!t||p.t==t)&&(!o||p.op==o)&&p.amb>=a&&(!z||p.zona==z)&&p.usd<=m);
+const L=P.filter(p=>(!t||p.t==t)&&(!o||p.op==o)&&p.amb>=a&&(!z||p.zona==z)&&(p.usd||0)<=m);
 $("dest").innerHTML=L.filter(p=>p.meta).map(card).join("")||"<p class='meta'>Sin resultados</p>";
 $("resto").innerHTML=L.filter(p=>!p.meta).map(card).join("")||"<p class='meta'>Sin resultados</p>"}
 document.querySelectorAll(".filtros *").forEach(e=>e.oninput=pintar);
 $("vProp").innerHTML='<option value="0">Todavía no sé, quiero asesoramiento</option>'+P.map(p=>`<option value="${p.id}">${p.tt} · ${p.dir}</option>`).join("");
-const DS=["dom","lun","mar","mié","jue","vie","sáb"];
-for(let i=1;i<=6;i++){const d=new Date();d.setDate(d.getDate()+i);$("vDia").innerHTML+=`<button>${DS[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</button>`}
-document.querySelectorAll(".chips").forEach(c=>c.onclick=e=>{if(e.target.tagName!="BUTTON")return;c.querySelectorAll("button").forEach(b=>b.classList.remove("on"));e.target.classList.add("on")});
-function abrir(id){$("vProp").value=id;$("ov").classList.add("on")}
+// La hoja nombra la propiedad de la tarjeta tocada; no hay nada que elegir salvo el dia.
+function abrir(id){$("vProp").value=id;const p=P.find(x=>x.id==id);$("vTit").textContent=p?`Coordinar visita a ${p.dir}`:"Coordinar visita";$("ov").classList.add("on")}
 function cerrar(){$("ov").classList.remove("on")}
-function enviar(){const p=P.find(x=>x.id==$("vProp").value),d=$("vDia").querySelector(".on"),h=$("vHora").querySelector(".on"),n=$("vNom").value.trim();
-let m=`Hola Pablo${n?", soy "+n:""}. Quiero coordinar una visita`+(p?` a: ${tit(p)}${p.meta?" (la vi promocionada)":""}`:". Todavía no sé cuál, quiero asesoramiento");
-if(d||h)m+=`. Me queda bien ${d?d.textContent:""}${h?(h.textContent=="Mediodía"?" al mediodía":" a la "+h.textContent.toLowerCase()):""}`;
-window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m+".")}`,"_blank");cerrar()}
+// Un toque arma el mensaje y abre WhatsApp: al cliente le queda solo apretar enviar.
+function enviar(dia){const p=P.find(x=>x.id==$("vProp").value);
+const m=`Hola Pablo. Quiero coordinar una visita`+(p?` a: ${tit(p)}${p.meta?" (la vi promocionada)":""}`:". Todavía no sé cuál, quiero asesoramiento")+(dia?`. Me gustaría ir ${dia}.`:". Puedo otro día, ¿cuándo se podría?");
+window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m)}`,"_blank");cerrar()}
 pintar();
 </script></body></html>
