@@ -142,7 +142,25 @@ fbq('init','2426269937864468');fbq('track','PageView');
   <p id="gal-num" class="absolute bottom-4 text-white text-sm"></p>
 </div>
 
-<footer class="text-center text-xs text-gray-400 py-8"><!-- Plantilla v1.43 --></footer>
+<footer class="text-center text-xs text-gray-400 py-8"><style>
+#ar-bar{position:fixed;left:0;right:0;bottom:18px;z-index:9999;display:flex;justify-content:center;pointer-events:none}
+#ar-sw{pointer-events:auto;display:flex;align-items:center;gap:7px;background:rgba(0,0,0,.7);color:#fff;padding:6px 11px;border-radius:24px;font:500 12px system-ui}
+#ar-t{width:36px;height:20px;border-radius:10px;background:#888;position:relative;border:0}
+#ar-t::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .3s}
+#ar-t.on{background:#92AECC}#ar-t.on::after{left:19px}
+#gal-img{transition:transform .5s ease}#galeria.ar-real{overflow:hidden}#galeria.ar-real #gal-img{transform:scale(2)}
+#ar-reg{pointer-events:auto;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(0,0,0,.8);color:#fff;font:600 15px system-ui;padding:10px 16px;border-radius:16px;display:flex;align-items:center;gap:10px;width:min(90vw,420px)}#ar-reg input{flex:1}
+#galeria>button{z-index:9998;text-shadow:0 1px 4px #000}#galeria #gal-num{z-index:9998}
+#ar-nota{top:70px!important;position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:9999;background:rgba(0,0,0,.75);color:#fff;font:13px system-ui;padding:6px 12px;border-radius:14px;max-width:90vw;text-align:center}
+</style>
+<script>
+addEventListener('load',function(){var g=document.getElementById('galeria');
+var b=document.createElement('div');b.id='ar-bar';b.innerHTML='<div id="ar-sw"><span>Angular</span><button id="ar-t" aria-label="Ver como lo ve el ojo"></button><span>Cómo se ve en persona</span></div>';
+var n=document.createElement('div');n.id='ar-nota';n.textContent='Fotos con gran angular: los ambientes se ven mas amplios';
+g.appendChild(n);g.appendChild(b);
+var t=document.getElementById('ar-t');t.onclick=function(e){e.stopPropagation();var on=t.classList.toggle('on');g.classList.toggle('ar-real',on);n.textContent=on?'Escala aproximada a la vista de una persona':'Fotos con gran angular: los ambientes se ven mas amplios'};
+b.onclick=function(e){e.stopPropagation()};});
+</script><!-- Plantilla v1.43 --></footer>
 <script>
 var PROPIEDAD='virrey-aviles-2763-colegiales-uf-104',CODIGO_CAMPANA='60246205',FOTOS=["https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844034.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844021.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844058.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844042.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843947.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843967.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844015.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844055.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843941.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843983.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843960.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843992.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844097.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843977.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844009.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080843953.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844087.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844081.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844094.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844063.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844029.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844102.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844075.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844000.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844049.jpg", "https://imgar.zonapropcdn.com/avisos/resize/1/00/60/24/62/05/1600x1600/2080844069.jpg"],actual=0;
 // Tres senales y nada mas (compartir, mas abajo), pedido de Pablo el 28/09/2026: abrir la descripcion, porque quien la
