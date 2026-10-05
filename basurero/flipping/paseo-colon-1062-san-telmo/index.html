@@ -706,7 +706,10 @@ header.compacta{transform:translateY(-56px);}
         // vuelve demasiado raro, la salida NO es devolver estas dos: es aflojar el umbral de las
         // que quedan, por ejemplo bajando los segundos de la senal de tiempo.
         // ----------------------------------------------------------------------------------
-        const SOLO_SE_MIDEN = ['45segundos', 'descripcionCompleta'];
+        // 27/09/2026, pedido por Pablo: tambien leyoLaEmpresa deja de ir a Meta. Era el 86% de las
+        // IntencionReal y la da cualquiera que baja hasta el final. A Meta le quedan solo tocar
+        // WhatsApp y compartir, del orden de cincuenta por semana. En Analytics se sigue viendo.
+        const SOLO_SE_MIDEN = ['45segundos', 'descripcionCompleta', 'leyoLaEmpresa'];
 
         function marcarSenal(cual) {
             if (senalesVistas.indexOf(cual) !== -1) return;   // cada senal se anota una vez
