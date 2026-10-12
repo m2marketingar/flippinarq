@@ -87,7 +87,7 @@ footer p{max-width:760px;margin:6px auto}footer p.legal{font-size:11px;line-heig
 <h3 id="vTit">Coordiná la visita</h3>
 <p class="sub">Sin formularios: un clic y ya estás hablando.</p>
 <select id="vProp" hidden></select>
-<div class="dias"><button class="go" onclick="enviar('el miércoles')">Miércoles · WhatsApp directo</button><button class="go" onclick="enviar('el sábado')">Sábado · WhatsApp directo</button><button class="otro" onclick="enviar('')">Otro día · WhatsApp directo</button></div>
+<div class="dias"><button class="go" onclick="enviar()">Coordinar visita por WhatsApp</button></div>
 <p class="corr">Corredor Público Matriculado Responsable: Llona San Román · CPI 6681 · CMZC 502</p>
 <button class="vol" onclick="cerrar()">← Volver a todas las propiedades</button></div>
 </div></div>
@@ -123,8 +123,10 @@ $("vProp").innerHTML='<option value="0">Todavía no sé, quiero asesoramiento</o
 function abrir(id){$("vProp").value=id;const p=P.find(x=>x.id==id);$("vTit").textContent=p?`Coordiná la visita a ${p.dir}`:"Coordiná la visita";$("ov").classList.add("on")}
 function cerrar(){$("ov").classList.remove("on")}
 // Un toque arma el mensaje y abre WhatsApp: al cliente le queda solo apretar enviar.
-function enviar(dia){const p=P.find(x=>x.id==$("vProp").value);
-const m=`Hola Pablo. Quiero coordinar una visita`+(p?` a: ${tit(p)}${p.meta?" (la vi promocionada)":""}`:". Todavía no sé cuál, quiero asesoramiento")+(dia?`. Me gustaría ir ${dia}.`:". Puedo otro día, ¿cuándo se podría?");
+function enviar(){const p=P.find(x=>x.id==$("vProp").value);
+const m=`Hola Pablo. Quiero coordinar una visita`+(p?` a: ${tit(p)}${p.meta?" (la vi promocionada)":""}.`+(p.url?`
+
+${new URL(p.url,location.href).href}`:""):". Todavía no sé cuál, quiero asesoramiento.");
 window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m)}`,"_blank");cerrar()}
 pintar();
 </script></body></html>
