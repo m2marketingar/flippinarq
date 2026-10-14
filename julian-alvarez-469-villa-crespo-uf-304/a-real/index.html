@@ -5,12 +5,12 @@
 #ar-t{width:36px;height:20px;border-radius:10px;background:#888;position:relative;border:0}
 #ar-t::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .3s}
 #ar-t.on{background:#92AECC}#ar-t.on::after{left:19px}
-#gal-img{transition:transform .5s ease}#galeria.ar-real{overflow:hidden}#galeria.ar-real #gal-img{transform:scale(2)}
+#gal-img{transition:transform .5s ease}#galeria{overflow:hidden}#marco{overflow:hidden;line-height:0}#galeria.ar-real #gal-img{transform:scale(1.8)}
 #galeria>button{z-index:9998;text-shadow:0 1px 4px #000}#galeria #gal-num{z-index:9998}
 </style></head><body class="bg-black">
 <div id="galeria" class="ar-real fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
   <button onclick="mover(-1)" class="absolute left-3 text-white text-4xl px-3">&lsaquo;</button>
-  <img id="gal-img" class="max-h-[85vh] max-w-[92vw] object-contain" style="touch-action:pinch-zoom" alt="">
+  <div id="marco"><img id="gal-img" class="max-h-[85vh] max-w-[92vw] object-contain" style="touch-action:pinch-zoom" alt=""></div>
   <button onclick="mover(1)" class="absolute right-3 text-white text-4xl px-3">&rsaquo;</button>
   <p id="gal-num" class="absolute bottom-4 text-white text-sm"></p>
   <div id="ar-bar"><div id="ar-sw"><span>Angular</span><button id="ar-t" class="on" aria-label="Ver como lo ve el ojo"></button><span>Cómo se ve en persona</span></div></div>
