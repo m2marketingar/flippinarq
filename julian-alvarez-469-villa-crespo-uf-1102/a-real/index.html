@@ -12,7 +12,7 @@
   <button onclick="mover(-1)" class="absolute left-3 text-white text-4xl px-3">&lsaquo;</button>
   <div id="marco"><img id="gal-img" class="max-h-[85vh] max-w-[92vw] object-contain" style="touch-action:pinch-zoom" alt=""></div>
   <button onclick="mover(1)" class="absolute right-3 text-white text-4xl px-3">&rsaquo;</button>
-  <p id="gal-num" class="absolute bottom-4 text-white text-sm"></p>
+  <div class="absolute bottom-4 flex items-center gap-2" style="z-index:9998"><p id="gal-num" style="margin:0;padding:3px 10px;font-size:11px;border-radius:999px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:#fff;font-variant-numeric:tabular-nums"></p><a href="../" style="display:inline-flex;align-items:center;gap:5px;padding:3px 11px;font-size:11px;border-radius:999px;background:#fff;color:#111;font-weight:600;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.35);transition:transform .15s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Ver publicación completa<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   <div id="ar-bar"><div id="ar-sw"><span>Angular</span><button id="ar-t" class="on" aria-label="Ver como lo ve el ojo"></button><span>Cómo se ve en persona</span></div></div>
 </div>
 <script>
