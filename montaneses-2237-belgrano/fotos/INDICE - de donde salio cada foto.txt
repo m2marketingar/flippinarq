@@ -1,0 +1,51 @@
+DE DONDE SALIO CADA FOTO
+
+    Origen : C:\+\001 Drive\NEGOCIOS\EMPRESAS\AGE INMO\CLIENTES\FLIPPING\Propiedades\Activas\Montaneses 2237\Montaneses 2237\Fotos para publicar
+    Escrito: 08:47:58 HS - 08/11/2026
+
+    nombre publicado | archivo original | medida original -> medida grande
+
+foto_01.jpg | 01 - Pileta en terraza.jpg | 1200x896 -> 1200x896
+foto_02.jpg | 02 - Patio propio amueblado.jpg | 6000x4000 -> 1600x1067
+foto_03.jpg | 03 - Patio con salida al ambiente.jpg | 5530x3687 -> 1600x1067
+foto_04.jpg | 04 - Camas con tele.jpg | 5925x3950 -> 1600x1067
+foto_05.jpg | 05 - Mesa con sillas y ventanal.jpg | 6000x4000 -> 1600x1067
+foto_06.jpg | 06 - Cocina integrada.jpg | 5958x3972 -> 1600x1067
+foto_07.jpg | 07 - Balcon semicubierto.jpg | 6000x4000 -> 1600x1067
+foto_08.jpg | 08 - Bano.jpg | 6000x4000 -> 1600x1067
+foto_09.jpg | 09 - Solarium con mesas.jpg | 1600x1200 -> 1600x1200
+foto_10.jpg | 10 - Terraza con vista.jpg | 1200x896 -> 1200x896
+foto_11.jpg | 11 - Laundry.jpg | 836x530 -> 836x530
+foto_12.jpg | 12 - Entrada del edificio.jpg | 1024x1024 -> 1024x1024
+foto_13.jpg | 13 - Hall de entrada.jpg | 3512x2536 -> 1600x1155
+foto_14.jpg | 14 - Ambiente con ventanal.jpg | 6000x4000 -> 1600x1067
+foto_15.jpg | 15 - Camas y aire acondicionado.jpg | 6000x4000 -> 1600x1067
+foto_16.jpg | 16 - Camas hacia el ventanal.jpg | 5810x3873 -> 1600x1067
+foto_17.jpg | 17 - Mesa y mueble de tele.jpg | 5712x3213 -> 1600x900
+foto_18.jpg | 18 - Cocina con anafe.jpg | 6000x4000 -> 1600x1067
+foto_19.jpg | 19 - Microondas.jpg | 4032x2268 -> 1600x900
+foto_20.jpg | 20 - Bano lavatorio.jpg | 6000x4000 -> 1600x1067
+foto_21.jpg | 21 - Bano inodoro.jpg | 6000x4000 -> 1600x1067
+foto_22.jpg | 22 - Balcon hacia afuera.jpg | 6000x4000 -> 1600x1067
+foto_23.jpg | 23 - Balcon desde el ambiente.jpg | 6000x4000 -> 1600x1067
+foto_24.jpg | 24 - Patio con deck.jpg | 6000x4000 -> 1600x1067
+foto_25.jpg | 25 - Cerradura digital.jpg | 6000x4000 -> 1600x1067
+foto_26.jpg | 26 - Pileta con escalera.jpg | 1200x896 -> 1200x896
+foto_27.jpg | 27 - Pileta y vista.jpg | 1200x896 -> 1200x896
+foto_28.jpg | 28 - Pileta y reposeras.jpg | 1200x896 -> 1200x896
+foto_29.jpg | 29 - Pileta desde la terraza.jpg | 1600x1200 -> 1600x1200
+foto_30.jpg | 30 - Terraza al sol.jpg | 1600x1200 -> 1600x1200
+foto_31.jpg | 31 - Terraza con mesa.jpg | 896x736 -> 896x736
+foto_32.jpg | 32 - Vista desde la terraza.jpg | 916x778 -> 916x778
+foto_33.jpg | 33 - Terraza y edificios.jpg | 1007x761 -> 1007x761
+foto_34.jpg | 34 - Hall con ascensor.jpg | 1024x746 -> 1024x746
+foto_35.jpg | 35 - Hall con sillones.jpg | 5712x3213 -> 1600x900
+foto_36.jpg | 36 - Hall hacia ascensores.jpg | 4032x2268 -> 1600x900
+foto_37.jpg | 37 - Hall puerta.jpg | 1004x681 -> 1004x681
+foto_38.jpg | 38 - Vertical patio.jpg | 2010x3573 -> 1600x2844
+foto_39.jpg | 39 - Vertical patio sillones.jpg | 3213x5712 -> 1600x2844
+foto_40.jpg | 40 - Vertical pileta.jpg | 896x1200 -> 896x1200
+foto_41.jpg | 41 - Vertical decoracion.jpg | 2055x3654 -> 1600x2845
+foto_42.jpg | 42 - Vertical repisa.jpg | 2268x4032 -> 1600x2844
+foto_43.jpg | 43 - Vertical libros.jpg | 2560x4551 -> 1600x2844
+foto_44.jpg | 44 - Vertical fachada.jpg | 3024x4032 -> 1600x2133
