@@ -145,8 +145,8 @@ var PROPIEDAD='virrey-aviles-2763-colegiales-uf-104',CODIGO_CAMPANA='60246205',F
 var A_META=MODELO==='meta'&&!/^(127\.0\.0\.1|localhost|)$/.test(location.hostname);
 // Cada senal va una vez por pestana a Analytics y a Clarity; a Meta, segun su funcion. A Analytics va con los segundos desde que abrio la pagina.
 function senal(nombre,meta,ga,extra){
-  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
-  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
+  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&localStorage.getItem('formaDeCompra')!=='directa'))return;
+  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa'))return;
   if(sessionStorage.getItem(nombre+'_'+PROPIEDAD))return;
   sessionStorage.setItem(nombre+'_'+PROPIEDAD,'1');
   var fue=meta()===false?'no':'si';
@@ -258,16 +258,16 @@ _pregT=Date.now();setTimeout(function(){c.querySelectorAll('button').forEach(fun
 if(v==='no'){gtag('event','todavia_no_viendo',{propiedad:PROPIEDAD,fue_a_meta:'no',segundos:Math.round(performance.now()/1000)});
 c.innerHTML='<button class="x" onclick="cerrarPreg()" aria-label="Cerrar">×</button><div class="m">Compra directa a la desarrolladora, con <b style="color:#000">posesión inmediata</b>.<br>Por el momento <b style="color:#000">no es apto crédito</b>: la escrituración del edificio está en trámite, como es habitual en obras recién entregadas.</div>';}}
 function resp(r){var c=document.getElementById('pc');
-if(Date.now()-_pregT<1500){localStorage.setItem('formaDeCompra','rapido');gtag('event','respuesta_rapida',{propiedad:PROPIEDAD,fue_a_meta:'no',forma:r});cerrarPreg();return}
+if(Date.now()-_pregT<1200){localStorage.setItem('formaDeCompra','rapido');gtag('event','respuesta_rapida',{propiedad:PROPIEDAD,fue_a_meta:'no',forma:r});cerrarPreg();return}
 localStorage.setItem('formaDeCompra',r);
 if(r==='directa'){senal('compraDirecta',()=>intencion('compraDirecta'),'intencion_real',{senal:'compraDirecta'});cerrarPreg();}
-if(r==='financiacion'){senal('conCredito',()=>intencion('conCredito'),'intencion_real',{senal:'conCredito'});
+if(r==='financiacion'){gtag('event','pidio_financiacion',{propiedad:PROPIEDAD,fue_a_meta:'no',segundos:Math.round(performance.now()/1000)});
 c.innerHTML='<button class="x" onclick="cerrarPreg()" aria-label="Cerrar">×</button><div class="m">Compra directa a la desarrolladora, con <b style="color:#000">posesión inmediata</b>.<br>Por el momento <b style="color:#000">no es apto crédito</b>: la escrituración del edificio está en trámite, como es habitual en obras recién entregadas.</div>';}}
 function cerrarPreg(){document.getElementById('preg').style.display='none'}
 setTimeout(function(){document.getElementById('preg').style.display='block'},15000);
 </script>
 <script>
-var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0)return false;return _int&&_int(n)};
+var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa')return false;return _int&&_int(n)};
 </script>
 </body>
 </html>
