@@ -144,8 +144,8 @@ var PROPIEDAD='julian-alvarez-469-villa-crespo-uf-1102',CODIGO_CAMPANA='60239423
 var A_META=MODELO==='meta'&&!/^(127\.0\.0\.1|localhost|)$/.test(location.hostname);
 // Cada senal va una vez por pestana a Analytics y a Clarity; a Meta, segun su funcion. A Analytics va con los segundos desde que abrio la pagina.
 function senal(nombre,meta,ga,extra){
-  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&localStorage.getItem('formaDeCompra')!=='directa'))return;
-  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa'))return;
+  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
+  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
   if(sessionStorage.getItem(nombre+'_'+PROPIEDAD))return;
   sessionStorage.setItem(nombre+'_'+PROPIEDAD,'1');
   var fue=meta()===false?'no':'si';
@@ -238,7 +238,7 @@ document.addEventListener('keydown',function(e){if(galeria.classList.contains('h
 <style>:root{color-scheme:light only}</style>
 
 <script>
-var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa')return false;return _int&&_int(n)};
+var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0)return false;return _int&&_int(n)};
 </script>
 </body>
 </html>

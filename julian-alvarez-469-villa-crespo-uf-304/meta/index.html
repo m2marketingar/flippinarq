@@ -141,8 +141,8 @@ var PROPIEDAD='julian-alvarez-469-villa-crespo-uf-304',CODIGO_CAMPANA='60198651'
 var A_META=MODELO==='meta'&&!/^(127\.0\.0\.1|localhost|)$/.test(location.hostname);
 // Cada senal va una vez por pestana a Analytics y a Clarity; a Meta, segun su funcion. A Analytics va con los segundos desde que abrio la pagina.
 function senal(nombre,meta,ga,extra){
-  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&localStorage.getItem('formaDeCompra')!=='directa'))return;
-  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa'))return;
+  if(localStorage.getItem('yaVisito')==='no'||(localStorage.getItem('formaDeCompra')&&['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
+  if(MODELO==='meta'&&(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0))return;
   if(sessionStorage.getItem(nombre+'_'+PROPIEDAD))return;
   sessionStorage.setItem(nombre+'_'+PROPIEDAD,'1');
   var fue=meta()===false?'no':'si';
@@ -242,23 +242,28 @@ document.addEventListener('keydown',function(e){if(galeria.classList.contains('h
 #preg .x{position:absolute;top:6px;right:10px;background:none;border:0;font-size:22px;line-height:1;color:#4b5563!important;cursor:pointer}
 #preg .m{color:#111827!important;font-size:15px;padding:8px 18px 4px;line-height:1.4}
 @media(max-width:767px){#preg{left:0;right:0;bottom:0;transform:none;max-width:none;width:100%;border-radius:16px 16px 0 0;border-width:1px 0 0;min-height:45vh;max-height:45vh;padding:22px 14px}#preg #pc{display:flex;flex-direction:column;justify-content:center;min-height:calc(45vh - 44px)}#preg .t{font-size:20px;margin-bottom:14px}#preg .p{font-size:19px;padding:22px 6px}#preg .p small{font-size:13px;margin-top:6px}#preg .m{font-size:18px}#preg .x{font-size:28px;top:10px;right:14px}}</style>
-<div id="preg"><div id="pc"><div class="t">Sin compromiso:<br>¿ya visitaste propiedades?</div><div class="b"><button class="p" onclick="visito('si')">Sí, ya visité<small>seguir viendo</small></button>
-<button class="p" onclick="visito('no')">Todavía no, viendo<small>seguir viendo</small></button></div></div></div>
+<div id="preg"><div id="pc"></div></div>
 <script>
+var _pregT=0;
+function _mezclar(x){if(Math.random()<.5)x.reverse();return x}
+document.getElementById('pc').innerHTML='<div class="t">Sin compromiso:<br>¿ya visitaste propiedades?</div><div class="b">'+_mezclar(['<button class="p" onclick="visito(\'si\')">Sí, ya visité<small>seguir viendo</small></button>','<button class="p" onclick="visito(\'no\')">Todavía no, viendo<small>seguir viendo</small></button>']).join('')+'</div>';
 function visito(v){localStorage.setItem('yaVisito',v);var c=document.getElementById('pc');
 if(v==='si'){gtag('event','ya_visito',{propiedad:PROPIEDAD,fue_a_meta:'no',segundos:Math.round(performance.now()/1000)});
-c.innerHTML='<div class="t">Sin compromiso:<br>¿cómo comprarías?</div><div class="b"><button class="p" onclick="resp(\'directa\')">Compra directa<small>seguir viendo</small></button><button class="p" onclick="resp(\'financiacion\')">Con crédito<small>seguir viendo</small></button></div>';}
+c.innerHTML='<div class="b" style="flex-direction:column">'+_mezclar(['<button class="p" disabled style="padding:12px 6px" title="Pagarías sin crédito" onclick="resp(\'directa\')">Compra directa</button>','<button class="p" disabled style="padding:12px 6px" title="Pagarías con un crédito del banco" onclick="resp(\'financiacion\')">Con crédito hipotecario</button>']).join('')+'</div><div style="height:28px"></div><div style="color:#15803d!important;font-size:15px;font-weight:700;margin-bottom:6px">Última pregunta</div><div class="t">Sin compromiso:<br>¿cómo comprarías?</div>';
+_pregT=Date.now();setTimeout(function(){c.querySelectorAll('button').forEach(function(x){x.disabled=false})},1000);}
 if(v==='no'){gtag('event','todavia_no_viendo',{propiedad:PROPIEDAD,fue_a_meta:'no',segundos:Math.round(performance.now()/1000)});
 c.innerHTML='<button class="x" onclick="cerrarPreg()" aria-label="Cerrar">×</button><div class="m">Compra directa a la desarrolladora, con <b style="color:#000">posesión inmediata</b>.<br>Por el momento <b style="color:#000">no es apto crédito</b>: la escrituración del edificio está en trámite, como es habitual en obras recién entregadas.</div>';}}
-function resp(r){localStorage.setItem('formaDeCompra',r);var c=document.getElementById('pc');
+function resp(r){var c=document.getElementById('pc');
+if(Date.now()-_pregT<1500){localStorage.setItem('formaDeCompra','rapido');gtag('event','respuesta_rapida',{propiedad:PROPIEDAD,fue_a_meta:'no',forma:r});cerrarPreg();return}
+localStorage.setItem('formaDeCompra',r);
 if(r==='directa'){senal('compraDirecta',()=>intencion('compraDirecta'),'intencion_real',{senal:'compraDirecta'});cerrarPreg();}
-if(r==='financiacion'){gtag('event','pidio_financiacion',{propiedad:PROPIEDAD,fue_a_meta:'no',segundos:Math.round(performance.now()/1000)});
+if(r==='financiacion'){senal('conCredito',()=>intencion('conCredito'),'intencion_real',{senal:'conCredito'});
 c.innerHTML='<button class="x" onclick="cerrarPreg()" aria-label="Cerrar">×</button><div class="m">Compra directa a la desarrolladora, con <b style="color:#000">posesión inmediata</b>.<br>Por el momento <b style="color:#000">no es apto crédito</b>: la escrituración del edificio está en trámite, como es habitual en obras recién entregadas.</div>';}}
 function cerrarPreg(){document.getElementById('preg').style.display='none'}
 setTimeout(function(){document.getElementById('preg').style.display='block'},15000);
 </script>
 <script>
-var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||localStorage.getItem('formaDeCompra')!=='directa')return false;return _int&&_int(n)};
+var _int=window.intencion;window.intencion=function(n){if(localStorage.getItem('yaVisito')!=='si'||['directa','financiacion'].indexOf(localStorage.getItem('formaDeCompra'))<0)return false;return _int&&_int(n)};
 </script>
 </body>
 </html>
