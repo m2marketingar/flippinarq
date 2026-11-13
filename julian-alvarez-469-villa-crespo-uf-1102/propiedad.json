@@ -96,5 +96,7 @@
   "inmobiliaria": "flipping",
   "url": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-dto-3-amb-2-banos-compl-parrilla-propia-amenities-60239423.html",
   "mapa": "Julián Álvarez 469, Villa Crespo, Buenos Aires",
-  "codigo_campana": "60239423"
+  "codigo_campana": "60239423",
+  "molde_meta": "dos_botones",
+  "leyenda_botones": "Venta únicamente al contado"
 }

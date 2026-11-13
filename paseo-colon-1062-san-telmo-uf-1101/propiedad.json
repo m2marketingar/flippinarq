@@ -102,5 +102,30 @@
   "mapa": "Av. Paseo Colón 1062, San Telmo, Buenos Aires",
   "codigo_campana": "60198641",
   "nota": "En las tres primeras fotos se sumaron con inteligencia artificial un televisor, utensilios y objetos decorativos que no se incluyen en la venta. Desde la cuarta foto en adelante se ve el departamento tal como se entrega amueblado.",
-  "condicion_venta": "Compra directa. **NO** se acepta hipoteca."
+  "condicion_venta": "Compra directa. **NO** se acepta hipoteca.",
+  "molde_meta": "dos_botones",
+  "leyenda_botones": "Venta únicamente al contado",
+  "fotos_meta": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    22,
+    25,
+    27,
+    28,
+    29,
+    31,
+    32,
+    33,
+    34
+  ]
 }

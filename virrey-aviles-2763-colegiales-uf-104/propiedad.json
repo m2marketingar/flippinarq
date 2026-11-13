@@ -73,5 +73,7 @@
   "inmobiliaria": "flipping",
   "url": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-mono-xl-a-estrenar-con-tamano-de-2-amb-colegiales-60246205.html",
   "mapa": "Virrey Avilés 2763, Belgrano R, Buenos Aires",
-  "codigo_campana": "60246205"
+  "codigo_campana": "60246205",
+  "molde_meta": "dos_botones",
+  "leyenda_botones": "Venta únicamente al contado"
 }
