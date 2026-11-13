@@ -88,5 +88,8 @@
   "inmobiliaria": "flipping",
   "url": "https://flippin.m2marketing.app/montaneses-2237-belgrano/",
   "mapa": "Montañeses 2237, Belgrano, Buenos Aires",
-  "codigo_campana": ""
+  "codigo_campana": "",
+  "molde_meta": "dos_botones",
+  "titulo_botones": "Solicitá la ficha completa por WhatsApp",
+  "leyenda_botones": "Venta únicamente al contado"
 }

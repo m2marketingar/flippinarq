@@ -87,5 +87,8 @@
   "url": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-mono-divisible-contrafrente-tranquilo-balcon-amenities-60198651.html",
   "mapa": "Julián Álvarez 469, Villa Crespo, Buenos Aires",
   "codigo_campana": "60198651",
-  "reservada": true
+  "reservada": true,
+  "molde_meta": "dos_botones",
+  "titulo_botones": "Solicitá la ficha completa por WhatsApp",
+  "leyenda_botones": "Venta únicamente al contado"
 }

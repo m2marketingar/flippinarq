@@ -95,5 +95,8 @@
   "url": "https://www.zonaprop.com.ar/propiedades/clasificado/veclapin-monoambiente-a-estrenar-amueblado-full-amenities-a-150-60198641.html",
   "mapa": "Av. Paseo Colón 1062, San Telmo, Buenos Aires",
   "codigo_campana": "60198641",
-  "reservada": true
+  "reservada": true,
+  "molde_meta": "dos_botones",
+  "titulo_botones": "Solicitá la ficha completa por WhatsApp",
+  "leyenda_botones": "Venta únicamente al contado"
 }
