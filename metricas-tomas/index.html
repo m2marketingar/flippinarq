@@ -141,6 +141,19 @@ button[disabled]{opacity:.55;cursor:default;transform:none}
         try{ localStorage.setItem(LLAVERO, JSON.stringify([usuario, clave])); }catch(e){}
         var html = new TextDecoder().decode(plano);
         document.open(); document.write(html); document.close();
+        /* Boton para cerrar la sesion y volver a pedir usuario y contrasena. */
+        var salir = document.createElement("button");
+        salir.type = "button";
+        salir.textContent = "Cerrar sesión";
+        salir.title = "Sale del tablero y vuelve a pedir usuario y contraseña";
+        salir.setAttribute("style", "position:fixed;top:12px;right:12px;z-index:9999;width:auto;" +
+          "margin:0;padding:7px 13px;font:600 12.5px -apple-system,'Segoe UI',system-ui,sans-serif;" +
+          "border:1px solid rgba(0,0,0,.16);border-radius:10px;background:#fff;color:#1d1d1f;cursor:pointer");
+        salir.onclick = function(){
+          try{ localStorage.removeItem(LLAVERO); }catch(e){}
+          location.reload();
+        };
+        document.body.appendChild(salir);
       })
       .catch(function(){
         try{ localStorage.removeItem(LLAVERO); }catch(e){}
